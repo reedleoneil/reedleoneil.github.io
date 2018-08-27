@@ -1,0 +1,517 @@
+@charset "UTF-8";
+/* CSS Document */
+
+.member_content a, .member_content a:hover
+{
+	color: #FF7D02;
+
+}
+
+.userprof_underline
+{
+	border-color: #0c1517;
+}
+
+.userprof{
+	font-family:Tahoma, Calibri, Verdana, Geneva, sans-serif;
+	font-size: 13px;
+}
+
+.userprof_title{
+	color: #FF7D02;
+}
+
+.userprof_module{
+	color: #0c1517;
+	background-color: #FF7D02;
+	background-image: none;
+	background-repeat: repeat-x;
+}
+.userprof_module_border{
+	border-color: #0c1517;
+}
+
+.userprof_module a{
+	color: #0c1517;
+}
+
+
+.userprof_module a:hover{
+	color: #0c1517;
+
+}
+
+.userprof_moduleinactive{
+	color: #FF7D02;
+	background-color: #0c1517;
+	background-image: none;
+	background-repeat: repeat-x;
+}
+.userprof_moduleinactive_border{
+	border-color: #FF7D02;
+}
+
+.userprof_moduleinactive a{
+	color: #ffdebe;
+}
+
+
+.userprof_moduleinactive a:hover{
+	color: #ffdebe;
+
+}
+
+.userprof_headers{
+	color: #0c1517;
+	background-color: #FF7D02;
+	background-image: none;
+	background-repeat: repeat-x;
+}
+
+.userprof_headers_border{
+	border-color: #FF7D02;
+}
+
+.userprof_headers a{
+	color: #417394;
+}
+
+
+.userprof_headers a:hover{
+	color: #417394;
+
+}
+
+.userprof_content{
+	color: #ffdebe;
+	background-color: #0c1517;
+	background-image: none;
+	background-repeat: repeat;
+}
+
+.userprof_content a {
+	color: #FF7D02;
+	background-color: transparent;
+}
+
+li.userprof_content a {
+	color: #FF7D02;
+}
+
+.userprof_content a:hover {
+	color: #FF7D02;
+}
+
+.userprof_content .shade
+{
+	color: #ffdebe;
+
+}
+dd.userprof_content {
+	color: #FF7D02;
+	background-color: #0c1517;
+	border-color: #FF7D02;
+}
+
+dl.tabslight dd.userprof_moduleinactive a, dl.tabslight dd.userprof_moduleinactive a:hover":{"bc":"moduleinactive_border
+{
+	color: #FF7D02;
+}
+
+/* I know these next few have the same settings. Since the class definition becomes an array key for a javascript array
+it's better to keep to one line. That requires three separate lines*/
+dl.tabslight dd a, #sidebar_container.member_summary .blocksubhead.smaller, #sidebar_container.member_summary .blockrow{
+	font-family:Tahoma, Calibri, Verdana, Geneva, sans-serif;
+	font-size: 13px;
+}
+.textcontrols .textcontrols a, a.textcontrol, #sidebar_container.member_summary .mainblock .usertitle, #sidebar_container .userprof_content a{
+	font-family:Tahoma, Calibri, Verdana, Geneva, sans-serif;
+	font-size: 13px;
+}
+
+.profile_content .blog_stats, .profile_content .blogentrybit .blog_meta{
+	font-family:Tahoma, Calibri, Verdana, Geneva, sans-serif;
+	font-size: 13px;
+}
+
+
+dl.tabslight dd.userprof_module a{
+	color: #0c1517;
+	background-color: #FF7D02;
+	border-color: #0c1517;
+}
+
+
+dl.tabslight dd.userprof_module a:hover{
+    color: #0c1517;
+}
+
+dl.tabslight dd.userprof_moduleinactive a{
+	color: #FF7D02;
+	background-color: transparent;
+	background-image: none;
+	border-color: #FF7D02;
+}
+
+dl.tabslight dd.userprof_content a{
+	color: #ffdebe;
+	background-color: #0c1517;
+	border-color: #FF7D02;
+}
+
+li.userprof_content{
+	margin-bottom: .5em;
+	color: #ffdebe;
+	background-color: #0c1517;
+	background-image: none;
+	background-repeat: repeat;
+}
+
+
+.userprof_content_border{
+	border-color: #FF7D02;
+	border-style: solid;
+	border-width: 1px;
+}
+
+li.userprof_content_border{
+	border-color: #FF7D02;
+}
+
+.userprof_button{
+	color: #FF7D02;
+	background-color: #0c1517;
+	background-image: none;
+	background-repeat: repeat-x;
+	border-color: #FF7D02;
+}
+
+.body_wrapper{
+	background-color: #ffffff;
+	background-image: url('https\3a \2f \2f www\2e walldevil\2e com\2f wallpapers\2f w03\2f 898683-anime-girls-armor-dress-flower-petals-katana-samurai-weapons\2e jpg');
+	background-repeat: repeat;
+}
+
+#dialog_box > button { left:-10000em !important; }
+
+#colorbox_title_text_color{
+	background-color: #FF7D02;
+}
+
+#colorbox_page_background{
+	background-color: #ffffff;
+}
+
+#colorbox_module_text_color{
+	background-color: #0c1517;
+}
+
+#colorbox_module_link_color{
+	background-color: #ffdebe;
+}
+
+#colorbox_module_background{
+	background-color: #FF7D02;
+}
+
+#colorbox_module_border{
+	background-color: #0c1517;
+}
+
+#colorbox_content_text_color{
+	background-color: #ffdebe;
+}
+
+#colorbox_content_link_color{
+	background-color: #FF7D02;
+}
+
+#colorbox_content_background{
+	background-color: #0c1517;
+}
+
+#colorbox_content_border{
+	background-color: #FF7D02;
+}
+
+#colorbox_button_text_color{
+	background-color: #FF7D02;
+}
+
+#colorbox_button_background{
+	background-color: #0c1517;
+}
+
+#colorbox_button_border{
+	background-color: #FF7D02;
+}
+
+#colorbox_moduleinactive_text_color{
+	background-color: #FF7D02;
+}
+
+#colorbox_moduleinactive_link_color{
+	background-color: #ffdebe;
+}
+
+#colorbox_moduleinactive_background{
+	background-color: #0c1517;
+}
+
+#colorbox_moduleinactive_border{
+	background-color: #FF7D02;
+}
+
+#colorbox_headers_text_color{
+	background-color: #0c1517;
+}
+
+
+#colorbox_headers_link_color{
+	background-color: #417394;
+}
+
+#colorbox_headers_background{
+	background-color: #FF7D02;
+}
+
+#colorbox_headers_border{
+	background-color: #FF7D02;
+}
+
+#colorbox_page_link_color{
+	background-color: #FF7D02;
+}
+
+/**tabslight userprof_module a{
+	background-image: none;
+	background-color: #FF7D02;
+	color: ;
+}**/
+
+#sidebar_container .userprof_content .blockrow{
+	color: #ffdebe;
+	background-color: #0c1517;
+	
+		background-image: none;
+		background-repeat: repeat;
+	
+	border-color: #FF7D02;
+}
+
+#sidebar_container .userprof_content a, #sidebar_container .userprof_content a:hover
+{
+	color: #FF7D02;
+}
+
+.memberprofiletabunder {
+	background-color: #FF7D02;
+	background-image: none;
+	background-repeat: repeat-x;
+}
+.pagination span a, .pagination span a.popupctrl {
+	color: #ffdebe;
+	background-color: #0c1517;
+	background-image: none;
+	background-repeat: repeat-x;
+	border-color: #FF7D02;
+}
+
+.pagination span a:hover
+{
+	border-color: #FF7D02;
+	color: #ffdebe;
+}
+
+.pagination span.selected a, .pagination span.selected a.popupctrl {
+	color: #0c1517;
+	background-color: #FF7D02;
+	background-image: none;
+	background-repeat: repeat-x;
+	border-color: #0c1517;
+}
+
+
+#sidebar_container.member_summary 
+{
+	color: #FF7D02;
+	background-color: #0c1517;
+	background-image: none;
+	background-repeat: repeat-x;
+	border-color: #FF7D02;
+}
+#sidebar_container .blocksubhead 
+{
+	color: #FF7D02;
+	border-color: #FF7D02;
+}
+
+.tabslight dd.userprof_moduleinactive:hover {
+	border-color: #0c1517;
+}
+
+dl.stats dt, #sidebar_container dl.stats, #sidebar_container .blockbody.userprof_content, #sidebar_container .userprof_content .time, .userprof_content .time  {
+	color: #ffdebe;
+	background-color: transparent;
+	background-image: none;
+}
+
+#sidebar_container a
+{
+	color: #ffdebe;
+}
+
+#sidebar_container a:hover
+{
+	color: #ffdebe;
+}
+.profile_editor_border, .profile_content .actionbuttons
+{
+	border-color: #FF7D02;
+
+}
+
+.profile_editor_border {
+	border-top:none;
+}
+.userprof_editor {
+	border-width: 1px 0px 0px 0px;
+	border-style: solid;
+	border-color: #FF7D02;
+}
+.tabbackground {
+	width:100%;
+}
+
+
+.moduleinactive_bg{
+	color: #FF7D02;
+	background-color: #0c1517;
+	background-image: none;
+	background-repeat: repeat-x;
+	border-color: #FF7D02;
+}
+
+#sidebar_container.member_summary .textcontrol
+{
+	color: #ffdebe;
+}
+
+#sidebar_container.member_summary .textcontrol a
+{
+	color: #ffdebe;
+}
+
+#sidebar_container.member_summary .textcontrol a:hover
+{
+	color: #ffdebe;
+}
+
+.userprof .postbit .postdate .time {
+	color: #0c1517;
+}
+
+.userprof .postbit .postdate .time a {
+	color: #417394;
+}
+
+.userprof_content .quickedit .blockrow .description {
+	color: #ffdebe;
+}
+
+/* Activity Stream */
+
+#activity_tab_container {
+	margin-bottom:20px;
+}
+
+#activity_tab_container > div {
+	overflow:hidden;
+	background-color: #0c1517;
+}
+
+dl.as-tabs dt {
+	display:none;
+}
+
+dl.as-tabs dd {
+	float:left;
+}
+
+dl.as-tabs dd a {
+	font-size:9px;
+	font-weight:bold;
+	color:#3e3e3e;
+	text-decoration:none;
+	text-align:center;
+	padding:0 10px;
+	height:24px;
+	line-height:24px;
+	display:block;
+}
+
+dl.as-tabs dd#asall a {
+	font-size:11px;
+	line-height:22px;
+}
+
+dl.as-tabs dd#asuser a {
+	background:url(images/symbianize/site_icons/profile.png) left 2px no-repeat; 
+	margin-left:8px;
+	padding-left:18px;
+}
+
+dl.as-tabs dd#asfriend a {
+	background:url(images/symbianize/site_icons/network.png) left 2px no-repeat; 
+	margin-left:8px;
+	padding-left:18px;
+}
+
+dl.as-tabs dd#asphoto a {
+	background:url(images/symbianize/site_icons/photo.png) left 5px no-repeat;
+	margin-left:8px;
+	padding-left:18px;
+}
+
+dl.as-tabs dd#assub a {
+	background:url(images/symbianize/site_icons/subscribe.png) left 2px no-repeat; 
+	margin-left:8px;
+	padding-left:18px;
+}
+
+dl.as-tabs dd a {
+	color: #FF7D02;
+}
+
+dl.as-tabs dd.selected a {
+	color: #0c1517;
+}
+
+.activitystream_block dd.selected, dd.userprof_module {
+	color: #ffdebe;
+	background-color: #FF7D02;
+	border-color: #0c1517;
+	background-image: none;
+	background-repeat: repeat-x;
+}
+
+.activitystream_block dd, dd.userprof_moduleinactive {
+	color: #FF7D02;
+	background-color: #0c1517;
+	border-color: #FF7D02;
+	background-image: none;
+	background-repeat: repeat-x;
+}
+
+.newactivity a, .newactivity > span, 
+.moreactivity a, .moreactivity span {
+	color: #0c1517;
+}
+
+.as-tabs dd.selected, .as-tabs dd.userprof_module {
+	border: 1px solid #0c1517;
+}
+
+.as-tabs dd, .as-tabs dd.userprof_moduleinactive {
+	border: 1px solid #FF7D02;
+}
