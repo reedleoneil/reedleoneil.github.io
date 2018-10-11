@@ -69,35 +69,33 @@
 </head>
 <body>
     <header>
-        <h1 id="header"></h1>
-        <h2 id="sub_header"></h2>
+        <h1></h1>
+        <h2></h2>
     </header>
-    <nav id="nav"></nav>
-    <div id="social"></div>
+    <nav></nav>
+    <div></div>
+    <main></main>
+    <footer></footer>
     <!--Credits to marbun 1987.-->
-    <!--<iframe width="0" height="0" src="https://www.youtube.com/embed/ZE5VjPxLyvc?autoplay=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>-->
+    <iframe width="0" height="0" src="https://www.youtube.com/embed/ZE5VjPxLyvc?autoplay=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 
     <script type="text/javascript">
         function spanitize(str, element) {
             for (var r = 0; r < str.length; r++) {
                 var span = document.createElement("span");
                 span.classList.add("char");
-                var node = document.createTextNode(String.fromCharCode(getRndInteger(32,255)));
-                //var node = document.createTextNode(str.charAt(r));
+                var node = document.createTextNode(String.fromCharCode(getRndInteger(32, 255)));
                 span.appendChild(node);
                 element.appendChild(span);
             }
         }
 
         function getRndInteger(min, max) {
-            return Math.floor(Math.random() * (max - min + 1) ) + min;
+            return Math.floor(Math.random() * (max - min + 1)) + min;
         }
 
         var header = "reedleoneil";
         var sub_header = "リドレオニル";
-
-        spanitize(header, document.getElementById("header"));
-        spanitize(sub_header, document.getElementById("sub_header"));
 
         var navigations = [
             { target: "https://reedleoneil.github.io/", name: "ホマ" },
@@ -106,23 +104,6 @@
             { target: "#certifications", name: "Certifications" },
             { target: "#projects", name: "Projects" }
         ];
-
-        for (var i = 0; i < navigations.length; i++) {
-            var a = document.createElement("a");
-            a.setAttribute("href", navigations[i].target);
-            var nav = document.getElementById("nav");
-            var str = navigations[i].name;
-            var b = document.createElement("b");
-            a.appendChild(b);
-            b.innerHTML = "[";
-            spanitize(str, a);
-            var c = document.createElement("b");
-            a.appendChild(c);
-            c.innerHTML = "]";
-            nav.appendChild(a);
-            if (i != navigations.length)
-                nav.appendChild(document.createTextNode(" "));
-        }
 
         var social_buttons = [
             { icon: "fab fa-instagram", link: "https://instagram.com/reedleoneil" },
@@ -133,50 +114,12 @@
             { icon: "fas fa-envelope", link: "mailto:reedleoneilpascual@yahoo.com" }
         ];
 
-        spanitize("Connect with me on ", document.getElementById("social"));
-
-        for (var i = 0; i < social_buttons.length; i++) {
-            var a = document.createElement("a");
-            a.setAttribute("href", social_buttons[i].link);
-            a.setAttribute("target", "_blank");
-            var icon = document.createElement("i");
-            icon.setAttribute("class", social_buttons[i].icon);
-            a.appendChild(icon);
-            document.getElementById("social").appendChild(a);
-            if (i < social_buttons.length - 2)
-                spanitize(", ", document.getElementById("social"));
-            else if (i < social_buttons.length - 1)
-                spanitize(" or ", document.getElementById("social"));
-            else
-                spanitize(".", document.getElementById("social"));
-        }
-
-       /* Connect with me on
-            < a href = "https://fb.com/reedleoneil" target = "_blank" > <i class="fab fa-facebook"></i></a >,
-                <a href="https://www.linkedin.com/in/reed-leoneil-pascual-580a1711b/" target="_blank"><i class="fab fa-linkedin"></i></a> ,
-                <a href="https://github.com/reedleoneil" target="_blank"><i class="fab fa-github"></i></a> ,
-                <a href="https://instagram.com/reedleoneil" target="_blank"><i class="fab fa-instagram"></i></a> ,
-                <a href="https://twitter.com/reedleoneil" target="_blank"><i class="fab fa-twitter"></i></a> , or
-                < a href = "mailto:reedleoneilpascual@yahoo.com" > <i class="fas fa-envelope"></i></a >.
-        */
-
         var sections = [
             { id: "experience", header: "Experience" },
             { id: "education", header: "Education" },
             { id: "certifications", header: "Certifications" },
             { id: "projects", header: "Projects" }
         ];
-
-        for (var i = 0; i < sections.length; i++) {
-            var s = document.createElement("section");
-            s.setAttribute("id", sections[i].id);
-            var h = document.createElement("h3");
-            spanitize(sections[i].header, h)
-            var ul = document.createElement("ul");
-            s.appendChild(h);
-            s.appendChild(ul);
-            document.getElementsByTagName("body")[0].appendChild(s);
-        }
 
         var experience = [
             {
@@ -199,6 +142,179 @@
                 ]
             },
         ];
+
+        var education = [
+            {
+                course: "BS Computer Engineering",
+                university: "University of the Assumption",
+                university_link: "https://ua.edu.ph/",
+                dates: "2011 - 2016",
+                descriptions: [
+                    "Thesis: Vending Machine; Raspberry Pi and Arduino (Internet of Things); Web-based application written PHP, Javascript, HTML, CSS, Bootstrap.",
+                    "Pre-Thesis: Android Application for Home Automation ; Parallel Port Programming, Network and Socket Programming in Java; Controlled using Android Application, SMS, and Voice Recognition."
+                ]
+            },
+            {
+                course: "Computer Hardware Servicing NC II",
+                university: "AMA Computer Learning Center",
+                university_link: "https://www.aclc.edu.ph/",
+                dates: "2011 - 2011",
+                descriptions: [
+                    "Best in Networking"
+                ]
+            },
+            {
+                course: "Learning Never Stops",
+                university: "Internet",
+                university_link: "https://www.google.com/search?ei=nR-mW7nrG8mnoASur4qADw&q=fuck+google&oq=fuck+google&gs_l=psy-ab.3...13693.15176.0.17572.11.8.0.0.0.0.339.833.0j1j0j2.3.0....0...1c.1.64.psy-ab..8.0.0....0.biU1AWEw40w",
+                dates: "2007 - Present",
+                descriptions: [
+                    ""
+                ]
+            },
+        ];
+
+        var certifications = [
+            /*{
+                certification: "Japanese Proficiency Language Test N5",
+                certification_link: "http://jlpt.jp/",
+                license: "",
+                description: "The Japanese-Language Proficiency Test (JLPT) has been offered by the Japan Foundation and Japan Educational Exchanges and Services (formerly Association of International Education, Japan) since 1984 as a reliable means of evaluating and certifying the Japanese proficiency of non-native speakers. At the beginning, there were approximately 7,000 examinees worldwide. In 2011, there were as many as 610,000 examinees around the globe, making JLPT the largest-scale Japanese-language test in the world."
+            },*/
+            {
+                certification: "PhilNITS Information Technology Passport",
+                certification_link: "https://www.philnits.org/passers_IP2017.html#May102015IP",
+                license: "IP07-0026",
+                description: "The Philippine National I.T. Standards (PhilNITS) Foundation, Inc. formerly known as the Japanese I.T. Standards Exams of the Philippines (JITSE-Phil) Foundation, Inc., is a non-stock, non-profit, non-government organization that is implementing in the Philippines the Information Technology standards adopted from Japan, with the support of the Department of Trade and Industry (DTI) of the Philippines and the Ministry of Economy, Trade and Industry (METI) of Japan."
+            },
+            {
+                certification: "TESDA Computer Hardware Servicing NC II",
+                certification_link: "http://tesda.gov.ph/",
+                license: "",
+                description: "The Technical Education and Skills Development Authority serves as the Philippines' Technical Vocational Education and Training authority. As a government agency, TESDA is tasked to both manage and supervise the Philippines' Technical Education and Skills Development."
+            },
+        ];
+
+        var projects = [
+            {
+                project: "Time Tracking System",
+                project_link: "#",
+                description: "An Outlook VSTO addin for time tracking built with Replicon API and Telerik framework used by Keystone Strategy and developed at Filam Software Technology Inc.",
+                icon: "devicon-csharp-plain"
+            },
+            {
+                project: "Airtime Sales Monitoring Utility",
+                project_link: "#",
+                description: "An airtime sales monitoring system for creating broadcast contracts, managing timeslots, computing airtimes and generating sales reports used at CLTV36.",
+                icon: "devicon-visualstudio-plain"
+            },
+            {
+                project: "Technical Facilities and Manpower Request System",
+                project_link: "#",
+                description: "A system for requesting technical facilities and manpower, managing and tracking resources used at CLTV36.",
+                icon: "devicon-codeigniter-plain"
+            },
+            {
+                project: "VendShit",
+                project_link: "https://github.com/reedleoneil/VendShit",
+                description: "Medicine Vending Machine Framework developed in Q4 of 2015 as a requirement for the degree of BS Computer Engineering.",
+                icon: "devicon-php-plain"
+            },
+            {
+                project: "buRAT 1.0",
+                project_link: "https://github.com/reedleoneil/buRAT-1.0",
+                description: "武 Remote Administration Tool developed in 2014. As a requirement for the degree of BS Computer Engineering, Home Automation Module was implemented.",
+                icon: "devicon-java-plain"
+            },
+            {
+                project: "buRAT 2.0",
+                project_link: "https://github.com/reedleoneil/buRAT-2.0",
+                description: "武リモートアクセストロイの木馬 2.0。Rewrite of buRAT 1.0 in ruby.",
+                icon: "devicon-ruby-plain"
+            },
+            {
+                project: "B2268S Admin Tool 1.0",
+                project_link: "https://github.com/reedleoneil/B2268S-Admin-Tool-v1.00",
+                description: "Unlock the admin access for the PLDT HomeBro LTE Huawei B2268s.",
+                icon: "devicon-cplusplus-plain"
+            },
+            {
+                project: "B2268S Admin Tool 2.0",
+                project_link: "https://github.com/reedleoneil/B2268S-Admin-Tool-v2.00",
+                description: "A google chrome extension for unlocking the admin access for the PLDT HomeBro LTE Huawei B2268s.",
+                icon: "devicon-javascript-plain"
+            },
+            {
+                project: "csharp-cx-lib",
+                project_link: "https://github.com/reedleoneil/csharp-cx-lib",
+                description: "C# Coins Pro API library.",
+                icon: "devicon-csharp-plain"
+            },
+            {
+                project: "ruby-cx-lib",
+                project_link: "https://github.com/reedleoneil/ruby-cx-lib",
+                description: "Ruby Coins Pro API library.",
+                icon: "devicon-ruby-plain"
+            },
+            {
+                project: "js-cx-lib",
+                project_link: "https://github.com/reedleoneil/js-cx-lib",
+                description: "Javascript Coins Pro API library.",
+                icon: "devicon-javascript-plain"
+            },
+        ];
+
+        var footer = "© 2018 reedleoneil";
+
+        spanitize(header, document.getElementsByTagName("h1")[0]);
+        spanitize(sub_header, document.getElementsByTagName("h2")[0]);
+
+        for (var i = 0; i < navigations.length; i++) {
+            var a = document.createElement("a");
+            a.setAttribute("href", navigations[i].target);
+            var nav = document.getElementsByTagName("nav")[0]
+            var str = navigations[i].name;
+            var b = document.createElement("b");
+            a.appendChild(b);
+            b.innerHTML = "[";
+            spanitize(str, a);
+            var c = document.createElement("b");
+            a.appendChild(c);
+            c.innerHTML = "]";
+            nav.appendChild(a);
+            if (i != navigations.length)
+                nav.appendChild(document.createTextNode(" "));
+        }
+
+        var social = document.getElementsByTagName("div")[0];
+        spanitize("Connect with me on ", social);
+
+        for (var i = 0; i < social_buttons.length; i++) {
+            var a = document.createElement("a");
+            a.setAttribute("href", social_buttons[i].link);
+            a.setAttribute("target", "_blank");
+            var icon = document.createElement("i");
+            icon.setAttribute("class", social_buttons[i].icon);
+            a.appendChild(icon);
+            social.appendChild(a);
+            if (i < social_buttons.length - 2)
+                spanitize(", ", social);
+            else if (i < social_buttons.length - 1)
+                spanitize(" or ", social);
+            else
+                spanitize(".", social);
+        }
+
+        for (var i = 0; i < sections.length; i++) {
+            var s = document.createElement("section");
+            s.setAttribute("id", sections[i].id);
+            var h = document.createElement("h3");
+            spanitize(sections[i].header, h)
+            var ul = document.createElement("ul");
+            s.appendChild(h);
+            s.appendChild(ul);
+            document.getElementsByTagName("main")[0].appendChild(s);
+        }
 
         for (var i = 0; i < experience.length; i++) {
             var li = document.createElement("li");
@@ -230,37 +346,6 @@
             document.getElementById('experience').getElementsByTagName('ul')[0].appendChild(li);
         }
 
-        var education = [
-            {
-                course: "BS Computer Engineering",
-                university: "University of the Assumption",
-                university_link: "https://ua.edu.ph/",
-                dates: "2011 - 2016",
-                descriptions: [
-                    "Thesis: Vending Machine; Raspberry Pi and Arduino (Internet of Things); Web-based application written PHP, Javascript, HTML, CSS, Bootstrap.",
-                    "Pre-Thesis: Android Application for Home Automation ; Parallel Port Programming, Network and Socket Programming in Java; Controlled using Android Application, SMS, and Voice Recognition."
-                ]
-            },
-            {
-              course: "Computer Hardware Servicing NC II",
-              university: "AMA Computer Learning Center",
-              university_link: "https://www.aclc.edu.ph/",
-              dates: "2011 - 2011",
-              descriptions: [
-                "Best in Networking"
-              ]
-            },
-            {
-              course: "Learning Never Stops",
-              university: "Internet",
-              university_link: "https://www.google.com/search?ei=nR-mW7nrG8mnoASur4qADw&q=fuck+google&oq=fuck+google&gs_l=psy-ab.3...13693.15176.0.17572.11.8.0.0.0.0.339.833.0j1j0j2.3.0....0...1c.1.64.psy-ab..8.0.0....0.biU1AWEw40w",
-              dates: "2007 - Present",
-              descriptions: [
-                ""
-              ]
-            },
-        ];
-
         for (var i = 0; i < education.length; i++) {
             var li = document.createElement("li");
 
@@ -291,27 +376,6 @@
             document.getElementById('education').getElementsByTagName('ul')[0].appendChild(li);
         }
 
-        var certifications = [
-            /*{
-                certification: "Japanese Proficiency Language Test N5",
-                certification_link: "http://jlpt.jp/",
-                license: "",
-                description: "The Japanese-Language Proficiency Test (JLPT) has been offered by the Japan Foundation and Japan Educational Exchanges and Services (formerly Association of International Education, Japan) since 1984 as a reliable means of evaluating and certifying the Japanese proficiency of non-native speakers. At the beginning, there were approximately 7,000 examinees worldwide. In 2011, there were as many as 610,000 examinees around the globe, making JLPT the largest-scale Japanese-language test in the world."
-            },*/
-            {
-                certification: "PhilNITS Information Technology Passport",
-                certification_link: "https://www.philnits.org/passers_IP2017.html#May102015IP",
-                license: "IP07-0026",
-                description: "The Philippine National I.T. Standards (PhilNITS) Foundation, Inc. formerly known as the Japanese I.T. Standards Exams of the Philippines (JITSE-Phil) Foundation, Inc., is a non-stock, non-profit, non-government organization that is implementing in the Philippines the Information Technology standards adopted from Japan, with the support of the Department of Trade and Industry (DTI) of the Philippines and the Ministry of Economy, Trade and Industry (METI) of Japan."
-            },
-            {
-                certification: "TESDA Computer Hardware Servicing NC II",
-                certification_link: "http://tesda.gov.ph/",
-                license: "",
-                description: "The Technical Education and Skills Development Authority serves as the Philippines' Technical Vocational Education and Training authority. As a government agency, TESDA is tasked to both manage and supervise the Philippines' Technical Education and Skills Development."
-            },
-        ];
-
         for (var i = 0; i < certifications.length; i++) {
             var li = document.createElement("li");
 
@@ -321,7 +385,7 @@
             a.appendChild(b);
             spanitize(certifications[i].certification, b);
             if (certifications[i].license)
-            spanitize(" (" + certifications[i].license + ")", a);
+                spanitize(" (" + certifications[i].license + ")", a);
             li.appendChild(a);
 
             var ul = document.createElement("ul");
@@ -334,104 +398,32 @@
             document.getElementById('certifications').getElementsByTagName('ul')[0].appendChild(li);
         }
 
-        var projects = [
-          {
-            project: "Time Tracking System",
-            project_link: "#",
-            description: "An Outlook VSTO addin for time tracking built with Replicon API and Telerik framework used by Keystone Strategy and developed at Filam Software Technology Inc.",
-            icon: "devicon-csharp-plain"
-          },
-          {
-            project: "Airtime Sales Monitoring Utility",
-            project_link: "#",
-            description: "An airtime sales monitoring system for creating broadcast contracts, managing timeslots, computing airtimes and generating sales reports used at CLTV36.",
-            icon: "devicon-visualstudio-plain"
-          },
-          {
-            project: "Technical Facilities and Manpower Request System",
-            project_link: "#",
-            description: "A system for requesting technical facilities and manpower, managing and tracking resources used at CLTV36.",
-            icon: "devicon-codeigniter-plain"
-          },
-          {
-            project: "VendShit",
-            project_link: "https://github.com/reedleoneil/VendShit",
-            description: "Medicine Vending Machine Framework developed in Q4 of 2015 as a requirement for the degree of BS Computer Engineering.",
-            icon: "devicon-php-plain"
-          },
-          {
-            project: "buRAT 1.0",
-            project_link: "https://github.com/reedleoneil/buRAT-1.0",
-            description: "武 Remote Administration Tool developed in 2014. As a requirement for the degree of BS Computer Engineering, Home Automation Module was implemented.",
-            icon: "devicon-java-plain"
-          },
-          {
-            project: "buRAT 2.0",
-            project_link: "https://github.com/reedleoneil/buRAT-2.0",
-            description: "武リモートアクセストロイの木馬 2.0。Rewrite of buRAT 1.0 in ruby.",
-            icon: "devicon-ruby-plain"
-          },
-          {
-            project: "B2268S Admin Tool 1.0",
-            project_link: "https://github.com/reedleoneil/B2268S-Admin-Tool-v1.00",
-            description: "Unlock the admin access for the PLDT HomeBro LTE Huawei B2268s.",
-            icon: "devicon-cplusplus-plain"
-          },
-          {
-            project: "B2268S Admin Tool 2.0",
-            project_link: "https://github.com/reedleoneil/B2268S-Admin-Tool-v2.00",
-            description: "A google chrome extension for unlocking the admin access for the PLDT HomeBro LTE Huawei B2268s.",
-            icon: "devicon-javascript-plain"
-          },
-          {
-            project: "csharp-cx-lib",
-            project_link: "https://github.com/reedleoneil/csharp-cx-lib",
-            description: "C# Coins Pro API library.",
-            icon: "devicon-csharp-plain"
-          },
-          {
-            project: "ruby-cx-lib",
-            project_link: "https://github.com/reedleoneil/ruby-cx-lib",
-            description: "Ruby Coins Pro API library.",
-            icon: "devicon-ruby-plain"
-          },
-          {
-            project: "js-cx-lib",
-            project_link: "https://github.com/reedleoneil/js-cx-lib",
-            description: "Javascript Coins Pro API library.",
-            icon: "devicon-javascript-plain"
-          },
-        ];
-
-        for (var i = 0; i < projects.length; i++) {
+        for (var r = 0; r < projects.length; r++) {
             var li = document.createElement("li");
 
             var a = document.createElement("a");
-            a.setAttribute("href", projects[i].project_link);
-            if(projects[i].project_link)
-              a.setAttribute("target", "_blank");
-            var _i = document.createElement("i");
-            _i.setAttribute("class", projects[i].icon);
-            a.appendChild(_i);
+            a.setAttribute("href", projects[r].project_link);
+            if (projects[r].project_link)
+                a.setAttribute("target", "_blank");
+            var i = document.createElement("i");
+            i.setAttribute("class", projects[r].icon);
+            a.appendChild(i);
             var b = document.createElement("b");
-            spanitize(" " + projects[i].project, b);
+            spanitize(" " + projects[r].project, b);
             a.appendChild(b);
             li.appendChild(a);
 
             var ul = document.createElement("ul");
             var li_desc = document.createElement("li");
             ul.appendChild(li_desc);
-            spanitize(projects[i].description, li_desc);
+            spanitize(projects[r].description, li_desc);
 
             li.appendChild(ul);
 
             document.getElementById('projects').getElementsByTagName('ul')[0].appendChild(li);
         }
 
-        var footer = document.createElement("footer");
-        var foo = "© 2018 reedleoneil";
-        spanitize(foo, footer);
-        document.getElementsByTagName("body")[0].appendChild(footer);
+        spanitize(footer, document.getElementsByTagName("footer")[0]);
 
         var content = "";
 
@@ -439,7 +431,7 @@
         content += sub_header;
 
         for (var i = 0; i < navigations.length; i++) {
-          content += navigations[i].name;
+            content += navigations[i].name;
         }
 
         content += "Connect with me on , , , ,  or ."
@@ -447,69 +439,63 @@
         content += sections[0].header;
 
         for (var i = 0; i < experience.length; i++) {
-          content += experience[i].position;
-          content += " (" + experience[i].company + ")";
-          content += experience[i].dates;
-          for (var j = 0; j < experience[i].descriptions.length; j++) {
-            content += experience[i].descriptions[j];
-          }
+            content += experience[i].position;
+            content += " (" + experience[i].company + ")";
+            content += experience[i].dates;
+            for (var j = 0; j < experience[i].descriptions.length; j++) {
+                content += experience[i].descriptions[j];
+            }
         }
 
         content += sections[1].header;
 
         for (var i = 0; i < education.length; i++) {
-          content += education[i].course;
-          content += " (" + education[i].university + ")";
-          content += education[i].dates;
-          for (var j = 0; j < education[i].descriptions.length; j++) {
-            content += education[i].descriptions[j];
-          }
+            content += education[i].course;
+            content += " (" + education[i].university + ")";
+            content += education[i].dates;
+            for (var j = 0; j < education[i].descriptions.length; j++) {
+                content += education[i].descriptions[j];
+            }
         }
 
         content += sections[2].header;
 
         for (var i = 0; i < certifications.length; i++) {
-          content += certifications[i].certification;
-          if (certifications[i].license)
-            content += " (" + certifications[i].license + ")";
-          content += certifications[i].description;
+            content += certifications[i].certification;
+            if (certifications[i].license)
+                content += " (" + certifications[i].license + ")";
+            content += certifications[i].description;
         }
 
         content += sections[3].header;
 
         for (var i = 0; i < projects.length; i++) {
-          content += " " + projects[i].project;
-          content += projects[i].description;
+            content += " " + projects[i].project;
+            content += projects[i].description;
         }
 
-        content += foo;
-
-        console.log(content);
+        content += footer;
 
         var x = document.getElementsByClassName("char");
 
-        for (i = 0; i < x.length; i++) {
-          setInterval(function () {
-              var num = getRndInteger(0, x.length);
-              if(!x[num].classList.contains("rendered"))
-              {
-                  x[num].innerHTML = content[num];
-                  x[num].classList += " rendered";
-              }
-          }, 0);
+        for (i = 0; i <= x.length; i++) {
+            setInterval(function () {
+                var charIndex = getRndInteger(0, x.length - 1);
+                if (!(x[charIndex].classList.contains("rendered"))) {
+                    x[charIndex].innerHTML = content[charIndex];
+                    x[charIndex].classList += " rendered";
+                }
+            }, 0);
         }
 
         document.addEventListener('contextmenu', function (e) {
-          for (i = 0; i < x.length; i++) {
-              setInterval(function () {
-                      var num2 = getRndInteger(0, x.length);
-                      var num = getRndInteger(32, 255);
-                      var char = String.fromCharCode(num);
-                      //if(x[num2].innerHTML != " ")
-                  x[num2].innerHTML = char;
-                  x[num2].setAttribute("style", "color: #" + num2);
-              }, 0);
-          }
+            for (i = 0; i < x.length; i++) {
+                setInterval(function () {
+                    var charIndex = getRndInteger(0, x.length - 1);
+                    var char = String.fromCharCode(getRndInteger(32, 255));
+                    x[charIndex].innerHTML = char;
+                }, 0);
+            }
         });
     </script>
 </body>
