@@ -1,0 +1,205 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Socket Controller">
+    <meta name="keywords" content="HTML,CSS,XML,JavaScript">
+    <meta name="author" content="reedleoneil">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="text/javascript" src="jquery.js"></script>
+    <script type="text/javascript" src="bootstrap.js"></script>
+    <script type="text/javascript" src="sparkline.js"></script>
+    <script type="text/javascript" src="mqttws31.js"></script>
+    <link rel="stylesheet" type="text/css" href="bootstrap.css">
+    <style>
+	/* The switch - the box around the slider */
+	.switch {
+	  position: relative;
+	  display: inline-block;
+	  width: 60px;
+	  height: 34px;
+	}
+
+	/* Hide default HTML checkbox */
+	.switch input {
+	  opacity: 0;
+	  width: 0;
+	  height: 0;
+	}
+
+	/* The slider */
+	.slider {
+	  position: absolute;
+	  cursor: pointer;
+	  top: 0;
+	  left: 0;
+	  right: 0;
+	  bottom: 0;
+	  background-color: #ccc;
+	  -webkit-transition: .4s;
+	  transition: .4s;
+	}
+
+	.slider:before {
+	  position: absolute;
+	  content: "";
+	  height: 26px;
+	  width: 26px;
+	  left: 4px;
+	  bottom: 4px;
+	  background-color: white;
+	  -webkit-transition: .4s;
+	  transition: .4s;
+	}
+
+	input:checked + .slider {
+	  background-color: #2196F3;
+	}
+
+	input:focus + .slider {
+	  box-shadow: 0 0 1px #2196F3;
+	}
+
+	input:checked + .slider:before {
+	  -webkit-transform: translateX(26px);
+	  -ms-transform: translateX(26px);
+	  transform: translateX(26px);
+	}
+
+	/* Rounded sliders */
+	.slider.round {
+	  border-radius: 34px;
+	}
+
+	.slider.round:before {
+	  border-radius: 50%;
+	}
+    </style>
+</head>
+<body>
+	<div class="jumbotron">
+	  <h1>Socket Controller</h1>      
+	  <p>Socket Controller and Water Level Monitoring with SMS.</p>
+	</div>   
+	<div class="container-fluid">
+	  <div class="row">
+	    <div class="col-xs-4">
+		<img src="house.png">
+	    </div>
+	    <div class="col-xs-8">
+		<div class="row">
+		    <div class="col-xs-12">
+			<span style="font-size: 24px;">Water Level: </span><span id="waterLevelLabel" style="font-size: 24px;">0</span> 
+		    </div>
+		</div>
+		<div class="row">
+		    <div class="col-xs-12">
+			<span class="waterLevelSparkLineBar" style="font-size: 24px;"></span> 
+			<span class="waterLevelSparkLineBullet" style="font-size: 24px;"></span> 
+		    </div>
+		</div>
+	    </div>
+	  </div>
+
+	  <hr><!--OJT is LOVE>-->
+
+	  <div class="row">
+	    <div class="col-xs-4">
+		<label class="switch">
+		   <input type="checkbox" id="powerSwitch">
+		   <span class="slider round"></span>
+		</label>
+	    </div>
+	    <div class="col-xs-8"><span style="font-size: 24px;">First Floor</span></div>
+	  </div>
+        </div>
+        <script type="text/javascript">
+                var waterLevel = [0, 0, 0, 0, 0, 0, 0];
+
+                // Create a client instance
+                var client = new Paho.MQTT.Client("iot.eclipse.org", Number("80"), "/ws", "");
+
+                // set properties
+                client.reconnect = true;
+
+                // set callback handlers
+                client.onConnectionLost = onConnectionLost;
+                client.onMessageArrived = onMessageArrived;
+
+                // connect the client
+                client.connect({onSuccess:onConnect});
+
+
+                // called when the client connects
+                function onConnect() {
+                  // Once a connection has been made, make a subscription and send a message.
+                  console.log("onConnect");
+                  client.subscribe("World");
+                  client.subscribe("diana/status");
+                  message = new Paho.MQTT.Message("Hello");
+                  message.destinationName = "World";
+                  client.send(message);
+                  alert("Connection established!");
+                }
+
+                // called when the client loses its connection
+                function onConnectionLost(responseObject) {
+                  if (responseObject.errorCode !== 0) {
+                    console.log("onConnectionLost:"+responseObject.errorMessage);
+                    alert("Connection lost!");
+                  }
+                }
+
+                // called when a message arrives
+                function onMessageArrived(message) {
+                  console.log(message.destinationName);
+                  console.log("onMessageArrived:"+message.payloadString);
+                  if (message.destinationName == "diana/status") {
+                        var payload = JSON.parse(message.payloadString);
+                        waterLevel.shift();
+                        waterLevel.push(payload.waterLevel);
+                        $('.waterLevelSparkLineBullet').sparkline(waterLevel, { type: 'bullet' });
+                        $('.waterLevelSparkLineBar').sparkline(waterLevel, { type: 'bar' });
+                        $('#waterLevelLabel').html(payload.waterLevel);
+                        if (payload.powerStatus == 1) {
+                                $('#powerSwitch').prop('checked', true);
+                        } else if (payload.powerStatus == 0) {
+                                $('#powerSwitch').prop('checked', false);
+                        }
+                        $('#powerSwitch').attr('disabled', false);
+                  }
+                }
+
+                $('#powerSwitch').change(function () {
+                        $('#powerSwitch').attr('disabled', true);
+                        if (this.checked) {
+                                message = new Paho.MQTT.Message("w");
+                                message.destinationName = "diana/controller";
+                                client.send(message);
+                        } else {
+                                message = new Paho.MQTT.Message("e");
+                                message.destinationName = "diana/controller";
+                                client.send(message);
+                        }
+                });
+        </script>
+        <script type = "text/javascript">
+        var mqtt = require('mqtt')
+        var client  = mqtt.connect('mqtt://test.mosquitto.org')
+
+        client.on('connect', function () {
+          client.subscribe('presence', function (err) {
+            if (!err) {
+              client.publish('presence', 'Hello mqtt')
+            }
+          })
+        })
+
+        client.on('message', function (topic, message) {
+          // message is Buffer
+          console.log(message.toString())
+          client.end()
+        })
+        </script>
+</body>
+</html>
+
