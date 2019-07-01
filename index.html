@@ -350,6 +350,8 @@
 
             var a = document.createElement("a");
             a.setAttribute("href", experience[i].company_link);
+            if (experience[i].company_link)
+                a.setAttribute("target", "_blank");
             spanitize(" (" + experience[i].company + ")", a);
             li.appendChild(a);
 
@@ -380,6 +382,8 @@
 
             var a = document.createElement("a");
             a.setAttribute("href", education[i].university_link);
+            if (education[i].university_link)
+                a.setAttribute("target", "_blank");
             spanitize(" (" + education[i].university + ")", a);
             li.appendChild(a);
 
@@ -406,6 +410,8 @@
 
             var a = document.createElement("a");
             a.setAttribute("href", certifications[i].certification_link);
+            if (certifications[i].certification_link)
+                a.setAttribute("target", "_blank");
             var b = document.createElement("b");
             a.appendChild(b);
             spanitize(certifications[i].certification, b);
