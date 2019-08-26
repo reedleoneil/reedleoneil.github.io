@@ -45,7 +45,7 @@
 <body>
     <header>
         <h1></h1>
-        <h2></h2>
+        <h2><span id="reed"></span><span id="sun_moon">🔴</span><span id="leoneil"></span></h2>
     </header>
     <nav></nav>
     <div></div>
@@ -70,7 +70,8 @@
         }
 
         var header = "reedleoneil";
-        var sub_header = "リード🔴レオニール";
+        var reed = "リード";
+        var leoneil = "レオニール";
 
         var navigations = [
             { target: "https://reedleoneil.github.io/", name: "ホーマ" },
@@ -275,7 +276,8 @@
         var footer = "© 2018 - 2019 reedleoneil";
 
         spanitize(header, document.getElementsByTagName("h1")[0]);
-        spanitize(sub_header, document.getElementsByTagName("h2")[0]);
+        spanitize(sub_header, document.getElemenetById("reed"));
+        spanitize(sub_header, document.getElemenetById("leoneil"));
 
         for (var i = 0; i < navigations.length; i++) {
             var a = document.createElement("a");
