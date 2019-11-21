@@ -532,21 +532,29 @@
 
         document.getElementById("nav-experience").addEventListener("click", function () {
             document.getElementById('experience').getElementsByTagName('ul')[0].innerHTML = "";
+            document.getElementById('experience').getElementsByTagName('h3')[0].innerHTML = "";
+            spanitize("Experience", document.getElementById('experience').getElementsByTagName('h3')[0])
             load_experience();
         });
 
         document.getElementById("nav-education").addEventListener("click", function () {
             document.getElementById('education').getElementsByTagName('ul')[0].innerHTML = "";
+            document.getElementById('education').getElementsByTagName('h3')[0].innerHTML = "";
+            spanitize("Education", document.getElementById('education').getElementsByTagName('h3')[0])
             load_education();
         });
 
         document.getElementById("nav-certifications").addEventListener("click", function () {
             document.getElementById('certifications').getElementsByTagName('ul')[0].innerHTML = "";
+            document.getElementById('certifications').getElementsByTagName('h3')[0].innerHTML = "";
+            spanitize("Certifications", document.getElementById('certifications').getElementsByTagName('h3')[0])
             load_certifications();
         });
 
         document.getElementById("nav-projects").addEventListener("click", function () {
             document.getElementById('projects').getElementsByTagName('ul')[0].innerHTML = "";
+            document.getElementById('projects').getElementsByTagName('h3')[0].innerHTML = "";
+            spanitize("Projects", document.getElementById('projects').getElementsByTagName('h3')[0])
             load_projects();
         });
     </script>
