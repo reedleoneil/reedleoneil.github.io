@@ -74,11 +74,11 @@
         var leoneil = "レオニール";
 
         var navigations = [
-            { target: "https://reedleoneil.github.io/", name: "ホーマ" },
-            { target: "#experience", name: "Experience" },
-            { target: "#education", name: "Education" },
-            { target: "#certifications", name: "Certifications" },
-            { target: "#projects", name: "Projects" }
+            { id: "nav-home", target: "https://reedleoneil.github.io/", name: "ホーマ" },
+            { id: "nav-experience",target: "#experience", name: "Experience" },
+            { id: "nav-education",target: "#education", name: "Education" },
+            { id: "nav-certifications",target: "#certifications", name: "Certifications" },
+            { id: "nav-projects",target: "#projects", name: "Projects" }
         ];
 
         var social_buttons = [
@@ -283,6 +283,7 @@
 
         for (var i = 0; i < navigations.length; i++) {
             var a = document.createElement("a");
+            a.setAttribute("id", navigations[i].id);
             a.setAttribute("href", navigations[i].target);
             var nav = document.getElementsByTagName("nav")[0]
             var str = navigations[i].name;
@@ -328,118 +329,131 @@
             document.getElementsByTagName("main")[0].appendChild(s);
         }
 
-        for (var i = 0; i < experience.length; i++) {
-            var li = document.createElement("li");
+        function load_experience() {
+            for (var i = 0; i < experience.length; i++) {
+                var li = document.createElement("li");
 
-            var b = document.createElement("b");
-            spanitize(experience[i].position, b);
-            li.appendChild(b);
+                var b = document.createElement("b");
+                spanitize(experience[i].position, b);
+                li.appendChild(b);
 
-            var a = document.createElement("a");
-            a.setAttribute("href", experience[i].company_link);
-            if (experience[i].company_link)
-                a.setAttribute("target", "_blank");
-            spanitize(" (" + experience[i].company + ")", a);
-            li.appendChild(a);
+                var a = document.createElement("a");
+                a.setAttribute("href", experience[i].company_link);
+                if (experience[i].company_link)
+                    a.setAttribute("target", "_blank");
+                spanitize(" (" + experience[i].company + ")", a);
+                li.appendChild(a);
 
-            var ul = document.createElement("ul");
+                var ul = document.createElement("ul");
 
-            var li_dates = document.createElement("li");
-            spanitize(experience[i].dates, li_dates);
-            ul.appendChild(li_dates);
+                var li_dates = document.createElement("li");
+                spanitize(experience[i].dates, li_dates);
+                ul.appendChild(li_dates);
 
-            for (var j = 0; j < experience[i].descriptions.length; j++) {
-                var description = experience[i].descriptions[j];
+                for (var j = 0; j < experience[i].descriptions.length; j++) {
+                    var description = experience[i].descriptions[j];
 
-                var li_desc = document.createElement("li");
-                spanitize(description, li_desc);
-                ul.appendChild(li_desc);
+                    var li_desc = document.createElement("li");
+                    spanitize(description, li_desc);
+                    ul.appendChild(li_desc);
+                }
+                li.appendChild(ul);
+
+                document.getElementById('experience').getElementsByTagName('ul')[0].appendChild(li);
             }
-            li.appendChild(ul);
-
-            document.getElementById('experience').getElementsByTagName('ul')[0].appendChild(li);
         }
 
-        for (var i = 0; i < education.length; i++) {
-            var li = document.createElement("li");
+        function load_education() {
+            for (var i = 0; i < education.length; i++) {
+                var li = document.createElement("li");
 
-            var b = document.createElement("b");
-            spanitize(education[i].course, b);
-            li.appendChild(b);
+                var b = document.createElement("b");
+                spanitize(education[i].course, b);
+                li.appendChild(b);
 
-            var a = document.createElement("a");
-            a.setAttribute("href", education[i].university_link);
-            if (education[i].university_link)
-                a.setAttribute("target", "_blank");
-            spanitize(" (" + education[i].university + ")", a);
-            li.appendChild(a);
+                var a = document.createElement("a");
+                a.setAttribute("href", education[i].university_link);
+                if (education[i].university_link)
+                    a.setAttribute("target", "_blank");
+                spanitize(" (" + education[i].university + ")", a);
+                li.appendChild(a);
 
-            var ul = document.createElement("ul");
+                var ul = document.createElement("ul");
 
-            var li_dates = document.createElement("li");
-            spanitize(education[i].dates, li_dates);
-            ul.appendChild(li_dates);
+                var li_dates = document.createElement("li");
+                spanitize(education[i].dates, li_dates);
+                ul.appendChild(li_dates);
 
-            for (var j = 0; j < education[i].descriptions.length; j++) {
-                var description = education[i].descriptions[j];
+                for (var j = 0; j < education[i].descriptions.length; j++) {
+                    var description = education[i].descriptions[j];
 
-                var li_desc = document.createElement("li");
-                spanitize(description, li_desc);
-                ul.appendChild(li_desc);
+                    var li_desc = document.createElement("li");
+                    spanitize(description, li_desc);
+                    ul.appendChild(li_desc);
+                }
+                li.appendChild(ul);
+
+                document.getElementById('education').getElementsByTagName('ul')[0].appendChild(li);
             }
-            li.appendChild(ul);
+        }
+        
+        function load_certifications() {
+            for (var i = 0; i < certifications.length; i++) {
+                var li = document.createElement("li");
 
-            document.getElementById('education').getElementsByTagName('ul')[0].appendChild(li);
+                var a = document.createElement("a");
+                a.setAttribute("href", certifications[i].certification_link);
+                if (certifications[i].certification_link)
+                    a.setAttribute("target", "_blank");
+                var b = document.createElement("b");
+                a.appendChild(b);
+                spanitize(certifications[i].certification, b);
+                if (certifications[i].license)
+                    spanitize(" (" + certifications[i].license + ")", a);
+                li.appendChild(a);
+
+                var ul = document.createElement("ul");
+                var li_desc = document.createElement("li");
+                ul.appendChild(li_desc);
+                spanitize(certifications[i].description, li_desc);
+
+                li.appendChild(ul);
+
+                document.getElementById('certifications').getElementsByTagName('ul')[0].appendChild(li);
+            }
         }
 
-        for (var i = 0; i < certifications.length; i++) {
-            var li = document.createElement("li");
+        function load_projects() {
+            for (var r = 0; r < projects.length; r++) {
+                var li = document.createElement("li");
 
-            var a = document.createElement("a");
-            a.setAttribute("href", certifications[i].certification_link);
-            if (certifications[i].certification_link)
-                a.setAttribute("target", "_blank");
-            var b = document.createElement("b");
-            a.appendChild(b);
-            spanitize(certifications[i].certification, b);
-            if (certifications[i].license)
-                spanitize(" (" + certifications[i].license + ")", a);
-            li.appendChild(a);
+                var a = document.createElement("a");
+                a.setAttribute("href", projects[r].project_link);
+                if (projects[r].project_link)
+                    a.setAttribute("target", "_blank");
+                var i = document.createElement("i");
+                i.setAttribute("class", projects[r].icon);
+                a.appendChild(i);
+                var b = document.createElement("b");
+                spanitize(" " + projects[r].project, b);
+                a.appendChild(b);
+                li.appendChild(a);
 
-            var ul = document.createElement("ul");
-            var li_desc = document.createElement("li");
-            ul.appendChild(li_desc);
-            spanitize(certifications[i].description, li_desc);
+                var ul = document.createElement("ul");
+                var li_desc = document.createElement("li");
+                ul.appendChild(li_desc);
+                spanitize(projects[r].description, li_desc);
 
-            li.appendChild(ul);
+                li.appendChild(ul);
 
-            document.getElementById('certifications').getElementsByTagName('ul')[0].appendChild(li);
+                document.getElementById('projects').getElementsByTagName('ul')[0].appendChild(li);
+            }
         }
 
-        for (var r = 0; r < projects.length; r++) {
-            var li = document.createElement("li");
-
-            var a = document.createElement("a");
-            a.setAttribute("href", projects[r].project_link);
-            if (projects[r].project_link)
-                a.setAttribute("target", "_blank");
-            var i = document.createElement("i");
-            i.setAttribute("class", projects[r].icon);
-            a.appendChild(i);
-            var b = document.createElement("b");
-            spanitize(" " + projects[r].project, b);
-            a.appendChild(b);
-            li.appendChild(a);
-
-            var ul = document.createElement("ul");
-            var li_desc = document.createElement("li");
-            ul.appendChild(li_desc);
-            spanitize(projects[r].description, li_desc);
-
-            li.appendChild(ul);
-
-            document.getElementById('projects').getElementsByTagName('ul')[0].appendChild(li);
-        }
+        load_experience();
+        load_education();
+        load_certifications();
+        load_projects();
 
         spanitize(footer, document.getElementsByTagName("footer")[0]);
 
@@ -515,6 +529,26 @@
                 }, 0);
             }
         });*/
+
+        document.getElementById("nav-experience").addEventListener("click", function () {
+            document.getElementById('experience').getElementsByTagName('ul')[0].innerHTML = "";
+            load_experience();
+        });
+
+        document.getElementById("nav-education").addEventListener("click", function () {
+            document.getElementById('education').getElementsByTagName('ul')[0].innerHTML = "";
+            load_education();
+        });
+
+        document.getElementById("nav-certifications").addEventListener("click", function () {
+            document.getElementById('certifications').getElementsByTagName('ul')[0].innerHTML = "";
+            load_certifications();
+        });
+
+        document.getElementById("nav-projects").addEventListener("click", function () {
+            document.getElementById('projects').getElementsByTagName('ul')[0].innerHTML = "";
+            load_projects();
+        });
     </script>
 </body>
 </html>
