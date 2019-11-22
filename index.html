@@ -508,6 +508,8 @@
 
         content += footer;
 
+        var emojis = ["👹", "👺", "🍱", "🍜", "🍙", "🍥", "🌸", "🌊", "🎏", "🎋", "🎎", "🗼", "🏯", "🗻", "🏮", "🔴", "🗾", "🍣", "🍵", "🍡", "🍘", "🍢"];
+
         for (i = 0; i <= document.getElementsByClassName("char").length; i++) {
             setInterval(function () {
                 if (document.getElementsByClassName("char").length != 0) {
@@ -515,7 +517,11 @@
                     if (!(document.getElementsByClassName("char")[charIndex].classList.contains("rendered"))) {
                         document.getElementsByClassName("char")[charIndex].innerHTML = content[charIndex];
                         document.getElementsByClassName("char")[charIndex].classList += " rendered";
-                    }s
+                        rnd = getRndInteger(0, emojis.length - 1);
+                        document.getElementById("sun_moon").innerHTML = emojis[rnd];
+                    }
+                } else {
+                    document.getElementById("sun_moon").setAttribute("class", "rendered");
                 }
             }, 0);
         }
