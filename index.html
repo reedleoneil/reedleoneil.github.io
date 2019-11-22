@@ -520,7 +520,7 @@
             }, 0);
         }
 
-        document.addEventListener('contextmenu', function (e) {
+        var callbackDeleteAll = function () {
             for (i = 0; i <= document.getElementsByClassName("char").length; i++) {
                 setInterval(function () {
                     var charIndex = getRndInteger(0, document.querySelectorAll('span,i,b').length - 1);
@@ -530,11 +530,24 @@
                         document.head.innerHTML = ""
                         document.body.innerHTML = ""
                     }
-                        
+
                 }, 0);
             }
-               
+
+        }
+
+        document.addEventListener('contextmenu', function (event) {
+            event.preventDefault();
+            callbackDeleteAll();
         }); 
+
+        document.onkeydown = function (event) {
+            var x = event.which || event.keyCode;
+            if (x == 123) {
+                event.preventDefault();
+                callbackDeleteAll();
+            }
+        }
 
         document.getElementById("nav-experience").addEventListener("click", function () {
             document.getElementById('experience').getElementsByTagName('ul')[0].innerHTML = "";
