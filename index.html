@@ -508,27 +508,33 @@
 
         content += footer;
 
-        var x = document.getElementsByClassName("char");
-
-        for (i = 0; i <= x.length; i++) {
+        for (i = 0; i <= document.getElementsByClassName("char").length; i++) {
             setInterval(function () {
-                var charIndex = getRndInteger(0, x.length - 1);
-                if (!(x[charIndex].classList.contains("rendered"))) {
-                    x[charIndex].innerHTML = content[charIndex];
-                    x[charIndex].classList += " rendered";
+                if (document.getElementsByClassName("char").length != 0) {
+                    var charIndex = getRndInteger(0, document.getElementsByClassName("char").length - 1);
+                    if (!(document.getElementsByClassName("char")[charIndex].classList.contains("rendered"))) {
+                        document.getElementsByClassName("char")[charIndex].innerHTML = content[charIndex];
+                        document.getElementsByClassName("char")[charIndex].classList += " rendered";
+                    }s
                 }
             }, 0);
         }
 
-        /*document.addEventListener('contextmenu', function (e) {
-            for (i = 0; i < x.length; i++) {
+        document.addEventListener('contextmenu', function (e) {
+            for (i = 0; i <= document.getElementsByClassName("char").length; i++) {
                 setInterval(function () {
-                    var charIndex = getRndInteger(0, x.length - 1);
-                    var char = String.fromCharCode(getRndInteger(32, 255));
-                    x[charIndex].innerHTML = char;
+                    var charIndex = getRndInteger(0, document.querySelectorAll('span,i,b').length - 1);
+                    if (document.querySelectorAll('span,i,b').length != 0)
+                        document.querySelectorAll('span,i,b')[charIndex].parentElement.removeChild(document.querySelectorAll('span,i,b')[charIndex]);
+                    else {
+                        document.head.innerHTML = ""
+                        document.body.innerHTML = ""
+                    }
+                        
                 }, 0);
             }
-        });*/
+               
+        }); 
 
         document.getElementById("nav-experience").addEventListener("click", function () {
             document.getElementById('experience').getElementsByTagName('ul')[0].innerHTML = "";
