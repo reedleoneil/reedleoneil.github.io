@@ -510,36 +510,29 @@
 
         var emojis = ["👹", "👺", "🍱", "🍜", "🍙", "🍥", "🌸", "🌊", "🎏", "🎋", "🎎", "🗼", "🏯", "🗻", "🏮", "🔴", "🗾", "🍣", "🍵", "🍡", "🍘", "🍢"];
 
-        for (i = 0; i <= document.getElementsByClassName("char").length; i++) {
-            setInterval(function () {
-                if (document.getElementsByClassName("char").length != 0) {
-                    var charIndex = getRndInteger(0, document.getElementsByClassName("char").length - 1);
-                    if (!(document.getElementsByClassName("char")[charIndex].classList.contains("rendered"))) {
-                        document.getElementsByClassName("char")[charIndex].innerHTML = content[charIndex];
-                        document.getElementsByClassName("char")[charIndex].classList += " rendered";
-                        rnd = getRndInteger(0, emojis.length - 1);
-                        document.getElementById("sun_moon").innerHTML = emojis[rnd];
-                    }
-                } else {
-                    document.getElementById("sun_moon").setAttribute("class", "rendered");
+        setInterval(function () {
+            if (document.getElementsByClassName("rendered").length != content.length) {
+                for (var x = 0; x < 96; x++) {
+                    var index = getRndInteger(0, document.getElementsByClassName("char").length - 1);
+                    document.getElementsByClassName("char")[index].innerHTML = content[index];
+                    document.getElementsByClassName("char")[index].classList += " rendered";
                 }
-            }, 0);
-        }
+                document.getElementById("sun_moon").innerHTML = emojis[getRndInteger(0, emojis.length - 1)];
+            } else {
+                document.getElementById("sun_moon").setAttribute("class", "rendered");
+            }
+        }, 0);
 
         var callbackDeleteAll = function () {
-            for (i = 0; i <= document.getElementsByClassName("char").length; i++) {
-                setInterval(function () {
-                    var charIndex = getRndInteger(0, document.querySelectorAll('span,i,b').length - 1);
-                    if (document.querySelectorAll('span,i,b').length != 0)
-                        document.querySelectorAll('span,i,b')[charIndex].parentElement.removeChild(document.querySelectorAll('span,i,b')[charIndex]);
-                    else {
-                        document.head.innerHTML = ""
-                        document.body.innerHTML = ""
-                    }
-
-                }, 0);
-            }
-
+            setInterval(function () {
+                var index = getRndInteger(0, document.querySelectorAll('span,i,b').length - 1);
+                if (document.querySelectorAll('span,i,b').length != 0)
+                    document.querySelectorAll('span,i,b')[index].parentElement.removeChild(document.querySelectorAll('span,i,b')[index]);
+                else {
+                    document.head.innerHTML = ""
+                    document.body.innerHTML = ""
+                }
+            }, 0);
         }
 
         document.addEventListener('contextmenu', function (event) {
