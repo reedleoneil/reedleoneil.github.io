@@ -275,7 +275,7 @@
             },
         ];
 
-        var footer = "© 2018 - 2019 reedleoneil";
+        var footer = "© 2018 - 2020 reedleoneil";
 
         spanitize(header, document.getElementsByTagName("h1")[0]);
         spanitize(reed, document.getElementById("reed"));
@@ -510,29 +510,46 @@
 
         var emojis = ["👹", "👺", "🍱", "🍜", "🍙", "🍥", "🌸", "🌊", "🎏", "🎋", "🎎", "🗼", "🏯", "🗻", "🏮", "🔴", "🗾", "🍣", "🍵", "🍡", "🍘", "🍢"];
 
+        var indexes = [];
+        for (var x = 0; x < content.length; x++) {
+            indexes.push(x);
+        }
+
         setInterval(function () {
-            if (document.getElementsByClassName("rendered").length != content.length) {
+            if (indexes.length != 0) {
                 for (var x = 0; x < 96; x++) {
-                    var index = getRndInteger(0, document.getElementsByClassName("char").length - 1);
-                    document.getElementsByClassName("char")[index].innerHTML = content[index];
-                    document.getElementsByClassName("char")[index].classList += " rendered";
+                    var index = getRndInteger(0, indexes.length - 1);
+                    document.getElementsByClassName("char")[indexes[index]].innerHTML = content[indexes[index]];
+                    document.getElementsByClassName("char")[indexes[index]].classList += " rendered";
+                    indexes.splice(index, 1);
                 }
                 document.getElementById("sun_moon").innerHTML = emojis[getRndInteger(0, emojis.length - 1)];
             } else {
                 document.getElementById("sun_moon").setAttribute("class", "rendered");
             }
+
+            //if (document.getElementsByClassName("rendered").length != content.length) {
+            //    for (var x = 0; x < 96; x++) {
+            //        var index = getRndInteger(0, document.getElementsByClassName("char").length - 1);
+            //        document.getElementsByClassName("char")[index].innerHTML = content[index];
+            //        document.getElementsByClassName("char")[index].classList += " rendered";
+            //    }
+            //    document.getElementById("sun_moon").innerHTML = emojis[getRndInteger(0, emojis.length - 1)];
+            //} else {
+            //    document.getElementById("sun_moon").setAttribute("class", "rendered");
+            //}
         }, 0);
 
         var callbackDeleteAll = function () {
-            setInterval(function () {
-                var index = getRndInteger(0, document.querySelectorAll('span,i,b').length - 1);
-                if (document.querySelectorAll('span,i,b').length != 0)
-                    document.querySelectorAll('span,i,b')[index].parentElement.removeChild(document.querySelectorAll('span,i,b')[index]);
-                else {
-                    document.head.innerHTML = ""
-                    document.body.innerHTML = ""
-                }
-            }, 0);
+            //setInterval(function () {
+            //    var index = getRndInteger(0, document.querySelectorAll('span,i,b').length - 1);
+            //    if (document.querySelectorAll('span,i,b').length != 0)
+            //        document.querySelectorAll('span,i,b')[index].parentElement.removeChild(document.querySelectorAll('span,i,b')[index]);
+            //    else {
+            //        document.head.innerHTML = ""
+            //        document.body.innerHTML = ""
+            //    }
+            //}, 0);
         }
 
         document.addEventListener('contextmenu', function (event) {
