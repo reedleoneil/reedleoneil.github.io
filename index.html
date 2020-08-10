@@ -526,7 +526,7 @@
 
         var reload = false;
         setInterval(function () {
-            if (indexes.length != 0 || reload === true) {
+            if (indexes.length != 0) {
                 for (var x = 0; x < 96; x++) {
                     var index = getRndInteger(0, indexes.length - 1);
                     document.getElementsByClassName("char")[indexes[index]].innerHTML = content[indexes[index]];
@@ -534,7 +534,6 @@
                     indexes.splice(index, 1);
                 }
                 document.getElementById("sun_moon").innerHTML = emojis[getRndInteger(0, emojis.length - 1)];
-                reload = false;
             } else {
                 document.getElementById("sun_moon").setAttribute("class", "rendered");
             }
@@ -564,38 +563,6 @@
                 callbackDeleteAll();
             }
         }
-
-        document.getElementById("nav-experience").addEventListener("click", function () {
-            reload = true;
-            document.getElementById('experience').getElementsByTagName('ul')[0].innerHTML = "";
-            document.getElementById('experience').getElementsByTagName('h3')[0].innerHTML = "";
-            spanitize("Experience", document.getElementById('experience').getElementsByTagName('h3')[0])
-            load_experience();
-        });
-
-        document.getElementById("nav-education").addEventListener("click", function () {
-            reload = true;
-            document.getElementById('education').getElementsByTagName('ul')[0].innerHTML = "";
-            document.getElementById('education').getElementsByTagName('h3')[0].innerHTML = "";
-            spanitize("Education", document.getElementById('education').getElementsByTagName('h3')[0])
-            load_education();
-        });
-
-        document.getElementById("nav-certifications").addEventListener("click", function () {
-            reload = true;
-            document.getElementById('certifications').getElementsByTagName('ul')[0].innerHTML = "";
-            document.getElementById('certifications').getElementsByTagName('h3')[0].innerHTML = "";
-            spanitize("Certifications", document.getElementById('certifications').getElementsByTagName('h3')[0])
-            load_certifications();
-        });
-
-        document.getElementById("nav-projects").addEventListener("click", function () {
-            reload = true;
-            document.getElementById('projects').getElementsByTagName('ul')[0].innerHTML = "";
-            document.getElementById('projects').getElementsByTagName('h3')[0].innerHTML = "";
-            spanitize("Projects", document.getElementById('projects').getElementsByTagName('h3')[0])
-            load_projects();
-        });
     </script>
 </body>
 </html>
