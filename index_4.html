@@ -14,79 +14,31 @@
         body {
             font-family: monospace;
             width: 100%;
-            margin: 0 auto 15px;
+            margin: 0 auto 30px;
             max-width: 50em;
             padding-left: 15px;
-            padding-right: 15px;
-            background-image: linear-gradient(to right, #330033, #000000, #330033);
-            -webkit-text-stroke: 0.1px #C0C0C0;
-            color: #C0C0C0;
-            text-shadow: -0.01px -0.01px 0 #696969, 0.01px -0.01px 0 #696969, -0.01px 0.01px 0 #696969, 0.01px 0.01px 0 #696969, -0.01px -0.01px 3px #696969, 0.01px -0.01px 3px #696969, -0.01px 0.01px 3px #696969, 0.01px 0.01px 3px #696969;
-            font-size: 111%;
+            padding-right: 15px
         }
 
         a:link, a:active, a:visited, nav a:link, nav a:active {
-            -webkit-text-stroke: 0.5px #008080;
             color: #000000;
-            text-shadow: -0.03px -0.03px 0 #008080, 0.03px -0.03px 0 #008080, -0.03px 0.03px 0 #008080, 0.03px 0.03px 0 #008080, -0.03px -0.03px 3px #008080, 0.03px -0.03px 3px #008080, -0.03px 0.03px 3px #008080, 0.03px 0.03px 3px #008080;
             text-decoration: none;
         }
 
         a:hover {
-            color: #00FFFF;
+            color: #bc002d;
             text-decoration: none;
         }
 
         nav a:hover {
-            color: #00FFFF;
+            color: #ffffff;
+            background-color: #bc002d;
             text-decoration: none;
         }
+
 
         ul {
             list-style-type: none;
-        }
-
-        h1 {
-            -webkit-text-stroke: 0.5px #DC143C;
-            color: black;
-            text-shadow: -0.03px -0.03px 0 #DC143C, 0.03px -0.03px 0 #DC143C, -0.03px 0.03px 0 #DC143C, 0.03px 0.03px 0 #DC143C, -0.03px -0.03px 3px #DC143C, 0.03px -0.03px 3px #DC143C, -0.03px 0.03px 3px #DC143C, 0.03px 0.03px 3px #DC143C;
-        }
-
-        #reed, #leoneil {
-            -webkit-text-stroke: 1px #FF8C00;
-            color: black;
-            text-shadow: -0.03px -0.03px 0 #FF8C00, 0.03px -0.03px 0 #FF8C00, -0.03px 0.03px 0 #FF8C00, 0.03px 0.03px 0 #FF8C00,
-                         -0.03px -0.03px 3px #FF8C00, 0.03px -0.03px 3px #FF8C00, -0.03px 0.03px 3px #FF8C00, 0.03px 0.03px 3px #FF8C00;
-        }
-
-        #nav-home {
-            -webkit-text-stroke: 0.5px #00CC00;
-            color: #000000;
-            text-shadow: -0.03px -0.03px 0 #00CC00, 0.03px -0.03px 0 #00CC00, -0.03px 0.03px 0 #00CC00, 0.03px 0.03px 0 #00CC00, -0.03px -0.03px 3px #00CC00, 0.03px -0.03px 3px #00CC00, -0.03px 0.03px 3px #00CC00, 0.03px 0.03px 3px #00CC00;
-            text-decoration: none;
-        }
-
-        #nav-home:hover {
-            color: #33FF33;
-            text-decoration: none;
-        }
-
-        footer {
-            -webkit-text-stroke: 0.1px #4169E1;
-            color: #00CED1;
-            text-shadow: -0.03px -0.03px 0 #4169E1, 0.03px -0.03px 0 #4169E1, -0.03px 0.03px 0 #4169E1, 0.03px 0.03px 0 #4169E1, -0.03px -0.03px 3px #4169E1, 0.03px -0.03px 3px #4169E1, -0.03px 0.03px 3px #4169E1, 0.03px 0.03px 3px #4169E1;
-        }
-
-        .fa-envelope {
-            -webkit-text-stroke: 1px #999900;
-            color: #000000;
-            text-shadow: -0.03px -0.03px 0 #999900, 0.03px -0.03px 0 #999900, -0.03px 0.03px 0 #999900, 0.03px 0.03px 0 #999900, -0.03px -0.03px 3px #999900, 0.03px -0.03px 3px #999900, -0.03px 0.03px 3px #999900, 0.03px 0.03px 3px #999900;
-            text-decoration: none;
-        }
-
-        .fa-envelope:hover {
-            color: #FFFF00;
-            text-decoration: none;
         }
     </style>
 </head>
@@ -161,7 +113,7 @@
             {
                 position: "System Developer",
                 company: "CLTV36 Radioworld Broadcasting Corporation",
-                company_link: "http://cltv36.tv/",
+                company_link: "http://web.cltv36.tv/",
                 dates: "2016 - 2018",
                 descriptions: [
                     "Provided maintenance, support and enhancements to an Airtime Sales Monitoring System for a broadcasting company that was written in Visual Basic 6 for monitoring the airtime sales and slots, billing of clients, and automation for apporval of broadcast contracts.",
@@ -338,15 +290,11 @@
         spanitize(reed, document.getElementById("reed"));
         spanitize(leoneil, document.getElementById("leoneil"));
 
-        var nav = document.getElementsByTagName("nav")[0];
-        var h = document.createElement("h3");
-        nav.appendChild(h)
-
         for (var i = 0; i < navigations.length; i++) {
             var a = document.createElement("a");
             a.setAttribute("id", navigations[i].id);
             a.setAttribute("href", navigations[i].target);
-            //var nav = document.getElementsByTagName("nav")[0];
+            var nav = document.getElementsByTagName("nav")[0]
             var str = navigations[i].name;
             var b = document.createElement("b");
             a.appendChild(b);
@@ -355,8 +303,7 @@
             var c = document.createElement("b");
             a.appendChild(c);
             c.innerHTML = "]";
-            //nav.appendChild(a);
-            h.appendChild(a);
+            nav.appendChild(a);
             if (i != navigations.length)
                 nav.appendChild(document.createTextNode(" "));
         }
@@ -383,7 +330,7 @@
         for (var i = 0; i < sections.length; i++) {
             var s = document.createElement("section");
             s.setAttribute("id", sections[i].id);
-            var h = document.createElement("h4");
+            var h = document.createElement("h3");
             spanitize(sections[i].header, h)
             var ul = document.createElement("ul");
             s.appendChild(h);
