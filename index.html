@@ -136,7 +136,8 @@
   }
   #logs::-webkit-resizer { }
 
-  #processes-table {
+  #processes-table,
+  #hackers-table {
     width: 100%;
   }
   </style>
@@ -145,17 +146,50 @@
   <script type="text/javascript">
   function formatBytes(a,b=2){if(0===a)return"0 Bytes";const c=0>b?0:b,d=Math.floor(Math.log(a)/Math.log(1024));return parseFloat((a/Math.pow(1024,d)).toFixed(c))+" "+["Bytes","KB","MB","GB","TB","PB","EB","ZB","YB"][d]}
 
-  var client = new ClientJS();
-  var fingerprint = client.getFingerprint();
-  console.log(fingerprint);
+  var hackerFingerprint = {};
+
+  function fingerprintHacker(callback) {
+    var endpoint = 'http://ip-api.com/json';
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+      if (this.readyState == 4 && this.status == 200) {
+        var response = JSON.parse(this.responseText);
+        if(response.status !== 'success') {
+          return
+        } else {
+          createFingerPrintData(response);
+          callback();
+        }
+      }
+    };
+    xhr.open('GET', endpoint, true);
+    xhr.send();
+  }
+
+  function createFingerPrintData(data) {
+    var client = new ClientJS();
+    hackerFingerprint = {
+      fingerprint: client.getFingerprint(),
+      browserData: client.getBrowserData(),
+      ipData: data
+    }
+  }
 
   var sparkline_cpu = [0, 0, 0, 0, 0, 0];
   var sparkline_memory = [0, 0, 0, 0, 0, 0];
 
   var client = mqtt.connect("wss://test.mosquitto.org:8081")
-  client.subscribe("reedleoneil/#")
+  client.subscribe("reedleoneil/system_info/#")
+  client.subscribe("reedleoneil/hackers/#")
+
+  client.on('connect', function () {
+    fingerprintHacker(function () {
+      client.publish('reedleoneil/hackers/' + hackerFingerprint.fingerprint, JSON.stringify(hackerFingerprint));
+    });
+  });
 
   client.on("message", function (topic, payload) {
+    console.log([topic, payload].join(": "));
     log([topic, payload].join(": "));
 
     try {
@@ -212,13 +246,18 @@
             insertProcessTable(item.name, item.pid, item.user, item.cpu, item.mem);
           });
         break;
+        default:
+          if (topic.startsWith("reedleoneil/hackers/")) {
+            insertHackersTable(message);
+          }
+        break;
       }
     }
     catch(err) {
       log(err.message);
     }
 
-  })
+  });
 
   function log(data) {
     document.getElementById("logs").value += data;
@@ -294,6 +333,25 @@
     //cellCpu.innerHTML = cpu;
     cellMem.innerHTML = formatBytes(mem);
   }
+
+  function insertHackersTable(hacker) {
+    var table = document.getElementById("hackers-table");
+    var row = table.insertRow(-1);
+    var fingerprintCell = row.insertCell(0);
+    var ipCell = row.insertCell(1);
+    var locationCell = row.insertCell(2);
+    var ispCell = row.insertCell(3);
+    var browserCell = row.insertCell(4);
+    var osCell = row.insertCell(5);
+    var statusCell = row.insertCell(6);
+    fingerprintCell.innerHTML = hacker.fingerprint;
+    ipCell.innerHTML = hacker.ipData.query;
+    locationCell.innerHTML = hacker.ipData.city + ' ' + hacker.ipData.countryCode;
+    ispCell.innerHTML = hacker.ipData.isp;
+    browserCell.innerHTML = hacker.browserData.browser.name + ' ' + hacker.browserData.browser.major;
+    osCell.innerHTML = hacker.browserData.os.name + ' ' + hacker.browserData.os.version;
+    statusCell.innerHTML = '';
+  }
   </script>
 
   <div class="row">
@@ -354,51 +412,15 @@
     <div class="col-sm-6 px-1">
       <div>
         <div class="re-border">
-          <table style="width:100%">
+          <table id="hackers-table">
             <tr>
               <th>Fingerprint</th>
               <th>IP Address</th>
               <th>Location</th>
-              <th>Organization</th>
+              <th>ISP</th>
               <th>Browser</th>
               <th>Operating System</th>
               <th>Status</th>
-            </tr>
-            <tr>
-              <td>1234</td>
-              <td>152.16.2.5</td>
-              <td>Minalin, PH</td>
-              <td>PLDT</td>
-              <td>Firefox</td>
-              <td>Ubuntu 20.20</td>
-              <td>Online</td>
-            </tr>
-            <tr>
-              <td>1234</td>
-              <td>152.16.2.5</td>
-              <td>Minalin, PH</td>
-              <td>PLDT</td>
-              <td>Firefox</td>
-              <td>Ubuntu 20.20</td>
-              <td>Online</td>
-            </tr>
-            <tr>
-              <td>1234</td>
-              <td>152.16.2.5</td>
-              <td>Minalin, PH</td>
-              <td>PLDT</td>
-              <td>Firefox</td>
-              <td>Ubuntu 20.20</td>
-              <td>Online</td>
-            </tr>
-            <tr>
-              <td>1234</td>
-              <td>152.16.2.5</td>
-              <td>Minalin, PH</td>
-              <td>PLDT</td>
-              <td>Firefox</td>
-              <td>Ubuntu 20.20</td>
-              <td>Online</td>
             </tr>
           </table>
           <div class="note">Note: These are list of unique users that accessed this site including you.</div>
