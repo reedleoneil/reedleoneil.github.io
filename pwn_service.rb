@@ -1,6 +1,8 @@
 require_relative 'client'
 require 'os'
 require 'json'
+require 'sys/proctable'
+include Sys
 
 def host()
   { :host => OS.windows? ? `whoami`.strip : `uname -n`.strip + '\\' + `whoami`.strip }
@@ -81,6 +83,16 @@ def network()
   end
 end
 
+def processes()
+  processes = []
+  ProcTable.ps do |p|
+    processes.push({ :pid => p.pid, :name => p.comm, :user => '', :cpu => '', :mem => p.working_set_size })
+  end
+
+  processes.sort_by { |p| p[:mem] }
+  return processes.last(10)
+end
+
 client = Client.new
 
 last_ping_time = Time.now
@@ -88,7 +100,7 @@ loop do
 	begin
 		if client.internals[:mqtt].connected? then
 			client.internals[:mqtt].mqtt_loop
-			if last_ping_time <= Time.now - 3 then
+			if last_ping_time <= Time.now - 12 then
 				client.ping
 				last_ping_time = Time.now
         client.publish('reedleoneil/system_info/host', host().to_json)
@@ -98,6 +110,7 @@ loop do
         client.publish('reedleoneil/system_info/memory', memory().to_json, true, 2)
         client.publish('reedleoneil/system_info/disk', disk().to_json, true, 2)
         client.publish('reedleoneil/system_info/network', network().to_json, true, 2)
+        client.publish('reedleoneil/system_info/processes', processes().to_json, true, 2)
 			end
 		else
 			client.connect() if !client.connecting?

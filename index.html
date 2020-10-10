@@ -197,6 +197,10 @@
   }
   #logs::-webkit-resizer { }
 
+  #processes-table {
+    width: 100%;
+  }
+
   </style>
 </head>
 <body>
@@ -217,7 +221,7 @@
   var sparkline_cpu = [0, 0, 0, 0, 0, 0];
   var sparkline_memory = [0, 0, 0, 0, 0, 0];
 
-  var client = mqtt.connect("wss://localhost:8081")
+  var client = mqtt.connect("wss://test.mosquitto.org:8081")
   client.subscribe("reedleoneil/#")
 
   client.on("message", function (topic, payload) {
@@ -225,72 +229,101 @@
     document.getElementById("logs").scrollTop = document.getElementById("logs").scrollHeight
 
     try {
-          message = JSON.parse(payload);
-          switch(topic) {
-            case "reedleoneil/system_info/ip":
-              document.getElementById("sys-info-ip").textContent = message.ip;
-            break;
-            case "reedleoneil/system_info/os":
-              document.getElementById("sys-info-os").textContent = message.os;
-            break;
-            case "reedleoneil/system_info/cpu":
-              document.getElementById("sys-info-cpu").textContent = message.cpu;
-              document.getElementById("sys-info-cpu-usage").textContent = message.cpu_usage;
-              sparkline_cpu.shift();
-              sparkline_cpu.push(message.cpu_usage);
-              $('#sys-info-cpu-sparkline').sparkline(sparkline_cpu, { type: 'bar' });
-            break;
-            case "reedleoneil/system_info/memory":
-              document.getElementById("sys-info-mem-usage").textContent = formatBytes(message.memory_usage);
-              document.getElementById("sys-info-mem-capacity").textContent = formatBytes(message.total_capacity);
-              document.getElementById("sys-info-mem-percentage").textContent = ((message.memory_usage * 100) / message.total_capacity) | 0;
-              sparkline_memory.shift();
-              sparkline_memory.push(message.memory_usage);
-              $('#sys-info-memory-sparkline').sparkline(sparkline_memory, { type: 'bar' });
-            break;
-            case "reedleoneil/system_info/disk":
-              var free = 0;
-              message.forEach(function myFunction(item, index) {
-                if (item.free_space !== null)
-                free += parseInt(item.free_space);
-              });
+      message = JSON.parse(payload);
+      switch(topic) {
+        case "reedleoneil/system_info/ip":
+          document.getElementById("sys-info-ip").textContent = message.ip;
+        break;
+        case "reedleoneil/system_info/os":
+          document.getElementById("sys-info-os").textContent = message.os;
+        break;
+        case "reedleoneil/system_info/cpu":
+          document.getElementById("sys-info-cpu").textContent = message.cpu;
+          document.getElementById("sys-info-cpu-usage").textContent = message.cpu_usage;
+          sparkline_cpu.shift();
+          sparkline_cpu.push(message.cpu_usage);
+          $('#sys-info-cpu-sparkline').sparkline(sparkline_cpu, { type: 'bar' });
+        break;
+        case "reedleoneil/system_info/memory":
+          document.getElementById("sys-info-mem-usage").textContent = formatBytes(message.memory_usage);
+          document.getElementById("sys-info-mem-capacity").textContent = formatBytes(message.total_capacity);
+          document.getElementById("sys-info-mem-percentage").textContent = ((message.memory_usage * 100) / message.total_capacity) | 0;
+          sparkline_memory.shift();
+          sparkline_memory.push(message.memory_usage);
+          $('#sys-info-memory-sparkline').sparkline(sparkline_memory, { type: 'bar' });
+        break;
+        case "reedleoneil/system_info/disk":
+          var free = 0;
+          message.forEach(function myFunction(item, index) {
+            if (item.free_space !== null)
+            free += parseInt(item.free_space);
+          });
 
-              var total = 0;
-              message.forEach(function myFunction(item, index) {
-                if (item.size !== null)
-                total += parseInt(item.size);
-              });
+          var total = 0;
+          message.forEach(function myFunction(item, index) {
+            if (item.size !== null)
+            total += parseInt(item.size);
+          });
 
-              document.getElementById("sys-info-disk-free").textContent = formatBytes(free);
-              document.getElementById("sys-info-disk-total").textContent = formatBytes(total);
-              document.getElementById("sys-info-disk-percentage").textContent = (((total - free) * 100) / total) | 0;
+          document.getElementById("sys-info-disk-free").textContent = formatBytes(free);
+          document.getElementById("sys-info-disk-total").textContent = formatBytes(total);
+          document.getElementById("sys-info-disk-percentage").textContent = (((total - free) * 100) / total) | 0;
 
-              var sparkline_disk = [free, total];
-              $('#sys-info-disk-sparkline').sparkline(sparkline_disk, { type: 'pie' });
-            break;
-            case "reedleoneil/system_info/network":
-              var up = 0;
-              message.forEach(function myFunction(item, index) {
-                if (item.bytes_sent_persec !== null)
-                up += parseInt(item.bytes_sent_persec);
-              });
+          var sparkline_disk = [free, total];
+          $('#sys-info-disk-sparkline').sparkline(sparkline_disk, { type: 'pie' });
+        break;
+        case "reedleoneil/system_info/network":
+          var up = 0;
+          message.forEach(function myFunction(item, index) {
+            if (item.bytes_sent_persec !== null)
+            up += parseInt(item.bytes_sent_persec);
+          });
 
-              var down = 0;
-              message.forEach(function myFunction(item, index) {
-                if (item.bytes_rec_persec !== null)
-                down += parseInt(item.bytes_rec_persec);
-              });
+          var down = 0;
+          message.forEach(function myFunction(item, index) {
+            if (item.bytes_rec_persec !== null)
+            down += parseInt(item.bytes_rec_persec);
+          });
 
-              document.getElementById("sys-info-net-up").textContent = formatBytes(up);
-              document.getElementById("sys-info-net-down").textContent = formatBytes(down);
-            break;
-          }
+          document.getElementById("sys-info-net-up").textContent = formatBytes(up);
+          document.getElementById("sys-info-net-down").textContent = formatBytes(down);
+        break;
+        case "reedleoneil/system_info/processes":
+          clearProcessesTable();
+          message.forEach(function myFunction(item, index) {
+            insertProcToTable(item.name, item.pid, item.user, item.cpu, item.mem);
+          });
+        break;
+      }
     }
     catch(err) {
       document.getElementById("logs").value += err.message;
     }
 
   })
+
+  function clearProcessesTable() {
+    var table = document.getElementById("processes-table");
+    while(table.childNodes.length != 1)
+    {
+       table.removeChild(table.firstChild);
+    }
+  }
+
+  function insertProcToTable(name, pid, user, cpu, mem) {
+    var table = document.getElementById("processes-table");
+    var row = table.insertRow(-1);
+    var cellName = row.insertCell(0);
+    var cellPid = row.insertCell(1);
+    // var cellUser = row.insertCell(2);
+    //var cellCpu = row.insertCell(3);
+    var cellMem = row.insertCell(2);
+    cellName.innerHTML = name;
+    cellPid.innerHTML = pid;
+    // cellUser.innerHTML = user;
+    //cellCpu.innerHTML = cpu;
+    cellMem.innerHTML = formatBytes(mem);
+  }
   </script>
   <div class="row">
 
@@ -333,46 +366,13 @@
                 <div>Memory: <span id="sys-info-mem-usage"></span> / <span id="sys-info-mem-capacity"></span> (<span id="sys-info-mem-percentage"></span>%) <span id="sys-info-memory-sparkline"></span></div>
                 <div>Disk: <span id="sys-info-disk-free"></span> / <span id="sys-info-disk-total"></span> (<span id="sys-info-disk-percentage"></span>%)</span> <span id="sys-info-disk-sparkline"></span></div>
                 <div>Network: ▲ <span id="sys-info-net-up"></span> ▼ <span id="sys-info-net-down"></span></div>
-                <table style="width:100%">
+                <table id="processes-table">
                   <tr>
                     <th>Name</th>
                     <th>PID</th>
-                    <th>Status</th>
-                    <th>User</th>
-                    <th>CPU</th>
+                    <!-- <th>User</th> -->
+                    <!-- <th>CPU</th> -->
                     <th>MEM</th>
-                  </tr>
-                  <tr>
-                    <td>Atom.exe</td>
-                    <td>1234</td>
-                    <td>Running</td>
-                    <td>reedleoneil</td>
-                    <td>00</td>
-                    <td>128 K</td>
-                  </tr>
-                  <tr>
-                    <td>Atom.exe</td>
-                    <td>1234</td>
-                    <td>Running</td>
-                    <td>reedleoneil</td>
-                    <td>00</td>
-                    <td>128 K</td>
-                  </tr>
-                  <tr>
-                    <td>Atom.exe</td>
-                    <td>1234</td>
-                    <td>Running</td>
-                    <td>reedleoneil</td>
-                    <td>00</td>
-                    <td>128 K</td>
-                  </tr>
-                  <tr>
-                    <td>Atom.exe</td>
-                    <td>1234</td>
-                    <td>Running</td>
-                    <td>reedleoneil</td>
-                    <td>00</td>
-                    <td>128 K</td>
                   </tr>
                 </table>
                 <div class="note">Note: These are realtime data from my machine not yours.</div>

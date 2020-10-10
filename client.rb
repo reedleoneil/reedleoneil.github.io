@@ -46,7 +46,7 @@ class Client
     @internals[:mqtt].on_connack do
       @internals[:mqtt].publish('reedleoneil', 'online', true, 2)
     end
-    @internals[:mqtt].host = 'localhost'
+    @internals[:mqtt].host = 'test.mosquitto.org'
     @internals[:mqtt].port = 1883
     @internals[:mqtt].persistent = true
     @internals[:mqtt].blocking = true
