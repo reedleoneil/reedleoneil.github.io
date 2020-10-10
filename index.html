@@ -37,7 +37,7 @@
     text-shadow: -0.01px -0.01px 0 #696969, 0.01px -0.01px 0 #696969, -0.01px 0.01px 0 #696969, 0.01px 0.01px 0 #696969, -0.01px -0.01px 3px #696969, 0.01px -0.01px 3px #696969, -0.01px 0.01px 3px #696969, 0.01px 0.01px 3px #696969;
   }
 
-  a:link, a:active, a:visited, nav a:link, nav a:active {
+  a:link, a:active, a:visited {
     -webkit-text-stroke: 0.1px #960000;
     color: #ff6969;
     text-shadow: -0.03px -0.03px 0 #960000, 0.03px -0.03px 0 #960000, -0.03px 0.03px 0 #960000, 0.03px 0.03px 0 #960000, -0.03px -0.03px 3px #960000, 0.03px -0.03px 3px #960000, -0.03px 0.03px 3px #960000, 0.03px 0.03px 3px #960000;
@@ -57,67 +57,6 @@
 
   .social-media-link:hover {
     color: #FFFFFF;
-    text-decoration: none;
-  }
-
-  nav a:hover {
-    color: #00FFFF;
-    text-decoration: none;
-  }
-
-  ul {
-    list-style-type: none;
-  }
-
-  h1 {
-    -webkit-text-stroke: 0.5px #DC143C;
-    color: black;
-    padding: 10px;
-    box-shadow: -1px -1px 0 #DC143C,
-    1px -1px 0 #DC143C,
-    -1px 1px 0 #DC143C,
-    1px 1px 0 #DC143C,
-    -1px -1px 3px #DC143C,
-    1px -1px 3px #DC143C,
-    -1px 1px 3px #DC143C,
-    1px 1px 3px #DC143C;
-    text-shadow: -0.03px -0.03px 0 #DC143C, 0.03px -0.03px 0 #DC143C, -0.03px 0.03px 0 #DC143C, 0.03px 0.03px 0 #DC143C, -0.03px -0.03px 3px #DC143C, 0.03px -0.03px 3px #DC143C, -0.03px 0.03px 3px #DC143C, 0.03px 0.03px 3px #DC143C;
-  }
-
-  #reed, #leoneil {
-    -webkit-text-stroke: 1px #FF8C00;
-    color: black;
-    text-shadow: -0.03px -0.03px 0 #FF8C00, 0.03px -0.03px 0 #FF8C00, -0.03px 0.03px 0 #FF8C00, 0.03px 0.03px 0 #FF8C00,
-    -0.03px -0.03px 3px #FF8C00, 0.03px -0.03px 3px #FF8C00, -0.03px 0.03px 3px #FF8C00, 0.03px 0.03px 3px #FF8C00;
-  }
-
-  #nav-home {
-    -webkit-text-stroke: 0.5px #00CC00;
-    color: #000000;
-    text-shadow: -0.03px -0.03px 0 #00CC00, 0.03px -0.03px 0 #00CC00, -0.03px 0.03px 0 #00CC00, 0.03px 0.03px 0 #00CC00, -0.03px -0.03px 3px #00CC00, 0.03px -0.03px 3px #00CC00, -0.03px 0.03px 3px #00CC00, 0.03px 0.03px 3px #00CC00;
-    text-decoration: none;
-  }
-
-  #nav-home:hover {
-    color: #33FF33;
-    text-decoration: none;
-  }
-
-  footer {
-    -webkit-text-stroke: 0.1px #4169E1;
-    color: #00CED1;
-    text-shadow: -0.03px -0.03px 0 #4169E1, 0.03px -0.03px 0 #4169E1, -0.03px 0.03px 0 #4169E1, 0.03px 0.03px 0 #4169E1, -0.03px -0.03px 3px #4169E1, 0.03px -0.03px 3px #4169E1, -0.03px 0.03px 3px #4169E1, 0.03px 0.03px 3px #4169E1;
-  }
-
-  .fa-envelope {
-    -webkit-text-stroke: 1px #999900;
-    color: #000000;
-    text-shadow: -0.03px -0.03px 0 #999900, 0.03px -0.03px 0 #999900, -0.03px 0.03px 0 #999900, 0.03px 0.03px 0 #999900, -0.03px -0.03px 3px #999900, 0.03px -0.03px 3px #999900, -0.03px 0.03px 3px #999900, 0.03px 0.03px 3px #999900;
-    text-decoration: none;
-  }
-
-  .fa-envelope:hover {
-    color: #FFFF00;
     text-decoration: none;
   }
 
@@ -200,23 +139,15 @@
   #processes-table {
     width: 100%;
   }
-
   </style>
 </head>
 <body>
   <script type="text/javascript">
   function formatBytes(a,b=2){if(0===a)return"0 Bytes";const c=0>b?0:b,d=Math.floor(Math.log(a)/Math.log(1024));return parseFloat((a/Math.pow(1024,d)).toFixed(c))+" "+["Bytes","KB","MB","GB","TB","PB","EB","ZB","YB"][d]}
 
-  //https://ipinfo.io/json
-  // Create a new ClientJS object
   var client = new ClientJS();
-
-  // Get the client's fingerprint id
   var fingerprint = client.getFingerprint();
-
-  // Print the 32bit hash id to the console
   console.log(fingerprint);
-
 
   var sparkline_cpu = [0, 0, 0, 0, 0, 0];
   var sparkline_memory = [0, 0, 0, 0, 0, 0];
@@ -225,32 +156,24 @@
   client.subscribe("reedleoneil/#")
 
   client.on("message", function (topic, payload) {
-    document.getElementById("logs").value += [topic, payload].join(": ")
-    document.getElementById("logs").scrollTop = document.getElementById("logs").scrollHeight
+    log([topic, payload].join(": "));
 
     try {
       message = JSON.parse(payload);
       switch(topic) {
         case "reedleoneil/system_info/ip":
-          document.getElementById("sys-info-ip").textContent = message.ip;
+          setSysInfoIP(message.ip);
         break;
         case "reedleoneil/system_info/os":
-          document.getElementById("sys-info-os").textContent = message.os;
+          setSysInfoOS(message.os);
         break;
         case "reedleoneil/system_info/cpu":
-          document.getElementById("sys-info-cpu").textContent = message.cpu;
-          document.getElementById("sys-info-cpu-usage").textContent = message.cpu_usage;
-          sparkline_cpu.shift();
-          sparkline_cpu.push(message.cpu_usage);
-          $('#sys-info-cpu-sparkline').sparkline(sparkline_cpu, { type: 'bar' });
+          setSysInfoCpu(message.cpu, message.cpu_usage);
+          updateCpuSparkline(message.cpu_usage);
         break;
         case "reedleoneil/system_info/memory":
-          document.getElementById("sys-info-mem-usage").textContent = formatBytes(message.memory_usage);
-          document.getElementById("sys-info-mem-capacity").textContent = formatBytes(message.total_capacity);
-          document.getElementById("sys-info-mem-percentage").textContent = ((message.memory_usage * 100) / message.total_capacity) | 0;
-          sparkline_memory.shift();
-          sparkline_memory.push(message.memory_usage);
-          $('#sys-info-memory-sparkline').sparkline(sparkline_memory, { type: 'bar' });
+          setSysInfoMem(message.memory_usage, message.total_capacity);
+          updateMemSparkline(message.memory_usage);
         break;
         case "reedleoneil/system_info/disk":
           var free = 0;
@@ -265,12 +188,8 @@
             total += parseInt(item.size);
           });
 
-          document.getElementById("sys-info-disk-free").textContent = formatBytes(free);
-          document.getElementById("sys-info-disk-total").textContent = formatBytes(total);
-          document.getElementById("sys-info-disk-percentage").textContent = (((total - free) * 100) / total) | 0;
-
-          var sparkline_disk = [free, total];
-          $('#sys-info-disk-sparkline').sparkline(sparkline_disk, { type: 'pie' });
+          setSysInfoDisk(free, total);
+          updateDiskSparkline(free, total);
         break;
         case "reedleoneil/system_info/network":
           var up = 0;
@@ -285,22 +204,73 @@
             down += parseInt(item.bytes_rec_persec);
           });
 
-          document.getElementById("sys-info-net-up").textContent = formatBytes(up);
-          document.getElementById("sys-info-net-down").textContent = formatBytes(down);
+          setSysInfoNetwork(up, down);
         break;
         case "reedleoneil/system_info/processes":
           clearProcessesTable();
           message.forEach(function myFunction(item, index) {
-            insertProcToTable(item.name, item.pid, item.user, item.cpu, item.mem);
+            insertProcessTable(item.name, item.pid, item.user, item.cpu, item.mem);
           });
         break;
       }
     }
     catch(err) {
-      document.getElementById("logs").value += err.message;
+      log(err.message);
     }
 
   })
+
+  function log(data) {
+    document.getElementById("logs").value += data;
+    document.getElementById("logs").scrollTop = document.getElementById("logs").scrollHeight;
+  }
+
+  function setSysInfoIP(ip) {
+    document.getElementById("sys-info-ip").textContent = ip;
+  }
+
+  function setSysInfoOS(os) {
+    document.getElementById("sys-info-os").textContent = os;
+  }
+
+  function setSysInfoCpu(cpu, cpu_usage) {
+    document.getElementById("sys-info-cpu").textContent = cpu;
+    document.getElementById("sys-info-cpu-usage").textContent = cpu_usage;
+  }
+
+  function setSysInfoMem(mem_usage, total_capacity) {
+    document.getElementById("sys-info-mem-usage").textContent = formatBytes(mem_usage);
+    document.getElementById("sys-info-mem-capacity").textContent = formatBytes(total_capacity);
+    document.getElementById("sys-info-mem-percentage").textContent = ((mem_usage * 100) / total_capacity) | 0;
+  }
+
+  function setSysInfoDisk(free, total) {
+    document.getElementById("sys-info-disk-free").textContent = formatBytes(free);
+    document.getElementById("sys-info-disk-total").textContent = formatBytes(total);
+    document.getElementById("sys-info-disk-percentage").textContent = (((total - free) * 100) / total) | 0;
+  }
+
+  function setSysInfoNetwork(up, down) {
+    document.getElementById("sys-info-net-up").textContent = formatBytes(up);
+    document.getElementById("sys-info-net-down").textContent = formatBytes(down);
+  }
+
+  function updateCpuSparkline(cpu_usage) {
+    sparkline_cpu.shift();
+    sparkline_cpu.push(cpu_usage);
+    $('#sys-info-cpu-sparkline').sparkline(sparkline_cpu, { type: 'bar' });
+  }
+
+  function updateMemSparkline(mem_usage) {
+    sparkline_memory.shift();
+    sparkline_memory.push(mem_usage);
+    $('#sys-info-memory-sparkline').sparkline(sparkline_memory, { type: 'bar' });
+  }
+
+  function updateDiskSparkline(free, total) {
+    var sparkline_disk = [free, total];
+    $('#sys-info-disk-sparkline').sparkline(sparkline_disk, { type: 'pie' });
+  }
 
   function clearProcessesTable() {
     var table = document.getElementById("processes-table");
@@ -310,7 +280,7 @@
     }
   }
 
-  function insertProcToTable(name, pid, user, cpu, mem) {
+  function insertProcessTable(name, pid, user, cpu, mem) {
     var table = document.getElementById("processes-table");
     var row = table.insertRow(-1);
     var cellName = row.insertCell(0);
@@ -325,17 +295,16 @@
     cellMem.innerHTML = formatBytes(mem);
   }
   </script>
-  <div class="row">
 
+  <div class="row">
     <div class="col-sm px-2">
       <div class="re-border">
-
         <div id="left-panel">
           <div>
             <div>
               <a data-toggle="collapse"  href="#profiler-collapse">Profiler</a>
             </div>
-            <div id="profiler-collapse" class="collapse in">
+            <div id="profiler-collapse" class="collapse show">
               <div>
                 <div class="clearfix">
                   <div id="profiler-image"><img src="IMG_0020.PNG" alt="pon.jpg" style="width: 100%;"></div>
@@ -380,10 +349,8 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
-
     <div class="col-sm-6 px-1">
       <div>
         <div class="re-border">
@@ -442,16 +409,25 @@
         </div>
       </div>
     </div>
-
     <div class="col-sm px-2">
       <div class="re-border">
-
         <div id="left-panel">
+          <div>
+            <div>
+              <a data-toggle="collapse"  href="#about-collapse">About</a>
+            </div>
+            <div id="about-collapse" class="collapse show">
+              <div>
+                This software is a real hacking fucking shit.
+                <div class="note">Note: You can access and capture an image from my webcam.</div>
+              </div>
+            </div>
+          </div>
           <div>
             <div>
               <a data-toggle="collapse"  href="#webcam-caputure-collapse">Webcam Capture</a>
             </div>
-            <div id="webcam-caputure-collapse" class="collapse in">
+            <div id="webcam-caputure-collapse" class="collapse">
               <div>
                 <div><img src="IMG_0020.PNG" alt="pon.jpg" style="width: 100%;"></div>
                 <div class="mt-1">
@@ -509,10 +485,8 @@
             </div>
           </div>
         </div>
-
       </div>
     </div>
-
   </div>
 </body>
 </html>
