@@ -1,621 +1,404 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="description" content="reed leoneil">
-    <meta name="keywords" content="reed leoneil">
-    <meta name="author" content="reed leoneil">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>reedleoneil</title>
-    <link rel="icon" type="image/png" href="https://reedleoneil.github.io/IMG_0020.PNG">
-    <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-    <style>
-        body {
-            font-family: monospace;
-            width: 100%;
-            margin: 0 auto 15px;
-            max-width: 50em;
-            padding-left: 15px;
-            padding-right: 15px;
-            background-image: linear-gradient(to right, #330033, #000000, #330033);
-            -webkit-text-stroke: 0.1px #C0C0C0;
-            color: #C0C0C0;
-            text-shadow: -0.01px -0.01px 0 #696969, 0.01px -0.01px 0 #696969, -0.01px 0.01px 0 #696969, 0.01px 0.01px 0 #696969, -0.01px -0.01px 3px #696969, 0.01px -0.01px 3px #696969, -0.01px 0.01px 3px #696969, 0.01px 0.01px 3px #696969;
-            font-size: 111%;
-        }
+  <meta charset="UTF-8">
+  <meta name="description" content="reed leoneil">
+  <meta name="keywords" content="reed leoneil">
+  <meta name="author" content="reed leoneil">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>reedleoneil</title>
+  <link rel="icon" type="image/png" href="https://reedleoneil.github.io/IMG_0020.PNG">
+  <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
-        a:link, a:active, a:visited, nav a:link, nav a:active {
-            -webkit-text-stroke: 0.5px #008080;
-            color: #000000;
-            text-shadow: -0.03px -0.03px 0 #008080, 0.03px -0.03px 0 #008080, -0.03px 0.03px 0 #008080, 0.03px 0.03px 0 #008080, -0.03px -0.03px 3px #008080, 0.03px -0.03px 3px #008080, -0.03px 0.03px 3px #008080, 0.03px 0.03px 3px #008080;
-            text-decoration: none;
-        }
+  <!-- CSS only -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 
-        a:hover {
-            color: #00FFFF;
-            text-decoration: none;
-        }
+  <!-- JS, Popper.js, and jQuery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 
-        nav a:hover {
-            color: #00FFFF;
-            text-decoration: none;
-        }
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ClientJS/0.1.11/client.min.js" integrity="sha512-MwKUpp841sot4mmGDfVcpJxb4vcaYHnpyn17CTHT3RUm585khw5gnRM6xwDm15aJ3sfpf6d4P8FLLfQKAo3mfA==" crossorigin="anonymous"></script>
 
-        ul {
-            list-style-type: none;
-        }
+  <style>
+  body {
+    font-family: monospace;
+    width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    background-image: linear-gradient(to right, #000000, #000000, #000000);
+    -webkit-text-stroke: 0.1px #C0C0C0;
+    color: #C0C0C0;
+    text-shadow: -0.01px -0.01px 0 #696969, 0.01px -0.01px 0 #696969, -0.01px 0.01px 0 #696969, 0.01px 0.01px 0 #696969, -0.01px -0.01px 3px #696969, 0.01px -0.01px 3px #696969, -0.01px 0.01px 3px #696969, 0.01px 0.01px 3px #696969;
+  }
 
-        h1 {
-            -webkit-text-stroke: 0.5px #DC143C;
-            color: black;
-            text-shadow: -0.03px -0.03px 0 #DC143C, 0.03px -0.03px 0 #DC143C, -0.03px 0.03px 0 #DC143C, 0.03px 0.03px 0 #DC143C, -0.03px -0.03px 3px #DC143C, 0.03px -0.03px 3px #DC143C, -0.03px 0.03px 3px #DC143C, 0.03px 0.03px 3px #DC143C;
-        }
+  a:link, a:active, a:visited, nav a:link, nav a:active {
+    -webkit-text-stroke: 0.1px #960000;
+    color: #ff6969;
+    text-shadow: -0.03px -0.03px 0 #960000, 0.03px -0.03px 0 #960000, -0.03px 0.03px 0 #960000, 0.03px 0.03px 0 #960000, -0.03px -0.03px 3px #960000, 0.03px -0.03px 3px #960000, -0.03px 0.03px 3px #960000, 0.03px 0.03px 3px #960000;
+    text-decoration: none;
+  }
 
-        #reed, #leoneil {
-            -webkit-text-stroke: 1px #FF8C00;
-            color: black;
-            text-shadow: -0.03px -0.03px 0 #FF8C00, 0.03px -0.03px 0 #FF8C00, -0.03px 0.03px 0 #FF8C00, 0.03px 0.03px 0 #FF8C00,
-                         -0.03px -0.03px 3px #FF8C00, 0.03px -0.03px 3px #FF8C00, -0.03px 0.03px 3px #FF8C00, 0.03px 0.03px 3px #FF8C00;
-        }
+  a:hover {
+    color: #ff0000;
+    text-decoration: none;
+  }
 
-        #nav-home {
-            -webkit-text-stroke: 0.5px #00CC00;
-            color: #000000;
-            text-shadow: -0.03px -0.03px 0 #00CC00, 0.03px -0.03px 0 #00CC00, -0.03px 0.03px 0 #00CC00, 0.03px 0.03px 0 #00CC00, -0.03px -0.03px 3px #00CC00, 0.03px -0.03px 3px #00CC00, -0.03px 0.03px 3px #00CC00, 0.03px 0.03px 3px #00CC00;
-            text-decoration: none;
-        }
+  .social-media-link:link, .social-media-link:active, .social-media-link:visited {
+    -webkit-text-stroke: 0.1px #C0C0C0;
+    color: #C0C0C0;
+    text-shadow: -0.01px -0.01px 0 #696969, 0.01px -0.01px 0 #696969, -0.01px 0.01px 0 #696969, 0.01px 0.01px 0 #696969, -0.01px -0.01px 3px #696969, 0.01px -0.01px 3px #696969, -0.01px 0.01px 3px #696969, 0.01px 0.01px 3px #696969;
+  }
 
-        #nav-home:hover {
-            color: #33FF33;
-            text-decoration: none;
-        }
+  .social-media-link:hover {
+    color: #FFFFFF;
+    text-decoration: none;
+  }
 
-        footer {
-            -webkit-text-stroke: 0.1px #4169E1;
-            color: #00CED1;
-            text-shadow: -0.03px -0.03px 0 #4169E1, 0.03px -0.03px 0 #4169E1, -0.03px 0.03px 0 #4169E1, 0.03px 0.03px 0 #4169E1, -0.03px -0.03px 3px #4169E1, 0.03px -0.03px 3px #4169E1, -0.03px 0.03px 3px #4169E1, 0.03px 0.03px 3px #4169E1;
-        }
+  nav a:hover {
+    color: #00FFFF;
+    text-decoration: none;
+  }
 
-        .fa-envelope {
-            -webkit-text-stroke: 1px #999900;
-            color: #000000;
-            text-shadow: -0.03px -0.03px 0 #999900, 0.03px -0.03px 0 #999900, -0.03px 0.03px 0 #999900, 0.03px 0.03px 0 #999900, -0.03px -0.03px 3px #999900, 0.03px -0.03px 3px #999900, -0.03px 0.03px 3px #999900, 0.03px 0.03px 3px #999900;
-            text-decoration: none;
-        }
+  ul {
+    list-style-type: none;
+  }
 
-        .fa-envelope:hover {
-            color: #FFFF00;
-            text-decoration: none;
-        }
-    </style>
+  h1 {
+    -webkit-text-stroke: 0.5px #DC143C;
+    color: black;
+    padding: 10px;
+    box-shadow: -1px -1px 0 #DC143C,
+    1px -1px 0 #DC143C,
+    -1px 1px 0 #DC143C,
+    1px 1px 0 #DC143C,
+    -1px -1px 3px #DC143C,
+    1px -1px 3px #DC143C,
+    -1px 1px 3px #DC143C,
+    1px 1px 3px #DC143C;
+    text-shadow: -0.03px -0.03px 0 #DC143C, 0.03px -0.03px 0 #DC143C, -0.03px 0.03px 0 #DC143C, 0.03px 0.03px 0 #DC143C, -0.03px -0.03px 3px #DC143C, 0.03px -0.03px 3px #DC143C, -0.03px 0.03px 3px #DC143C, 0.03px 0.03px 3px #DC143C;
+  }
+
+  #reed, #leoneil {
+    -webkit-text-stroke: 1px #FF8C00;
+    color: black;
+    text-shadow: -0.03px -0.03px 0 #FF8C00, 0.03px -0.03px 0 #FF8C00, -0.03px 0.03px 0 #FF8C00, 0.03px 0.03px 0 #FF8C00,
+    -0.03px -0.03px 3px #FF8C00, 0.03px -0.03px 3px #FF8C00, -0.03px 0.03px 3px #FF8C00, 0.03px 0.03px 3px #FF8C00;
+  }
+
+  #nav-home {
+    -webkit-text-stroke: 0.5px #00CC00;
+    color: #000000;
+    text-shadow: -0.03px -0.03px 0 #00CC00, 0.03px -0.03px 0 #00CC00, -0.03px 0.03px 0 #00CC00, 0.03px 0.03px 0 #00CC00, -0.03px -0.03px 3px #00CC00, 0.03px -0.03px 3px #00CC00, -0.03px 0.03px 3px #00CC00, 0.03px 0.03px 3px #00CC00;
+    text-decoration: none;
+  }
+
+  #nav-home:hover {
+    color: #33FF33;
+    text-decoration: none;
+  }
+
+  footer {
+    -webkit-text-stroke: 0.1px #4169E1;
+    color: #00CED1;
+    text-shadow: -0.03px -0.03px 0 #4169E1, 0.03px -0.03px 0 #4169E1, -0.03px 0.03px 0 #4169E1, 0.03px 0.03px 0 #4169E1, -0.03px -0.03px 3px #4169E1, 0.03px -0.03px 3px #4169E1, -0.03px 0.03px 3px #4169E1, 0.03px 0.03px 3px #4169E1;
+  }
+
+  .fa-envelope {
+    -webkit-text-stroke: 1px #999900;
+    color: #000000;
+    text-shadow: -0.03px -0.03px 0 #999900, 0.03px -0.03px 0 #999900, -0.03px 0.03px 0 #999900, 0.03px 0.03px 0 #999900, -0.03px -0.03px 3px #999900, 0.03px -0.03px 3px #999900, -0.03px 0.03px 3px #999900, 0.03px 0.03px 3px #999900;
+    text-decoration: none;
+  }
+
+  .fa-envelope:hover {
+    color: #FFFF00;
+    text-decoration: none;
+  }
+
+  .re-border {
+    box-shadow: -1px -1px 0 #696969,
+    1px -1px 0 #696969,
+    -1px 1px 0 #696969,
+    1px 1px 0 #696969,
+    -1px -1px 3px #696969,
+    1px -1px 3px #696969,
+    -1px 1px 3px #696969,
+    1px 1px 3px #696969;
+
+    padding: 5px 5px;
+  }
+
+  #profiler-image {
+    width: 30%;
+    float: left;
+  }
+
+  #profiler-info {
+    width: 70%;
+    float: left;
+    padding-left: 5px;
+  }
+
+  button {
+    color: white;
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: 2px solid #4CAF50;
+  }
+
+  select {
+    color: white;
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: 2px solid #4CAF50;
+  }
+
+  .note {
+    font-size: xx-small;
+    text-align: right;
+  }
+
+  </style>
 </head>
 <body>
-    <header>
-        <h1></h1>
-        <h2><span id="reed"></span><span id="sun_moon">🔴</span><span id="leoneil"></span></h2>
-    </header>
-    <nav></nav>
-    <div></div>
-    <main></main>
-    <footer></footer>
-    <!--Credits to marbun 1987.-->
-    <iframe width="0" height="0" src="https://www.youtube.com/embed/Y5MXxDxy-pA?autoplay=1" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  <script type="text/javascript">
+  //https://ipinfo.io/json
+      // Create a new ClientJS object
+    var client = new ClientJS();
 
-    <script type="text/javascript">
-        function spanitize(str, element) {
-            for (var r = 0; r < str.length; r++) {
-                var span = document.createElement("span");
-                span.classList.add("char");
-                var node = document.createTextNode(String.fromCharCode(getRndInteger(32, 255)));
-                span.appendChild(node);
-                element.appendChild(span);
-            }
-        }
+    // Get the client's fingerprint id
+    var fingerprint = client.getFingerprint();
 
-        function getRndInteger(min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        }
+    // Print the 32bit hash id to the console
+    console.log(fingerprint);
 
-        var header = "reedleoneil";
-        var reed = "レード";
-        var leoneil = "レオニール";
 
-        var navigations = [
-            { id: "nav-home", target: "https://reedleoneil.github.io/", name: "ホーマ" },
-            { id: "nav-experience",target: "#experience", name: "Experience" },
-            { id: "nav-education",target: "#education", name: "Education" },
-            { id: "nav-certifications",target: "#certifications", name: "Certifications" },
-            { id: "nav-projects",target: "#projects", name: "Projects" }
-        ];
+    //wmic path Win32_PerfRawData_Tcpip_NetworkInterface get BytesReceivedPersec, BytesSentPersec /format:value
+  </script>
+  <div class="row">
 
-        var social_buttons = [
-            { icon: "fab fa-instagram", link: "https://instagram.com/reedleoneil" },
-            { icon: "fab fa-linkedin", link: "https://www.linkedin.com/in/reedleoneil" },
-            { icon: "fab fa-github", link: "https://github.com/reedleoneil" },
-            { icon: "fab fa-facebook", link: "https://fb.com/reedleoneil" },
-            { icon: "fab fa-twitter", link: "https://twitter.com/reedleoneil" },
-            { icon: "fab fa-spotify", link: "https://open.spotify.com/user/12152060435" },
-            { icon: "fab fa-pinterest", link: "https://www.pinterest.com/reedleoneil" },
-            { icon: "fas fa-envelope", link: "mailto:reedleoneilpascual@yahoo.com" }
-        ];
+    <div class="col-sm px-2">
+      <div class="re-border">
 
-        var sections = [
-            { id: "experience", header: "Experience" },
-            { id: "education", header: "Education" },
-            { id: "certifications", header: "Certifications" },
-            { id: "projects", header: "Projects" }
-        ];
+        <div id="left-panel">
+          <div>
+            <div>
+              <a data-toggle="collapse"  href="#profiler-collapse">Profiler</a>
+            </div>
+            <div id="profiler-collapse" class="collapse in">
+              <div>
+                <div class="clearfix">
+                   <div id="profiler-image"><img src="IMG_0020.PNG" alt="pon.jpg" style="width: 100%;"></div>
+                   <div id="profiler-info">
+                     <div>Name: Reed Leoneil Pascual</div>
+                     <div>Nickname: Pon</div>
+                     <div>Age: 26</div>
+                     <div>Occupation: Software Engineer</div>
+                   </div>
+                </div>
+                <div>Rarely uses social media accounts because he doesn't want his online activities to be tracked.</div>
+                <div><a class="social-media-link" href="https://fb.com/reedleoneil" target="_blank"><i class="fab fa-facebook"></i> fb.com/reedleoneil</a></div>
+                <div><a class="social-media-link" href="https://www.instagram.com/reedleoneil" target="_blank"><i class="fab fa-instagram"></i> instagram.com/reedleoneil</a></div>
+                <div><a class="social-media-link" href="https://twitter.com/reedleoneil" target="_blank"><i class="fab fa-twitter"></i> twitter.com/reedleoneil</a></div>
+                <div><a class="social-media-link" href="https://github.com/reedleoneil" target="_blank"><i class="fab fa-github"></i> github.com/reedleoneil</a></div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div>
+                <a data-toggle="collapse" href="#system-info-collapse">System Info</a>
+            </div>
+            <div id="system-info-collapse" class="collapse">
+              <div>
+                <div>IP Address: <span>192.182.4.10</span></div>
+                <div>Operating System: <span>Ubuntu 20.20</span></div>
+                <div>CPU: <span>Intel(R) Core(TM) i5-2520M CPU @2.50GHz</span> (<span>45</span>%)</div>
+                <div>Memory: <span>4GB</span>/<span>8GB</span> (<span>50</span>%)</div>
+                <div>Disk: <span>500GB</span>/<span>1TB</span> (<span>50</span>%)</span></div>
+                <div>Network: ▲ <span>12397</span>b/s ▼ <span>12397</span>b/s</div>
+                <table style="width:100%">
+                  <tr>
+                    <th>Name</th>
+                    <th>PID</th>
+                    <th>Status</th>
+                    <th>User</th>
+                    <th>CPU</th>
+                    <th>MEM</th>
+                  </tr>
+                  <tr>
+                    <td>Atom.exe</td>
+                    <td>1234</td>
+                    <td>Running</td>
+                    <td>reedleoneil</td>
+                    <td>00</td>
+                    <td>128 K</td>
+                  </tr>
+                  <tr>
+                    <td>Atom.exe</td>
+                    <td>1234</td>
+                    <td>Running</td>
+                    <td>reedleoneil</td>
+                    <td>00</td>
+                    <td>128 K</td>
+                  </tr>
+                  <tr>
+                    <td>Atom.exe</td>
+                    <td>1234</td>
+                    <td>Running</td>
+                    <td>reedleoneil</td>
+                    <td>00</td>
+                    <td>128 K</td>
+                  </tr>
+                  <tr>
+                    <td>Atom.exe</td>
+                    <td>1234</td>
+                    <td>Running</td>
+                    <td>reedleoneil</td>
+                    <td>00</td>
+                    <td>128 K</td>
+                  </tr>
+                </table>
+                <div class="note">Note: These are realtime data from my machine not yours.</div>
+              </div>
+            </div>
+          </div>
+        </div>
 
-        var experience = [
-            {
-                position: "Software Engineer",
-                company: "Filam Software Technology Inc.",
-                company_link: "http://www.filamsoftware.com/",
-                dates: "2018 - Present",
-                descriptions: [
-                    "Provided maintenance, support and enhancements in a Microsoft Outlook Add-in that is written in C# for cloud time tracking, timesheet and expense management to automate employee time tracking, project time tracking, expense tracking and resource scheduling.",
-                    "Work alongside other engineers on the team in developing a client and broker portal, a healthcare software for searching patient eligibility and generating spreadsheets and id cards of patient information."
-                ]
-            },
-            {
-                position: "System Developer",
-                company: "CLTV36 Radioworld Broadcasting Corporation",
-                company_link: "http://cltv36.tv/",
-                dates: "2016 - 2018",
-                descriptions: [
-                    "Provided maintenance, support and enhancements to an Airtime Sales Monitoring System for a broadcasting company that was written in Visual Basic 6 for monitoring the airtime sales and slots, billing of clients, and automation for apporval of broadcast contracts.",
-                    "Ported the VB6 desktop application of the Airtime Sales Monitoring System to a web application written in PHP Codeigniter to support MacOS, iOS, GNU/Linux, and Android devices.",
-                    "Designed Technical Facilities and Manpower Request System for managing, requesting and deployment of company resources to drive continuous improvement to processes, systems, workflow and customer responsiveness."
-                ]
-            },
-        ];
+        </div>
+      </div>
 
-        var education = [
-            {
-                course: "BS Computer Engineering",
-                university: "University of the Assumption",
-                university_link: "https://ua.edu.ph/",
-                dates: "2011 - 2016",
-                descriptions: [
-                    "Thesis: Designed and developed a web-based application to allow great user experience for touch screen devices and remote management and monitoring written in PHP for a vending machine using Raspberry Pi and Arduino.",
-                    "Pre-Thesis: Designed and developed an android application for home automation to allow remote, voice, and SMS control of lighting and appliances."
-                ]
-            },
-            {
-                course: "Computer Hardware Servicing NC II",
-                university: "AMA Computer Learning Center",
-                university_link: "https://www.aclc.edu.ph/",
-                dates: "2011 - 2011",
-                descriptions: [
-                    "Training in installing, configuring, diagnosing, and troubleshooting software and hardware in computer systems and networks.",
-                    "Best in Networking"
-                ]
-            },
-            {
-                course: "Japanese Language N4",
-                university: "Japanese Language Research Center Inc.",
-                university_link: "http://jlrcphil.com/",
-                dates: "2020 - Present",
-                descriptions: [
-                    "別の言語を話すことができるということは、第二の魂を持っているということ。"
-                ]
-            },
-            {
-                course: "Learning Never Stops",
-                university: "Internet",
-                university_link: "https://www.google.com/",
-                dates: "2007 - Present",
-                descriptions: [
-                    "To follow the path: look to the master, follow the master, walk with the master, see through the master, become the master."
-                ]
-            },
-        ];
+      <div class="col-sm-6 px-1">
+        <div>
+          <div class="re-border">
+            <table style="width:100%">
+              <tr>
+                <th>Fingerprint</th>
+                <th>IP Address</th>
+                <th>Location</th>
+                <th>Organization</th>
+                <th>Browser</th>
+                <th>Operating System</th>
+                <th>Status</th>
+              </tr>
+              <tr>
+                <td>1234</td>
+                <td>152.16.2.5</td>
+                <td>Minalin, PH</td>
+                <td>PLDT</td>
+                <td>Firefox</td>
+                <td>Ubuntu 20.20</td>
+                <td>Online</td>
+              </tr>
+              <tr>
+                <td>1234</td>
+                <td>152.16.2.5</td>
+                <td>Minalin, PH</td>
+                <td>PLDT</td>
+                <td>Firefox</td>
+                <td>Ubuntu 20.20</td>
+                <td>Online</td>
+              </tr>
+              <tr>
+                <td>1234</td>
+                <td>152.16.2.5</td>
+                <td>Minalin, PH</td>
+                <td>PLDT</td>
+                <td>Firefox</td>
+                <td>Ubuntu 20.20</td>
+                <td>Online</td>
+              </tr>
+              <tr>
+                <td>1234</td>
+                <td>152.16.2.5</td>
+                <td>Minalin, PH</td>
+                <td>PLDT</td>
+                <td>Firefox</td>
+                <td>Ubuntu 20.20</td>
+                <td>Online</td>
+              </tr>
+            </table>
+            <div class="note">Note: These are list of unique users that accessed this site including you.</div>
+          </div>
+          <div class="re-border mt-3">
+            logs <span>/////</span>
+          </div>
+        </div>
+      </div>
 
-        var certifications = [
-            /*{
-                certification: "Japanese Language Proficiency Test N5",
-                certification_link: "http://jlpt.jp/",
-                license: "",
-                description: "The Japanese-Language Proficiency Test (JLPT) has been offered by the Japan Foundation and Japan Educational Exchanges and Services (formerly Association of International Education, Japan) since 1984 as a reliable means of evaluating and certifying the Japanese proficiency of non-native speakers. At the beginning, there were approximately 7,000 examinees worldwide. In 2011, there were as many as 610,000 examinees around the globe, making JLPT the largest-scale Japanese-language test in the world."
-            },*/
-            {
-                certification: "PhilNITS Information Technology Passport",
-                certification_link: "https://www.philnits.org/passers_IP2017.html#May102015IP",
-                license: "IP07-0026",
-                description: "The Philippine National I.T. Standards (PhilNITS) Foundation, Inc. formerly known as the Japanese I.T. Standards Exams of the Philippines (JITSE-Phil) Foundation, Inc., is a non-stock, non-profit, non-government organization that is implementing in the Philippines the Information Technology standards adopted from Japan, with the support of the Department of Trade and Industry (DTI) of the Philippines and the Ministry of Economy, Trade and Industry (METI) of Japan."
-            },
-            {
-                certification: "TESDA Computer Hardware Servicing NC II",
-                certification_link: "http://tesda.gov.ph/",
-                license: "",
-                description: "The Technical Education and Skills Development Authority serves as the Philippines' Technical Vocational Education and Training authority. As a government agency, TESDA is tasked to both manage and supervise the Philippines' Technical Education and Skills Development."
-            },
-        ];
+      <div class="col-sm px-2">
+        <div class="re-border">
 
-        var projects = [
-            {
-                project: "Client & Broker Portal",
-                project_link: "#",
-                description: "A .NET Core Web Application developed at Filam Software Technology Inc.",
-                icon: "devicon-dot-net-plain-wordmark"
-            },
-            {
-                project: "Time Tracking System",
-                project_link: "#",
-                description: "An Outlook VSTO addin for time tracking built with Replicon API and Telerik framework used by Keystone Strategy and developed at Filam Software Technology Inc.",
-                icon: "devicon-csharp-plain"
-            },
-            {
-                project: "Airtime Sales Monitoring Utility",
-                project_link: "#",
-                description: "An airtime sales monitoring system for creating broadcast contracts, managing timeslots, computing airtimes and generating sales reports used at CLTV36.",
-                icon: "devicon-visualstudio-plain"
-            },
-            {
-                project: "Technical Facilities and Manpower Request System",
-                project_link: "#",
-                description: "A system for requesting technical facilities and manpower, managing and tracking resources used at CLTV36.",
-                icon: "devicon-codeigniter-plain"
-            },
-            {
-                project: "VendShit 1.0 (Vend System Holistic Information Technology)",
-                project_link: "https://github.com/reedleoneil/VendShit-1.0",
-                description: "Medicine Vending Machine Framework developed in Q4 of 2015 as a requirement for the degree of BS Computer Engineering.",
-                icon: "devicon-php-plain"
-            },
-            {
-                project: "VendShit 2.0 (Vend System Holistic Information Technology)",
-                project_link: "https://github.com/reedleoneil/VendShit-2.0",
-                description: "Medicine Vending Machine Framework remastered in Q3 of 2019.",
-                icon: "devicon-ruby-plain"
-            },
-            {
-                project: "buRAT 1.0",
-                project_link: "https://github.com/reedleoneil/buRAT-1.0",
-                description: "武 Remote Administration Tool developed in 2014. As a requirement for the degree of BS Computer Engineering, Home Automation Module was implemented.",
-                icon: "devicon-java-plain"
-            },
-            {
-                project: "buRAT 2.0",
-                project_link: "https://github.com/reedleoneil/buRAT-2.0",
-                description: "武リモートアクセストロイの木馬 2.0。Rewrite of buRAT 1.0 in ruby.",
-                icon: "devicon-ruby-plain"
-            },
-            {
-                project: "B2268S Admin Tool 1.0",
-                project_link: "https://github.com/reedleoneil/B2268S-Admin-Tool-v1.00",
-                description: "Unlock the admin access for the PLDT HomeBro LTE Huawei B2268s.",
-                icon: "devicon-cplusplus-plain"
-            },
-            {
-                project: "B2268S Admin Tool 2.0",
-                project_link: "https://github.com/reedleoneil/B2268S-Admin-Tool-v2.00",
-                description: "A google chrome extension for unlocking the admin access for the PLDT HomeBro LTE Huawei B2268s.",
-                icon: "devicon-javascript-plain"
-            },
-            {
-                project: "csharp-cx-lib",
-                project_link: "https://github.com/reedleoneil/csharp-cx-lib",
-                description: "C# Coins Pro API library Philippines' first digital currency exchange.",
-                icon: "devicon-csharp-plain"
-            },
-            {
-                project: "ruby-cx-lib",
-                project_link: "https://github.com/reedleoneil/ruby-cx-lib",
-                description: "Ruby Coins Pro API library Philippines' first digital currency exchange.",
-                icon: "devicon-ruby-plain"
-            },
-            {
-                project: "js-cx-lib",
-                project_link: "https://github.com/reedleoneil/js-cx-lib",
-                description: "Javascript Coins Pro API library Philippines' first digital currency exchange.",
-                icon: "devicon-javascript-plain"
-            },
-            {
-                project: "automatic-octo-meme",
-                project_link: "https://github.com/reedleoneil/automatic-octo-meme",
-                description: "Fire Monitoring System Android App.",
-                icon: "devicon-android-plain"
-            },
-            {
-                project: "effective-barnacle",
-                project_link: "https://github.com/reedleoneil/effective-barnacle",
-                description: "Socket Controller and Water Level Monitoring Android App with SMS.",
-                icon: "devicon-android-plain"
-            },
-            {
-                project: "automatic-adventure",
-                project_link: "https://github.com/reedleoneil/automatic-adventure",
-                description: "Traffic Light Violation Monitoring System.",
-                icon: "devicon-ruby-plain"
-            },
-        ];
+          <div id="left-panel">
+            <div>
+              <div>
+                <a data-toggle="collapse"  href="#webcam-caputure-collapse">Webcam Capture</a>
+              </div>
+              <div id="webcam-caputure-collapse" class="collapse in">
+                <div>
+                  <div><img src="IMG_0020.PNG" alt="pon.jpg" style="width: 100%;"></div>
+                  <div class="mt-1">
+                    <label for="webcam">webcam:</label>
 
-        var footer = "© 2018 - 2020 reedleoneil";
+                    <select name="webcam" id="webcam-select">
+                      <option value="front-cam">front-cam</option>
+                      <option value="back-cam">back-cam</option>
+                    </select>
 
-        spanitize(header, document.getElementsByTagName("h1")[0]);
-        spanitize(reed, document.getElementById("reed"));
-        spanitize(leoneil, document.getElementById("leoneil"));
+                    <button type="button">Capture</button>
+                  </div>
+                  <div class="note">Note: You can access and capture an image from my webcam.</div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div>
+                  <a data-toggle="collapse" href="#desktop-capture-collapse">Desktop Capture</a>
+              </div>
+              <div id="desktop-capture-collapse" class="collapse">
+                <div>
+                  <div><img src="IMG_0020.PNG" alt="pon.jpg" style="width: 100%;"></div>
+                  <div class="mt-1"><button type="button">Capture</button></div>
+                  <div class="note">Note: You can capture a screenshot of my desktop.</div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div>
+                  <a data-toggle="collapse" href="#geolocation-collapse">Geolocation</a>
+              </div>
+              <div id="geolocation-collapse" class="collapse">
+                <div>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+                  minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                  commodo consequat.
+                </div>
+                <div class="note">Note: In case you want to grab some beer, here is my location.</div>
+              </div>
+            </div>
+            <div>
+              <div>
+                  <a data-toggle="collapse" href="#chat-collapse">Chat</a>
+              </div>
+              <div id="chat-collapse" class="collapse">
+                <div>
+                  Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+                  minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                  commodo consequat.
+                </div>
+                <div class="note">Note: I rarely do social media stuff, so ping me here.</div>
+              </div>
+            </div>
+          </div>
 
-        var nav = document.getElementsByTagName("nav")[0];
-        var h = document.createElement("h3");
-        nav.appendChild(h)
+        </div>
+      </div>
 
-        for (var i = 0; i < navigations.length; i++) {
-            var a = document.createElement("a");
-            a.setAttribute("id", navigations[i].id);
-            a.setAttribute("href", navigations[i].target);
-            //var nav = document.getElementsByTagName("nav")[0];
-            var str = navigations[i].name;
-            var b = document.createElement("b");
-            a.appendChild(b);
-            b.innerHTML = "[";
-            spanitize(str, a);
-            var c = document.createElement("b");
-            a.appendChild(c);
-            c.innerHTML = "]";
-            //nav.appendChild(a);
-            h.appendChild(a);
-            if (i != navigations.length)
-                nav.appendChild(document.createTextNode(" "));
-        }
-
-        var social = document.getElementsByTagName("div")[0];
-        spanitize("Connect with me on ", social);
-
-        for (var i = 0; i < social_buttons.length; i++) {
-            var a = document.createElement("a");
-            a.setAttribute("href", social_buttons[i].link);
-            a.setAttribute("target", "_blank");
-            var icon = document.createElement("i");
-            icon.setAttribute("class", social_buttons[i].icon);
-            a.appendChild(icon);
-            social.appendChild(a);
-            if (i < social_buttons.length - 2)
-                spanitize(", ", social);
-            else if (i < social_buttons.length - 1)
-                spanitize(" or ", social);
-            else
-                spanitize(".", social);
-        }
-
-        for (var i = 0; i < sections.length; i++) {
-            var s = document.createElement("section");
-            s.setAttribute("id", sections[i].id);
-            var h = document.createElement("h4");
-            spanitize(sections[i].header, h)
-            var ul = document.createElement("ul");
-            s.appendChild(h);
-            s.appendChild(ul);
-            document.getElementsByTagName("main")[0].appendChild(s);
-        }
-
-        function load_experience() {
-            for (var i = 0; i < experience.length; i++) {
-                var li = document.createElement("li");
-
-                var b = document.createElement("b");
-                spanitize(experience[i].position, b);
-                li.appendChild(b);
-
-                var a = document.createElement("a");
-                a.setAttribute("href", experience[i].company_link);
-                if (experience[i].company_link)
-                    a.setAttribute("target", "_blank");
-                spanitize(" (" + experience[i].company + ")", a);
-                li.appendChild(a);
-
-                var ul = document.createElement("ul");
-
-                var li_dates = document.createElement("li");
-                spanitize(experience[i].dates, li_dates);
-                ul.appendChild(li_dates);
-
-                for (var j = 0; j < experience[i].descriptions.length; j++) {
-                    var description = experience[i].descriptions[j];
-
-                    var li_desc = document.createElement("li");
-                    spanitize(description, li_desc);
-                    ul.appendChild(li_desc);
-                }
-                li.appendChild(ul);
-
-                document.getElementById('experience').getElementsByTagName('ul')[0].appendChild(li);
-            }
-        }
-
-        function load_education() {
-            for (var i = 0; i < education.length; i++) {
-                var li = document.createElement("li");
-
-                var b = document.createElement("b");
-                spanitize(education[i].course, b);
-                li.appendChild(b);
-
-                var a = document.createElement("a");
-                a.setAttribute("href", education[i].university_link);
-                if (education[i].university_link)
-                    a.setAttribute("target", "_blank");
-                spanitize(" (" + education[i].university + ")", a);
-                li.appendChild(a);
-
-                var ul = document.createElement("ul");
-
-                var li_dates = document.createElement("li");
-                spanitize(education[i].dates, li_dates);
-                ul.appendChild(li_dates);
-
-                for (var j = 0; j < education[i].descriptions.length; j++) {
-                    var description = education[i].descriptions[j];
-
-                    var li_desc = document.createElement("li");
-                    spanitize(description, li_desc);
-                    ul.appendChild(li_desc);
-                }
-                li.appendChild(ul);
-
-                document.getElementById('education').getElementsByTagName('ul')[0].appendChild(li);
-            }
-        }
-        
-        function load_certifications() {
-            for (var i = 0; i < certifications.length; i++) {
-                var li = document.createElement("li");
-
-                var a = document.createElement("a");
-                a.setAttribute("href", certifications[i].certification_link);
-                if (certifications[i].certification_link)
-                    a.setAttribute("target", "_blank");
-                var b = document.createElement("b");
-                a.appendChild(b);
-                spanitize(certifications[i].certification, b);
-                if (certifications[i].license)
-                    spanitize(" (" + certifications[i].license + ")", a);
-                li.appendChild(a);
-
-                var ul = document.createElement("ul");
-                var li_desc = document.createElement("li");
-                ul.appendChild(li_desc);
-                spanitize(certifications[i].description, li_desc);
-
-                li.appendChild(ul);
-
-                document.getElementById('certifications').getElementsByTagName('ul')[0].appendChild(li);
-            }
-        }
-
-        function load_projects() {
-            for (var r = 0; r < projects.length; r++) {
-                var li = document.createElement("li");
-
-                var a = document.createElement("a");
-                a.setAttribute("href", projects[r].project_link);
-                if (projects[r].project_link)
-                    a.setAttribute("target", "_blank");
-                var i = document.createElement("i");
-                i.setAttribute("class", projects[r].icon);
-                a.appendChild(i);
-                var b = document.createElement("b");
-                spanitize(" " + projects[r].project, b);
-                a.appendChild(b);
-                li.appendChild(a);
-
-                var ul = document.createElement("ul");
-                var li_desc = document.createElement("li");
-                ul.appendChild(li_desc);
-                spanitize(projects[r].description, li_desc);
-
-                li.appendChild(ul);
-
-                document.getElementById('projects').getElementsByTagName('ul')[0].appendChild(li);
-            }
-        }
-
-        load_experience();
-        load_education();
-        load_certifications();
-        load_projects();
-
-        spanitize(footer, document.getElementsByTagName("footer")[0]);
-
-        var content = "";
-
-        content += header;
-        content += reed + leoneil;
-
-        for (var i = 0; i < navigations.length; i++) {
-            content += navigations[i].name;
-        }
-
-        content += "Connect with me on , , , , , ,  or ."
-
-        content += sections[0].header;
-
-        for (var i = 0; i < experience.length; i++) {
-            content += experience[i].position;
-            content += " (" + experience[i].company + ")";
-            content += experience[i].dates;
-            for (var j = 0; j < experience[i].descriptions.length; j++) {
-                content += experience[i].descriptions[j];
-            }
-        }
-
-        content += sections[1].header;
-
-        for (var i = 0; i < education.length; i++) {
-            content += education[i].course;
-            content += " (" + education[i].university + ")";
-            content += education[i].dates;
-            for (var j = 0; j < education[i].descriptions.length; j++) {
-                content += education[i].descriptions[j];
-            }
-        }
-
-        content += sections[2].header;
-
-        for (var i = 0; i < certifications.length; i++) {
-            content += certifications[i].certification;
-            if (certifications[i].license)
-                content += " (" + certifications[i].license + ")";
-            content += certifications[i].description;
-        }
-
-        content += sections[3].header;
-
-        for (var i = 0; i < projects.length; i++) {
-            content += " " + projects[i].project;
-            content += projects[i].description;
-        }
-
-        content += footer;
-
-        var emojis = ["👹", "👺", "🍱", "🍜", "🍙", "🍥", "🌸", "🌊", "🎏", "🎋", "🎎", "🗼", "🏯", "🗻", "🏮", "🔴", "🗾", "🍣", "🍵", "🍡", "🍘", "🍢"];
-
-        var indexes = [];
-        for (var x = 0; x < content.length; x++) {
-            indexes.push(x);
-        }
-
-        var reload = false;
-        setInterval(function () {
-            if (indexes.length != 0) {
-                for (var x = 0; x < 96; x++) {
-                    var index = getRndInteger(0, indexes.length - 1);
-                    document.getElementsByClassName("char")[indexes[index]].innerHTML = content[indexes[index]];
-                    document.getElementsByClassName("char")[indexes[index]].classList += " rendered";
-                    indexes.splice(index, 1);
-                }
-                document.getElementById("sun_moon").innerHTML = emojis[getRndInteger(0, emojis.length - 1)];
-            } else {
-                document.getElementById("sun_moon").setAttribute("class", "rendered");
-            }
-        }, 0);
-
-        var callbackDeleteAll = function () {
-            setInterval(function () {
-                var index = getRndInteger(0, document.querySelectorAll('span,i,b').length - 1);
-                if (document.querySelectorAll('span,i,b').length != 0)
-                    document.querySelectorAll('span,i,b')[index].parentElement.removeChild(document.querySelectorAll('span,i,b')[index]);
-                else {
-                    document.head.innerHTML = ""
-                    document.body.innerHTML = ""
-                }
-            }, 0);
-        }
-
-        document.addEventListener('contextmenu', function (event) {
-            event.preventDefault();
-            callbackDeleteAll();
-        }); 
-
-        document.onkeydown = function (event) {
-            var x = event.which || event.keyCode;
-            if (x == 123) {
-                event.preventDefault();
-                callbackDeleteAll();
-            }
-        }
-    </script>
-</body>
-</html>
+    </div>
+  </body>
+  </html>
