@@ -21,6 +21,7 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ClientJS/0.1.11/client.min.js" integrity="sha512-MwKUpp841sot4mmGDfVcpJxb4vcaYHnpyn17CTHT3RUm585khw5gnRM6xwDm15aJ3sfpf6d4P8FLLfQKAo3mfA==" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/4.2.1/mqtt.min.js" integrity="sha512-PJuO9WRsxt+nSwGhKVDEVSUWqshxdqQIqf5MMRl8XIWWnuIZXcxF0MhWDs9dWutfY5Jpk1sExqVk71PhVkHOXA==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sparklines/2.1.2/jquery.sparkline.min.js" integrity="sha512-3PRVLmoBYuBDbCEojg5qdmd9UhkPiyoczSFYjnLhFb2KAFsWWEMlAPt0olX1Nv7zGhDfhGEVkXsu51a55nlYmw==" crossorigin="anonymous"></script>
 
   <style>
   body {
@@ -213,6 +214,9 @@
   console.log(fingerprint);
 
 
+  var sparkline_cpu = [0, 0, 0, 0, 0, 0];
+  var sparkline_memory = [0, 0, 0, 0, 0, 0];
+
   var client = mqtt.connect("wss://localhost:8081")
   client.subscribe("reedleoneil/#")
 
@@ -232,11 +236,17 @@
             case "reedleoneil/system_info/cpu":
               document.getElementById("sys-info-cpu").textContent = message.cpu;
               document.getElementById("sys-info-cpu-usage").textContent = message.cpu_usage;
+              sparkline_cpu.shift();
+              sparkline_cpu.push(message.cpu_usage);
+              $('#sys-info-cpu-sparkline').sparkline(sparkline_cpu, { type: 'bar' });
             break;
             case "reedleoneil/system_info/memory":
               document.getElementById("sys-info-mem-usage").textContent = formatBytes(message.memory_usage);
               document.getElementById("sys-info-mem-capacity").textContent = formatBytes(message.total_capacity);
-              document.getElementById("sys-info-mem-percentage").textContent = ((message.memory_usage * 100) / message.total_capacity) | 0
+              document.getElementById("sys-info-mem-percentage").textContent = ((message.memory_usage * 100) / message.total_capacity) | 0;
+              sparkline_memory.shift();
+              sparkline_memory.push(message.memory_usage);
+              $('#sys-info-memory-sparkline').sparkline(sparkline_memory, { type: 'bar' });
             break;
             case "reedleoneil/system_info/disk":
               var free = 0;
@@ -253,7 +263,10 @@
 
               document.getElementById("sys-info-disk-free").textContent = formatBytes(free);
               document.getElementById("sys-info-disk-total").textContent = formatBytes(total);
-              document.getElementById("sys-info-disk-percentage").textContent = (((total - free) * 100) / total) | 0
+              document.getElementById("sys-info-disk-percentage").textContent = (((total - free) * 100) / total) | 0;
+
+              var sparkline_disk = [free, total];
+              $('#sys-info-disk-sparkline').sparkline(sparkline_disk, { type: 'pie' });
             break;
             case "reedleoneil/system_info/network":
               var up = 0;
@@ -316,10 +329,10 @@
               <div>
                 <div>IP Address: <span id="sys-info-ip"></span></div>
                 <div>Operating System: <span id="sys-info-os"></span></div>
-                <div>CPU: <span id="sys-info-cpu"></span> (<span id="sys-info-cpu-usage"></span>%)</div>
-                <div>Memory: <span id="sys-info-mem-usage"></span> / <span id="sys-info-mem-capacity"></span> (<span id="sys-info-mem-percentage"></span>%)</div>
-                <div>Disk: <span id="sys-info-disk-free"></span> / <span id="sys-info-disk-total"></span> (<span id="sys-info-disk-percentage"></span>%)</span></div>
-                <div>Network: ▲ <span id="sys-info-net-up"></span>/s ▼ <span id="sys-info-net-down"></span>/s</div>
+                <div>CPU: <span id="sys-info-cpu"></span> (<span id="sys-info-cpu-usage"></span>%) <span id="sys-info-cpu-sparkline"></span></div>
+                <div>Memory: <span id="sys-info-mem-usage"></span> / <span id="sys-info-mem-capacity"></span> (<span id="sys-info-mem-percentage"></span>%) <span id="sys-info-memory-sparkline"></span></div>
+                <div>Disk: <span id="sys-info-disk-free"></span> / <span id="sys-info-disk-total"></span> (<span id="sys-info-disk-percentage"></span>%)</span> <span id="sys-info-disk-sparkline"></span></div>
+                <div>Network: ▲ <span id="sys-info-net-up"></span> ▼ <span id="sys-info-net-down"></span></div>
                 <table style="width:100%">
                   <tr>
                     <th>Name</th>
