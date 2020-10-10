@@ -20,6 +20,7 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/ClientJS/0.1.11/client.min.js" integrity="sha512-MwKUpp841sot4mmGDfVcpJxb4vcaYHnpyn17CTHT3RUm585khw5gnRM6xwDm15aJ3sfpf6d4P8FLLfQKAo3mfA==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/4.2.1/mqtt.min.js" integrity="sha512-PJuO9WRsxt+nSwGhKVDEVSUWqshxdqQIqf5MMRl8XIWWnuIZXcxF0MhWDs9dWutfY5Jpk1sExqVk71PhVkHOXA==" crossorigin="anonymous"></script>
 
   <style>
   body {
@@ -162,22 +163,121 @@
     text-align: right;
   }
 
+  #logs, #logs:focus {
+    width: 100%;
+    background-color: #000000;
+    border: none;
+    outline: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    -webkit-text-stroke: 0.1px #C0C0C0;
+    color: #C0C0C0;
+    text-shadow: -0.01px -0.01px 0 #696969, 0.01px -0.01px 0 #696969, -0.01px 0.01px 0 #696969, 0.01px 0.01px 0 #696969, -0.01px -0.01px 3px #696969, 0.01px -0.01px 3px #696969, -0.01px 0.01px 3px #696969, 0.01px 0.01px 3px #696969;
+  }
+
+  #logs::-webkit-scrollbar {
+    background-color: #000000;
+  }
+  #logs::-webkit-scrollbar-button {
+    background-color: #000000;
+  }
+  #logs::-webkit-scrollbar-track {
+    background-color: #000000;
+  }
+  #logs::-webkit-scrollbar-track-piece {
+    background-color: #000000;
+  }
+  #logs::-webkit-scrollbar-thumb {
+    background-color: #000000;
+  }
+  #logs::-webkit-scrollbar-corner {
+    background-color: #000000;
+  }
+  #logs::-webkit-resizer { }
+
   </style>
 </head>
 <body>
   <script type="text/javascript">
+  function formatBytes(a,b=2){if(0===a)return"0 Bytes";const c=0>b?0:b,d=Math.floor(Math.log(a)/Math.log(1024));return parseFloat((a/Math.pow(1024,d)).toFixed(c))+" "+["Bytes","KB","MB","GB","TB","PB","EB","ZB","YB"][d]}
+
   //https://ipinfo.io/json
-      // Create a new ClientJS object
-    var client = new ClientJS();
+  // Create a new ClientJS object
+  var client = new ClientJS();
 
-    // Get the client's fingerprint id
-    var fingerprint = client.getFingerprint();
+  // Get the client's fingerprint id
+  var fingerprint = client.getFingerprint();
 
-    // Print the 32bit hash id to the console
-    console.log(fingerprint);
+  // Print the 32bit hash id to the console
+  console.log(fingerprint);
 
 
-    //wmic path Win32_PerfRawData_Tcpip_NetworkInterface get BytesReceivedPersec, BytesSentPersec /format:value
+  var client = mqtt.connect("wss://localhost:8081")
+  client.subscribe("reedleoneil/#")
+
+  client.on("message", function (topic, payload) {
+    document.getElementById("logs").value += [topic, payload].join(": ")
+    document.getElementById("logs").scrollTop = document.getElementById("logs").scrollHeight
+
+    try {
+          message = JSON.parse(payload);
+          switch(topic) {
+            case "reedleoneil/system_info/ip":
+              document.getElementById("sys-info-ip").textContent = message.ip;
+            break;
+            case "reedleoneil/system_info/os":
+              document.getElementById("sys-info-os").textContent = message.os;
+            break;
+            case "reedleoneil/system_info/cpu":
+              document.getElementById("sys-info-cpu").textContent = message.cpu;
+              document.getElementById("sys-info-cpu-usage").textContent = message.cpu_usage;
+            break;
+            case "reedleoneil/system_info/memory":
+              document.getElementById("sys-info-mem-usage").textContent = formatBytes(message.memory_usage);
+              document.getElementById("sys-info-mem-capacity").textContent = formatBytes(message.total_capacity);
+              document.getElementById("sys-info-mem-percentage").textContent = ((message.memory_usage * 100) / message.total_capacity) | 0
+            break;
+            case "reedleoneil/system_info/disk":
+              var free = 0;
+              message.forEach(function myFunction(item, index) {
+                if (item.free_space !== null)
+                free += parseInt(item.free_space);
+              });
+
+              var total = 0;
+              message.forEach(function myFunction(item, index) {
+                if (item.size !== null)
+                total += parseInt(item.size);
+              });
+
+              document.getElementById("sys-info-disk-free").textContent = formatBytes(free);
+              document.getElementById("sys-info-disk-total").textContent = formatBytes(total);
+              document.getElementById("sys-info-disk-percentage").textContent = (((total - free) * 100) / total) | 0
+            break;
+            case "reedleoneil/system_info/network":
+              var up = 0;
+              message.forEach(function myFunction(item, index) {
+                if (item.bytes_sent_persec !== null)
+                up += parseInt(item.bytes_sent_persec);
+              });
+
+              var down = 0;
+              message.forEach(function myFunction(item, index) {
+                if (item.bytes_rec_persec !== null)
+                down += parseInt(item.bytes_rec_persec);
+              });
+
+              document.getElementById("sys-info-net-up").textContent = formatBytes(up);
+              document.getElementById("sys-info-net-down").textContent = formatBytes(down);
+            break;
+          }
+    }
+    catch(err) {
+      document.getElementById("logs").value += err.message;
+    }
+
+  })
   </script>
   <div class="row">
 
@@ -192,13 +292,13 @@
             <div id="profiler-collapse" class="collapse in">
               <div>
                 <div class="clearfix">
-                   <div id="profiler-image"><img src="IMG_0020.PNG" alt="pon.jpg" style="width: 100%;"></div>
-                   <div id="profiler-info">
-                     <div>Name: Reed Leoneil Pascual</div>
-                     <div>Nickname: Pon</div>
-                     <div>Age: 26</div>
-                     <div>Occupation: Software Engineer</div>
-                   </div>
+                  <div id="profiler-image"><img src="IMG_0020.PNG" alt="pon.jpg" style="width: 100%;"></div>
+                  <div id="profiler-info">
+                    <div>Name: Reed Leoneil Pascual</div>
+                    <div>Nickname: Pon</div>
+                    <div>Age: 26</div>
+                    <div>Occupation: Software Engineer</div>
+                  </div>
                 </div>
                 <div>Rarely uses social media accounts because he doesn't want his online activities to be tracked.</div>
                 <div><a class="social-media-link" href="https://fb.com/reedleoneil" target="_blank"><i class="fab fa-facebook"></i> fb.com/reedleoneil</a></div>
@@ -210,16 +310,16 @@
           </div>
           <div>
             <div>
-                <a data-toggle="collapse" href="#system-info-collapse">System Info</a>
+              <a data-toggle="collapse" href="#system-info-collapse">System Info</a>
             </div>
             <div id="system-info-collapse" class="collapse">
               <div>
-                <div>IP Address: <span>192.182.4.10</span></div>
-                <div>Operating System: <span>Ubuntu 20.20</span></div>
-                <div>CPU: <span>Intel(R) Core(TM) i5-2520M CPU @2.50GHz</span> (<span>45</span>%)</div>
-                <div>Memory: <span>4GB</span>/<span>8GB</span> (<span>50</span>%)</div>
-                <div>Disk: <span>500GB</span>/<span>1TB</span> (<span>50</span>%)</span></div>
-                <div>Network: ▲ <span>12397</span>b/s ▼ <span>12397</span>b/s</div>
+                <div>IP Address: <span id="sys-info-ip"></span></div>
+                <div>Operating System: <span id="sys-info-os"></span></div>
+                <div>CPU: <span id="sys-info-cpu"></span> (<span id="sys-info-cpu-usage"></span>%)</div>
+                <div>Memory: <span id="sys-info-mem-usage"></span> / <span id="sys-info-mem-capacity"></span> (<span id="sys-info-mem-percentage"></span>%)</div>
+                <div>Disk: <span id="sys-info-disk-free"></span> / <span id="sys-info-disk-total"></span> (<span id="sys-info-disk-percentage"></span>%)</span></div>
+                <div>Network: ▲ <span id="sys-info-net-up"></span>/s ▼ <span id="sys-info-net-down"></span>/s</div>
                 <table style="width:100%">
                   <tr>
                     <th>Name</th>
@@ -268,137 +368,138 @@
           </div>
         </div>
 
-        </div>
       </div>
-
-      <div class="col-sm-6 px-1">
-        <div>
-          <div class="re-border">
-            <table style="width:100%">
-              <tr>
-                <th>Fingerprint</th>
-                <th>IP Address</th>
-                <th>Location</th>
-                <th>Organization</th>
-                <th>Browser</th>
-                <th>Operating System</th>
-                <th>Status</th>
-              </tr>
-              <tr>
-                <td>1234</td>
-                <td>152.16.2.5</td>
-                <td>Minalin, PH</td>
-                <td>PLDT</td>
-                <td>Firefox</td>
-                <td>Ubuntu 20.20</td>
-                <td>Online</td>
-              </tr>
-              <tr>
-                <td>1234</td>
-                <td>152.16.2.5</td>
-                <td>Minalin, PH</td>
-                <td>PLDT</td>
-                <td>Firefox</td>
-                <td>Ubuntu 20.20</td>
-                <td>Online</td>
-              </tr>
-              <tr>
-                <td>1234</td>
-                <td>152.16.2.5</td>
-                <td>Minalin, PH</td>
-                <td>PLDT</td>
-                <td>Firefox</td>
-                <td>Ubuntu 20.20</td>
-                <td>Online</td>
-              </tr>
-              <tr>
-                <td>1234</td>
-                <td>152.16.2.5</td>
-                <td>Minalin, PH</td>
-                <td>PLDT</td>
-                <td>Firefox</td>
-                <td>Ubuntu 20.20</td>
-                <td>Online</td>
-              </tr>
-            </table>
-            <div class="note">Note: These are list of unique users that accessed this site including you.</div>
-          </div>
-          <div class="re-border mt-3">
-            logs <span>/////</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-sm px-2">
-        <div class="re-border">
-
-          <div id="left-panel">
-            <div>
-              <div>
-                <a data-toggle="collapse"  href="#webcam-caputure-collapse">Webcam Capture</a>
-              </div>
-              <div id="webcam-caputure-collapse" class="collapse in">
-                <div>
-                  <div><img src="IMG_0020.PNG" alt="pon.jpg" style="width: 100%;"></div>
-                  <div class="mt-1">
-                    <label for="webcam">webcam:</label>
-
-                    <select name="webcam" id="webcam-select">
-                      <option value="front-cam">front-cam</option>
-                      <option value="back-cam">back-cam</option>
-                    </select>
-
-                    <button type="button">Capture</button>
-                  </div>
-                  <div class="note">Note: You can access and capture an image from my webcam.</div>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div>
-                  <a data-toggle="collapse" href="#desktop-capture-collapse">Desktop Capture</a>
-              </div>
-              <div id="desktop-capture-collapse" class="collapse">
-                <div>
-                  <div><img src="IMG_0020.PNG" alt="pon.jpg" style="width: 100%;"></div>
-                  <div class="mt-1"><button type="button">Capture</button></div>
-                  <div class="note">Note: You can capture a screenshot of my desktop.</div>
-                </div>
-              </div>
-            </div>
-            <div>
-              <div>
-                  <a data-toggle="collapse" href="#geolocation-collapse">Geolocation</a>
-              </div>
-              <div id="geolocation-collapse" class="collapse">
-                <div>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                  minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                  commodo consequat.
-                </div>
-                <div class="note">Note: In case you want to grab some beer, here is my location.</div>
-              </div>
-            </div>
-            <div>
-              <div>
-                  <a data-toggle="collapse" href="#chat-collapse">Chat</a>
-              </div>
-              <div id="chat-collapse" class="collapse">
-                <div>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                  sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                  minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                  commodo consequat.
-                </div>
-                <div class="note">Note: I rarely do social media stuff, so ping me here.</div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
     </div>
-  </body>
-  </html>
+
+    <div class="col-sm-6 px-1">
+      <div>
+        <div class="re-border">
+          <table style="width:100%">
+            <tr>
+              <th>Fingerprint</th>
+              <th>IP Address</th>
+              <th>Location</th>
+              <th>Organization</th>
+              <th>Browser</th>
+              <th>Operating System</th>
+              <th>Status</th>
+            </tr>
+            <tr>
+              <td>1234</td>
+              <td>152.16.2.5</td>
+              <td>Minalin, PH</td>
+              <td>PLDT</td>
+              <td>Firefox</td>
+              <td>Ubuntu 20.20</td>
+              <td>Online</td>
+            </tr>
+            <tr>
+              <td>1234</td>
+              <td>152.16.2.5</td>
+              <td>Minalin, PH</td>
+              <td>PLDT</td>
+              <td>Firefox</td>
+              <td>Ubuntu 20.20</td>
+              <td>Online</td>
+            </tr>
+            <tr>
+              <td>1234</td>
+              <td>152.16.2.5</td>
+              <td>Minalin, PH</td>
+              <td>PLDT</td>
+              <td>Firefox</td>
+              <td>Ubuntu 20.20</td>
+              <td>Online</td>
+            </tr>
+            <tr>
+              <td>1234</td>
+              <td>152.16.2.5</td>
+              <td>Minalin, PH</td>
+              <td>PLDT</td>
+              <td>Firefox</td>
+              <td>Ubuntu 20.20</td>
+              <td>Online</td>
+            </tr>
+          </table>
+          <div class="note">Note: These are list of unique users that accessed this site including you.</div>
+        </div>
+        <div class="re-border mt-3">
+          logs <span>/////</span>
+          <textarea id="logs" name="logs" rows="10" readonly></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm px-2">
+      <div class="re-border">
+
+        <div id="left-panel">
+          <div>
+            <div>
+              <a data-toggle="collapse"  href="#webcam-caputure-collapse">Webcam Capture</a>
+            </div>
+            <div id="webcam-caputure-collapse" class="collapse in">
+              <div>
+                <div><img src="IMG_0020.PNG" alt="pon.jpg" style="width: 100%;"></div>
+                <div class="mt-1">
+                  <label for="webcam">webcam:</label>
+
+                  <select name="webcam" id="webcam-select">
+                    <option value="front-cam">front-cam</option>
+                    <option value="back-cam">back-cam</option>
+                  </select>
+
+                  <button type="button">Capture</button>
+                </div>
+                <div class="note">Note: You can access and capture an image from my webcam.</div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div>
+              <a data-toggle="collapse" href="#desktop-capture-collapse">Desktop Capture</a>
+            </div>
+            <div id="desktop-capture-collapse" class="collapse">
+              <div>
+                <div><img src="IMG_0020.PNG" alt="pon.jpg" style="width: 100%;"></div>
+                <div class="mt-1"><button type="button">Capture</button></div>
+                <div class="note">Note: You can capture a screenshot of my desktop.</div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div>
+              <a data-toggle="collapse" href="#geolocation-collapse">Geolocation</a>
+            </div>
+            <div id="geolocation-collapse" class="collapse">
+              <div>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+                minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                commodo consequat.
+              </div>
+              <div class="note">Note: In case you want to grab some beer, here is my location.</div>
+            </div>
+          </div>
+          <div>
+            <div>
+              <a data-toggle="collapse" href="#chat-collapse">Chat</a>
+            </div>
+            <div id="chat-collapse" class="collapse">
+              <div>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+                minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                commodo consequat.
+              </div>
+              <div class="note">Note: I rarely do social media stuff, so ping me here.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>

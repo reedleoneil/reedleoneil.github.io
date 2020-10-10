@@ -1,16 +1,18 @@
-
+require_relative 'client'
 require 'os'
+require 'json'
 
 def host()
-  OS.windows? ? `whoami`.strip : `uname -n`.strip + '\\' + `whoami`.strip
-end
-
-def os()
-  (OS.windows? ? `ver` : `uname -sr`).strip
+  { :host => OS.windows? ? `whoami`.strip : `uname -n`.strip + '\\' + `whoami`.strip }
 end
 
 def ip()
-  open('http://whatismyip.akamai.com').read
+  #open('http://whatismyip.akamai.com').read
+  { :ip => nil }
+end
+
+def os()
+  { :os => (OS.windows? ? `ver` : `uname -sr`).strip }
 end
 
 def cpu()
@@ -41,7 +43,7 @@ def memory()
   end
 end
 
-def drive()
+def disk()
   if OS.windows? then
     drives = `wmic logicaldisk get size, freespace, caption`.strip.split("\n")
     drives.shift
@@ -67,9 +69,9 @@ def network()
     network = []
     (0...network_adapters.length).step(3) do |n|
       network.push({
-        :adapter => network_adapters[n],
-        :bytes_rec_persec => network_adapters[n+1],
-        :bytes_sent_persec => network_adapters[n+2]
+        :bytes_rec_persec => network_adapters[n].split('=')[1],
+        :bytes_sent_persec => network_adapters[n+1].split('=')[1],
+        :adapter => network_adapters[n+2].split('=')[1]
       })
     end
 
@@ -77,4 +79,31 @@ def network()
   else
     `whoami`
   end
+end
+
+client = Client.new
+
+last_ping_time = Time.now
+loop do
+	begin
+		if client.internals[:mqtt].connected? then
+			client.internals[:mqtt].mqtt_loop
+			if last_ping_time <= Time.now - 3 then
+				client.ping
+				last_ping_time = Time.now
+        client.publish('reedleoneil/system_info/host', host().to_json)
+        client.publish('reedleoneil/system_info/ip', ip().to_json, true, 2)
+        client.publish('reedleoneil/system_info/os', os().to_json, true, 2)
+        client.publish('reedleoneil/system_info/cpu', cpu().to_json, true, 2)
+        client.publish('reedleoneil/system_info/memory', memory().to_json, true, 2)
+        client.publish('reedleoneil/system_info/disk', disk().to_json, true, 2)
+        client.publish('reedleoneil/system_info/network', network().to_json, true, 2)
+			end
+		else
+			client.connect() if !client.connecting?
+		end
+	rescue StandardError => error
+		puts error.full_message
+			client.connect() if !client.connecting?
+	end
 end
