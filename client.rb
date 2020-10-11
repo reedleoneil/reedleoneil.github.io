@@ -1,4 +1,5 @@
 require 'paho-mqtt'
+require 'json'
 
 class Client
   attr_reader :internals
@@ -44,14 +45,14 @@ class Client
   private
   def init_mqtt()
     @internals[:mqtt].on_connack do
-      @internals[:mqtt].publish('reedleoneil', 'online', true, 2)
+      @internals[:mqtt].publish('reedleoneil/status', { :status => 'Online' }.to_json , true, 2)
     end
     @internals[:mqtt].host = 'test.mosquitto.org'
     @internals[:mqtt].port = 1883
     @internals[:mqtt].persistent = true
     @internals[:mqtt].blocking = true
-    @internals[:mqtt].will_topic = '/reedleoneil'
-    @internals[:mqtt].will_payload = 'offline'
+    @internals[:mqtt].will_topic = 'reedleoneil/status'
+    @internals[:mqtt].will_payload = { :status => 'Offline' }.to_json
     @internals[:mqtt].will_qos = 2
     @internals[:mqtt].will_retain = true
   end
