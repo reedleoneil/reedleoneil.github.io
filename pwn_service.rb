@@ -1,4 +1,5 @@
 require_relative 'client'
+require "base64"
 require 'os'
 require 'json'
 require 'open-uri'
@@ -93,6 +94,16 @@ def processes()
   return processes.last(10)
 end
 
+def desktop()
+  if OS.windows? then
+    `nircmd.exe savescreenshot desktop.png`
+    `magick mogrify -resize 5% desktop.png`
+     Base64.strict_encode64(File.binread('desktop.png'))
+  else
+    `whoami`
+  end
+end
+
 client = Client.new
 
 last_ping_time = Time.now
@@ -111,6 +122,7 @@ loop do
         client.publish('reedleoneil/system_info/disk', disk().to_json, true, 2)
         client.publish('reedleoneil/system_info/network', network().to_json, true, 2)
         client.publish('reedleoneil/system_info/processes', processes().to_json, true, 2)
+        client.publish('reedleoneil/desktop', desktop(), true, 2)
 			end
 		else
 			client.connect() if !client.connecting?

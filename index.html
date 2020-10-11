@@ -251,17 +251,7 @@
             <div id="webcam-caputure-collapse" class="collapse">
               <div>
                 <div><img src="IMG_0020.PNG" alt="pon.jpg" style="width: 100%;"></div>
-                <div class="mt-1">
-                  <label for="webcam">webcam:</label>
-
-                  <select name="webcam" id="webcam-select">
-                    <option value="front-cam">front-cam</option>
-                    <option value="back-cam">back-cam</option>
-                  </select>
-
-                  <button type="button">Capture</button>
-                </div>
-                <div class="note">Note: You can access and capture an image from my webcam.</div>
+                <div class="note mt-1">Note: Image was captured from my webcam.</div>
               </div>
             </div>
           </div>
@@ -271,24 +261,9 @@
             </div>
             <div id="desktop-capture-collapse" class="collapse">
               <div>
-                <div><img src="IMG_0020.PNG" alt="pon.jpg" style="width: 100%;"></div>
-                <div class="mt-1"><button type="button">Capture</button></div>
-                <div class="note">Note: You can capture a screenshot of my desktop.</div>
+                <div><img id="desktop-capture" alt="desktop.jpg" style="width: 100%;"></div>
+                <div class="note mt-1">Note: Screenshot was captured from my desktop.</div>
               </div>
-            </div>
-          </div>
-          <div>
-            <div>
-              <a data-toggle="collapse" href="#geolocation-collapse">Geolocation</a>
-            </div>
-            <div id="geolocation-collapse" class="collapse">
-              <div>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                commodo consequat.
-              </div>
-              <div class="note">Note: In case you want to grab some beer, here is my location.</div>
             </div>
           </div>
           <div>
@@ -365,6 +340,8 @@
     client.subscribe("reedleoneil/status");
     client.subscribe("reedleoneil/system_info/#");
     client.subscribe("reedleoneil/hackers/#");
+    client.subscribe("reedleoneil/webcam");
+    client.subscribe("reedleoneil/desktop");
     client.subscribe("reedleoneil/chat");
 
     client.on("connect", function () {
@@ -378,6 +355,12 @@
     client.on("message", function (topic, payload) {
       console.log([topic, payload].join(": "));
       log([topic, payload].join(": "));
+
+      if (topic == "reedleoneil/desktop") {
+        console.log(payload);
+        updateDesktopCapture(payload);
+        return;
+      }
 
       try {
         message = JSON.parse(payload);
@@ -578,6 +561,11 @@
       message: message
     }
     client.publish("reedleoneil/chat", JSON.stringify(messagePayload));
+  }
+
+  function updateDesktopCapture(base64Data) {
+    var img = document.getElementById("desktop-capture");
+    img.src = "data:image/png;base64, " + base64Data;
   }
 
   var chatMessage = document.getElementById("chat-message");
