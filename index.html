@@ -348,9 +348,9 @@
 
   function clearProcessesTable() {
     var table = document.getElementById("processes-table");
-    while(table.childNodes.length != 1)
+    while(table.rows.length != 1)
     {
-       table.removeChild(table.firstChild);
+       table.deleteRow(table.rows.length - 1);
     }
   }
 
