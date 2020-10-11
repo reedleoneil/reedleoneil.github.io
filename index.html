@@ -343,7 +343,7 @@
 
   function updateDiskSparkline(free, total) {
     var sparkline_disk = [free, total];
-    $('#sys-info-disk-sparkline').sparkline(sparkline_disk, { type: 'pie' });
+    $('#sys-info-disk-sparkline').sparkline(sparkline_disk, { type: 'pie', sliceColors: ['#033dfc', '#03befc'] });
   }
 
   function clearProcessesTable() {
