@@ -1,6 +1,7 @@
 require_relative 'client'
 require 'os'
 require 'json'
+require 'open-uri'
 require 'sys/proctable'
 include Sys
 
@@ -9,8 +10,7 @@ def host()
 end
 
 def ip()
-  #open('http://whatismyip.akamai.com').read
-  { :ip => nil }
+  { :ip => open('http://whatismyip.akamai.com').read }
 end
 
 def os()
