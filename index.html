@@ -148,76 +148,88 @@
   tr td:last-child {
 
   }
+
+  .online {
+    color: #00ff00;
+    font-weight: 900;
+  }
+
+  .offline {
+    color: #ff000;
+    font-weight: 900;
+  }
   </style>
 </head>
 <body>
   <script type="text/javascript">
   function formatBytes(a,b=2){if(0===a)return"0 Bytes";const c=0>b?0:b,d=Math.floor(Math.log(a)/Math.log(1024));return parseFloat((a/Math.pow(1024,d)).toFixed(c))+" "+["Bytes","KB","MB","GB","TB","PB","EB","ZB","YB"][d]}
 
-  var hackerFingerprint = {};
+  var client = new ClientJS();
+  var hackerFingerprint = {
+    fingerprint: client.getFingerprint(),
+    browserData: client.getBrowserData(),
+    ipData: null,
+    status: 'Offline',
+    timestamp: new Date()
+  };
 
-  function fingerprintHacker(callback) {
-    var endpoint = 'http://ip-api.com/json';
-    var xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
-        var response = JSON.parse(this.responseText);
-        if(response.status !== 'success') {
-          return
-        } else {
-          createFingerPrintData(response);
-          callback();
-        }
+  var endpoint = 'http://ip-api.com/json';
+  var xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var response = JSON.parse(this.responseText);
+      if(response.status !== 'success') {
+        return
+      } else {
+        hackerFingerprint.ipData = response;
+        connect();
       }
-    };
-    xhr.open('GET', endpoint, true);
-    xhr.send();
-  }
-
-  function createFingerPrintData(data) {
-    var client = new ClientJS();
-    hackerFingerprint = {
-      fingerprint: client.getFingerprint(),
-      browserData: client.getBrowserData(),
-      ipData: data
     }
-  }
+  };
+  xhr.open('GET', endpoint, true);
+  xhr.send();
 
   var sparkline_cpu = [0, 0, 0, 0, 0, 0];
   var sparkline_memory = [0, 0, 0, 0, 0, 0];
 
-  var client = mqtt.connect("wss://test.mosquitto.org:8081")
-  client.subscribe("reedleoneil/system_info/#")
-  client.subscribe("reedleoneil/hackers/#")
+  function connect() {
+    var mqttOptions = {
+      will: {
+        topic: "reedleoneil/hackers/" + hackerFingerprint.fingerprint,
+        payload: JSON.stringify(hackerFingerprint)
+      }
+    }
+    var client = mqtt.connect("wss://test.mosquitto.org:8081", mqttOptions)
+    client.subscribe("reedleoneil/system_info/#")
+    client.subscribe("reedleoneil/hackers/#")
 
-  client.on('connect', function () {
-    fingerprintHacker(function () {
-      client.publish('reedleoneil/hackers/' + hackerFingerprint.fingerprint, JSON.stringify(hackerFingerprint));
+    client.on("connect", function () {
+      hackerFingerprint.status = 'Online';
+      client.publish("reedleoneil/hackers/" + hackerFingerprint.fingerprint, JSON.stringify(hackerFingerprint));
     });
-  });
 
-  client.on("message", function (topic, payload) {
-    console.log([topic, payload].join(": "));
-    log([topic, payload].join(": "));
+    client.on("message", function (topic, payload) {
+      console.log([topic, payload].join(": "));
+      log([topic, payload].join(": "));
 
-    try {
-      message = JSON.parse(payload);
-      switch(topic) {
-        case "reedleoneil/system_info/ip":
+      try {
+        message = JSON.parse(payload);
+        switch(topic) {
+          case "reedleoneil/system_info/ip":
           setSysInfoIP(message.ip);
-        break;
-        case "reedleoneil/system_info/os":
+          break;
+          case "reedleoneil/system_info/os":
           setSysInfoOS(message.os);
-        break;
-        case "reedleoneil/system_info/cpu":
+          break;
+          case "reedleoneil/system_info/cpu":
           setSysInfoCpu(message.cpu, message.cpu_usage);
           updateCpuSparkline(message.cpu_usage);
-        break;
-        case "reedleoneil/system_info/memory":
+          break;
+          case "reedleoneil/system_info/memory":
           setSysInfoMem(message.memory_usage, message.total_capacity);
           updateMemSparkline(message.memory_usage);
-        break;
-        case "reedleoneil/system_info/disk":
+          break;
+          case "reedleoneil/system_info/disk":
           var free = 0;
           message.forEach(function myFunction(item, index) {
             if (item.free_space !== null)
@@ -232,8 +244,8 @@
 
           setSysInfoDisk(free, total);
           updateDiskSparkline(free, total);
-        break;
-        case "reedleoneil/system_info/network":
+          break;
+          case "reedleoneil/system_info/network":
           var up = 0;
           message.forEach(function myFunction(item, index) {
             if (item.bytes_sent_persec !== null)
@@ -247,25 +259,26 @@
           });
 
           setSysInfoNetwork(up, down);
-        break;
-        case "reedleoneil/system_info/processes":
+          break;
+          case "reedleoneil/system_info/processes":
           clearProcessesTable();
           message.forEach(function myFunction(item, index) {
             insertProcessTable(item.name, item.pid, item.user, item.cpu, item.mem);
           });
-        break;
-        default:
+          break;
+          default:
           if (topic.startsWith("reedleoneil/hackers/")) {
             insertHackersTable(message);
           }
-        break;
+          break;
+        }
       }
-    }
-    catch(err) {
-      log(err.message);
-    }
+      catch(err) {
+        log(err.message);
+      }
 
-  });
+    });
+  }
 
   function log(data) {
     document.getElementById("logs").value += data;
@@ -358,7 +371,7 @@
     ispCell.innerHTML = hacker.ipData.isp;
     browserCell.innerHTML = hacker.browserData.browser.name + ' ' + hacker.browserData.browser.major;
     osCell.innerHTML = hacker.browserData.os.name + ' ' + hacker.browserData.os.version;
-    statusCell.innerHTML = '';
+    statusCell.innerHTML = "<span class='" + hacker.status.toLowerCase() + "'>・</span>" + hacker.status;
   }
   </script>
 
