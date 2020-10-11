@@ -101,7 +101,9 @@
     text-align: right;
   }
 
-  #logs, #logs:focus {
+  #logs, #logs:focus,
+  #chat-box, #chat-box:focus,
+  #chat-message {
     width: 100%;
     background-color: #000000;
     border: none;
@@ -161,13 +163,170 @@
   </style>
 </head>
 <body>
+  <div class="row">
+    <div class="col-sm px-2 mt-2">
+      <div class="re-border">
+        <div id="left-panel">
+          <div>
+            <div>
+              <a data-toggle="collapse"  href="#profiler-collapse">Profiler</a>
+            </div>
+            <div id="profiler-collapse" class="collapse show">
+              <div>
+                <div class="clearfix">
+                  <div id="profiler-image"><img src="IMG_0020.PNG" alt="pon.jpg" style="width: 100%;"></div>
+                  <div id="profiler-info">
+                    <div>Name: Reed Leoneil Pascual</div>
+                    <div>Nickname: Pon</div>
+                    <div>Age: 26</div>
+                    <div>Occupation: Software Engineer</div>
+                    <div>Status: <span id="status"></span></div>
+                  </div>
+                </div>
+                <div>Rarely uses social media accounts because he doesn't want his online activities to be tracked.</div>
+                <div><a class="social-media-link" href="https://fb.com/reedleoneil" target="_blank"><i class="fab fa-facebook"></i> fb.com/reedleoneil</a></div>
+                <div><a class="social-media-link" href="https://www.instagram.com/reedleoneil" target="_blank"><i class="fab fa-instagram"></i> instagram.com/reedleoneil</a></div>
+                <div><a class="social-media-link" href="https://twitter.com/reedleoneil" target="_blank"><i class="fab fa-twitter"></i> twitter.com/reedleoneil</a></div>
+                <div><a class="social-media-link" href="https://github.com/reedleoneil" target="_blank"><i class="fab fa-github"></i> github.com/reedleoneil</a></div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div>
+              <a data-toggle="collapse" href="#system-info-collapse">System Info</a>
+            </div>
+            <div id="system-info-collapse" class="collapse">
+              <div>
+                <div>IP Address: <span id="sys-info-ip"></span></div>
+                <div>Operating System: <span id="sys-info-os"></span></div>
+                <div>CPU: <span id="sys-info-cpu"></span> (<span id="sys-info-cpu-usage"></span>%) <span id="sys-info-cpu-sparkline"></span></div>
+                <div>Memory: <span id="sys-info-mem-usage"></span> / <span id="sys-info-mem-capacity"></span> (<span id="sys-info-mem-percentage"></span>%) <span id="sys-info-memory-sparkline"></span></div>
+                <div>Disk: <span id="sys-info-disk-free"></span> / <span id="sys-info-disk-total"></span> (<span id="sys-info-disk-percentage"></span>%)</span> <span id="sys-info-disk-sparkline"></span></div>
+                <div>Network: ▲ <span id="sys-info-net-up"></span> ▼ <span id="sys-info-net-down"></span></div>
+                <table id="processes-table">
+                  <tr>
+                    <th>Name</th>
+                    <th>PID</th>
+                    <!-- <th>User</th> -->
+                    <!-- <th>CPU</th> -->
+                    <th>MEM</th>
+                  </tr>
+                </table>
+                <div class="note">Note: These are realtime data from my machine not yours.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 px-1 mt-2">
+      <div>
+        <div class="re-border" style="overflow-x:auto;">
+          <table id="hackers-table">
+            <tr>
+              <th>Fingerprint</th>
+              <th>IP Address</th>
+              <th>Location</th>
+              <th>ISP</th>
+              <th>Browser</th>
+              <th>Operating System</th>
+              <th>Status</th>
+            </tr>
+          </table>
+          <div class="note">Note: These are list of unique users that accessed this site including you.</div>
+        </div>
+        <div class="re-border mt-2">
+          logs <span>/////</span>
+          <textarea id="logs" name="logs" rows="10" readonly></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm px-2 mt-2">
+      <div class="re-border">
+        <div id="left-panel">
+          <div>
+            <div>
+              <a data-toggle="collapse"  href="#webcam-caputure-collapse">Webcam Capture</a>
+            </div>
+            <div id="webcam-caputure-collapse" class="collapse">
+              <div>
+                <div><img src="IMG_0020.PNG" alt="pon.jpg" style="width: 100%;"></div>
+                <div class="mt-1">
+                  <label for="webcam">webcam:</label>
+
+                  <select name="webcam" id="webcam-select">
+                    <option value="front-cam">front-cam</option>
+                    <option value="back-cam">back-cam</option>
+                  </select>
+
+                  <button type="button">Capture</button>
+                </div>
+                <div class="note">Note: You can access and capture an image from my webcam.</div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div>
+              <a data-toggle="collapse" href="#desktop-capture-collapse">Desktop Capture</a>
+            </div>
+            <div id="desktop-capture-collapse" class="collapse">
+              <div>
+                <div><img src="IMG_0020.PNG" alt="pon.jpg" style="width: 100%;"></div>
+                <div class="mt-1"><button type="button">Capture</button></div>
+                <div class="note">Note: You can capture a screenshot of my desktop.</div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div>
+              <a data-toggle="collapse" href="#geolocation-collapse">Geolocation</a>
+            </div>
+            <div id="geolocation-collapse" class="collapse">
+              <div>
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+                minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                commodo consequat.
+              </div>
+              <div class="note">Note: In case you want to grab some beer, here is my location.</div>
+            </div>
+          </div>
+          <div>
+            <div>
+              <a data-toggle="collapse" href="#chat-collapse">Chat</a>
+            </div>
+            <div id="chat-collapse" class="collapse">
+              <div>
+                <div class="re-border mb-2"><textarea id="chat-box" name="chat-box" rows="10" readonly></textarea></div>
+                <div class="re-border mb-2"><input type="text" id="chat-message"></div>
+              </div>
+              <div class="note">Note: I rarely do social media stuff, so ping me here.</div>
+            </div>
+          </div>
+          <div>
+            <div>
+              <a data-toggle="collapse"  href="#about-collapse">About</a>
+            </div>
+            <div id="about-collapse" class="collapse">
+              <div>
+                <div>reedleoneil.github.com</div>
+                <div>Version 6.0</div>
+
+                © 2020 reedleoneil レード・レオニール
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
   <script type="text/javascript">
   function formatBytes(a,b=2){if(0===a)return"0 Bytes";const c=0>b?0:b,d=Math.floor(Math.log(a)/Math.log(1024));return parseFloat((a/Math.pow(1024,d)).toFixed(c))+" "+["Bytes","KB","MB","GB","TB","PB","EB","ZB","YB"][d]}
 
-  var client = new ClientJS();
+  var clientjs = new ClientJS();
   var hackerFingerprint = {
-    fingerprint: client.getFingerprint(),
-    browserData: client.getBrowserData(),
+    fingerprint: clientjs.getFingerprint(),
+    browserData: clientjs.getBrowserData(),
     ipData: null,
     status: 'Offline',
     timestamp: new Date()
@@ -192,6 +351,8 @@
   var sparkline_cpu = [0, 0, 0, 0, 0, 0];
   var sparkline_memory = [0, 0, 0, 0, 0, 0];
 
+  var client;
+
   function connect() {
     var mqttOptions = {
       will: {
@@ -200,10 +361,11 @@
         retain: true
       }
     }
-    var client = mqtt.connect("wss://test.mosquitto.org:8081", mqttOptions);
+    client = mqtt.connect("wss://test.mosquitto.org:8081", mqttOptions);
     client.subscribe("reedleoneil/status");
     client.subscribe("reedleoneil/system_info/#");
     client.subscribe("reedleoneil/hackers/#");
+    client.subscribe("reedleoneil/chat");
 
     client.on("connect", function () {
       hackerFingerprint.status = 'Online';
@@ -273,6 +435,9 @@
           message.forEach(function myFunction(item, index) {
             insertProcessTable(item.name, item.pid, item.user, item.cpu, item.mem);
           });
+          break;
+          case "reedleoneil/chat":
+          updateChat(message);
           break;
           default:
           if (topic.startsWith("reedleoneil/hackers/")) {
@@ -398,164 +563,31 @@
     }
     return 0;
   }
+
+  function updateChat(message) {
+    var chatBox = document.getElementById("chat-box");
+    if (chatBox.value)
+      chatBox.value += "\n";
+    chatBox.value += message.from + ": " + message.message;
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }
+
+  function sendMessage(message) {
+    messagePayload = {
+      from: hackerFingerprint.fingerprint,
+      message: message
+    }
+    client.publish("reedleoneil/chat", JSON.stringify(messagePayload));
+  }
+
+  var chatMessage = document.getElementById("chat-message");
+  chatMessage.addEventListener("keyup", function(event) {
+    if (event.keyCode === 13) {
+     event.preventDefault();
+     sendMessage(chatMessage.value);
+     chatMessage.value = "";
+    }
+  });
   </script>
-
-  <div class="row">
-    <div class="col-sm px-2 mt-2">
-      <div class="re-border">
-        <div id="left-panel">
-          <div>
-            <div>
-              <a data-toggle="collapse"  href="#profiler-collapse">Profiler</a>
-            </div>
-            <div id="profiler-collapse" class="collapse show">
-              <div>
-                <div class="clearfix">
-                  <div id="profiler-image"><img src="IMG_0020.PNG" alt="pon.jpg" style="width: 100%;"></div>
-                  <div id="profiler-info">
-                    <div>Name: Reed Leoneil Pascual</div>
-                    <div>Nickname: Pon</div>
-                    <div>Age: 26</div>
-                    <div>Occupation: Software Engineer</div>
-                    <div>Status: <span id="status"></span></div>
-                  </div>
-                </div>
-                <div>Rarely uses social media accounts because he doesn't want his online activities to be tracked.</div>
-                <div><a class="social-media-link" href="https://fb.com/reedleoneil" target="_blank"><i class="fab fa-facebook"></i> fb.com/reedleoneil</a></div>
-                <div><a class="social-media-link" href="https://www.instagram.com/reedleoneil" target="_blank"><i class="fab fa-instagram"></i> instagram.com/reedleoneil</a></div>
-                <div><a class="social-media-link" href="https://twitter.com/reedleoneil" target="_blank"><i class="fab fa-twitter"></i> twitter.com/reedleoneil</a></div>
-                <div><a class="social-media-link" href="https://github.com/reedleoneil" target="_blank"><i class="fab fa-github"></i> github.com/reedleoneil</a></div>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div>
-              <a data-toggle="collapse" href="#system-info-collapse">System Info</a>
-            </div>
-            <div id="system-info-collapse" class="collapse">
-              <div>
-                <div>IP Address: <span id="sys-info-ip"></span></div>
-                <div>Operating System: <span id="sys-info-os"></span></div>
-                <div>CPU: <span id="sys-info-cpu"></span> (<span id="sys-info-cpu-usage"></span>%) <span id="sys-info-cpu-sparkline"></span></div>
-                <div>Memory: <span id="sys-info-mem-usage"></span> / <span id="sys-info-mem-capacity"></span> (<span id="sys-info-mem-percentage"></span>%) <span id="sys-info-memory-sparkline"></span></div>
-                <div>Disk: <span id="sys-info-disk-free"></span> / <span id="sys-info-disk-total"></span> (<span id="sys-info-disk-percentage"></span>%)</span> <span id="sys-info-disk-sparkline"></span></div>
-                <div>Network: ▲ <span id="sys-info-net-up"></span> ▼ <span id="sys-info-net-down"></span></div>
-                <table id="processes-table">
-                  <tr>
-                    <th>Name</th>
-                    <th>PID</th>
-                    <!-- <th>User</th> -->
-                    <!-- <th>CPU</th> -->
-                    <th>MEM</th>
-                  </tr>
-                </table>
-                <div class="note">Note: These are realtime data from my machine not yours.</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm-6 px-1 mt-2">
-      <div>
-        <div class="re-border" style="overflow-x:auto;">
-          <table id="hackers-table">
-            <tr>
-              <th>Fingerprint</th>
-              <th>IP Address</th>
-              <th>Location</th>
-              <th>ISP</th>
-              <th>Browser</th>
-              <th>Operating System</th>
-              <th>Status</th>
-            </tr>
-          </table>
-          <div class="note">Note: These are list of unique users that accessed this site including you.</div>
-        </div>
-        <div class="re-border mt-2">
-          logs <span>/////</span>
-          <textarea id="logs" name="logs" rows="10" readonly></textarea>
-        </div>
-      </div>
-    </div>
-    <div class="col-sm px-2 mt-2">
-      <div class="re-border">
-        <div id="left-panel">
-          <div>
-            <div>
-              <a data-toggle="collapse"  href="#about-collapse">About</a>
-            </div>
-            <div id="about-collapse" class="collapse show">
-              <div>
-                This software is a real hacking fucking shit.
-                <div class="note">Note: You can access and capture an image from my webcam.</div>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div>
-              <a data-toggle="collapse"  href="#webcam-caputure-collapse">Webcam Capture</a>
-            </div>
-            <div id="webcam-caputure-collapse" class="collapse">
-              <div>
-                <div><img src="IMG_0020.PNG" alt="pon.jpg" style="width: 100%;"></div>
-                <div class="mt-1">
-                  <label for="webcam">webcam:</label>
-
-                  <select name="webcam" id="webcam-select">
-                    <option value="front-cam">front-cam</option>
-                    <option value="back-cam">back-cam</option>
-                  </select>
-
-                  <button type="button">Capture</button>
-                </div>
-                <div class="note">Note: You can access and capture an image from my webcam.</div>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div>
-              <a data-toggle="collapse" href="#desktop-capture-collapse">Desktop Capture</a>
-            </div>
-            <div id="desktop-capture-collapse" class="collapse">
-              <div>
-                <div><img src="IMG_0020.PNG" alt="pon.jpg" style="width: 100%;"></div>
-                <div class="mt-1"><button type="button">Capture</button></div>
-                <div class="note">Note: You can capture a screenshot of my desktop.</div>
-              </div>
-            </div>
-          </div>
-          <div>
-            <div>
-              <a data-toggle="collapse" href="#geolocation-collapse">Geolocation</a>
-            </div>
-            <div id="geolocation-collapse" class="collapse">
-              <div>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                commodo consequat.
-              </div>
-              <div class="note">Note: In case you want to grab some beer, here is my location.</div>
-            </div>
-          </div>
-          <div>
-            <div>
-              <a data-toggle="collapse" href="#chat-collapse">Chat</a>
-            </div>
-            <div id="chat-collapse" class="collapse">
-              <div>
-                Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-                minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                commodo consequat.
-              </div>
-              <div class="note">Note: I rarely do social media stuff, so ping me here.</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
 </body>
 </html>
