@@ -94,6 +94,16 @@ def processes()
   return processes.last(10)
 end
 
+def webcam()
+  if OS.windows? then
+    `WebCamImageSave.exe /capture /Filename webcam.png`
+    `magick mogrify -resize 10% webcam.png`
+     Base64.strict_encode64(File.binread('webcam.png'))
+  else
+    `whoami`
+  end
+end
+
 def desktop()
   if OS.windows? then
     `nircmd.exe savescreenshot desktop.png`
@@ -122,6 +132,7 @@ loop do
         client.publish('reedleoneil/system_info/disk', disk().to_json, true, 2)
         client.publish('reedleoneil/system_info/network', network().to_json, true, 2)
         client.publish('reedleoneil/system_info/processes', processes().to_json, true, 2)
+        client.publish('reedleoneil/webcam', webcam(), true, 2)
         client.publish('reedleoneil/desktop', desktop(), true, 2)
 			end
 		else

@@ -250,7 +250,7 @@
             </div>
             <div id="webcam-caputure-collapse" class="collapse">
               <div>
-                <div><img src="IMG_0020.PNG" alt="pon.jpg" style="width: 100%;"></div>
+                <div><img id="webcam-capture" alt="webcam.png" style="width: 100%;"></div>
                 <div class="note mt-1">Note: Image was captured from my webcam.</div>
               </div>
             </div>
@@ -261,7 +261,7 @@
             </div>
             <div id="desktop-capture-collapse" class="collapse">
               <div>
-                <div><img id="desktop-capture" alt="desktop.jpg" style="width: 100%;"></div>
+                <div><img id="desktop-capture" alt="desktop.png" style="width: 100%;"></div>
                 <div class="note mt-1">Note: Screenshot was captured from my desktop.</div>
               </div>
             </div>
@@ -353,12 +353,16 @@
     });
 
     client.on("message", function (topic, payload) {
-      console.log([topic, payload].join(": "));
+      //console.log([topic, payload].join(": "));
       log([topic, payload].join(": "));
 
       if (topic == "reedleoneil/desktop") {
-        console.log(payload);
+        //console.log(payload);
         updateDesktopCapture(payload);
+        return;
+      } else if (topic == "reedleoneil/webcam") {
+        //console.log(payload);
+        updateWebcamCapture(payload);
         return;
       }
 
@@ -439,8 +443,12 @@
   }
 
   function log(data) {
-    document.getElementById("logs").value += data;
-    document.getElementById("logs").scrollTop = document.getElementById("logs").scrollHeight;
+    var log = document.getElementById("logs");
+    log.value += data;
+    log.scrollTop = log.scrollHeight;
+    if (log.value.length > 12288) {
+      log.value = log.value.substr(2048);
+    }
   }
 
   function setStatus(status) {
@@ -561,6 +569,11 @@
       message: message
     }
     client.publish("reedleoneil/chat", JSON.stringify(messagePayload));
+  }
+
+  function updateWebcamCapture(base64Data) {
+    var img = document.getElementById("webcam-capture");
+    img.src = "data:image/png;base64, " + base64Data;
   }
 
   function updateDesktopCapture(base64Data) {
