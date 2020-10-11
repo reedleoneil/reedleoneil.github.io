@@ -155,7 +155,7 @@
   }
 
   .offline {
-    color: #ff000;
+    color: #ff0000;
     font-weight: 900;
   }
   </style>
@@ -268,7 +268,9 @@
           break;
           default:
           if (topic.startsWith("reedleoneil/hackers/")) {
-            insertHackersTable(message);
+            if (!updateHackersTable(message)) {
+              insertHackersTable(message);
+            }
           }
           break;
         }
@@ -372,6 +374,17 @@
     browserCell.innerHTML = hacker.browserData.browser.name + ' ' + hacker.browserData.browser.major;
     osCell.innerHTML = hacker.browserData.os.name + ' ' + hacker.browserData.os.version;
     statusCell.innerHTML = "<span class='" + hacker.status.toLowerCase() + "'>・</span>" + hacker.status;
+  }
+
+  function updateHackersTable(hacker) {
+    var table = document.getElementById("hackers-table");
+    for (var r = 1; r < table.rows.length; r++) {
+      if (table.rows[r].cells[0].innerText == hacker.fingerprint) {
+          table.rows[r].cells[6].innerHTML = "<span class='" + hacker.status.toLowerCase() + "'>・</span>" + hacker.status;
+          return 1;
+      }
+    }
+    return 0;
   }
   </script>
 
