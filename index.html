@@ -196,7 +196,8 @@
     var mqttOptions = {
       will: {
         topic: "reedleoneil/hackers/" + hackerFingerprint.fingerprint,
-        payload: JSON.stringify(hackerFingerprint)
+        payload: JSON.stringify(hackerFingerprint),
+        retain: true
       }
     }
     var client = mqtt.connect("wss://test.mosquitto.org:8081", mqttOptions)
@@ -205,7 +206,10 @@
 
     client.on("connect", function () {
       hackerFingerprint.status = 'Online';
-      client.publish("reedleoneil/hackers/" + hackerFingerprint.fingerprint, JSON.stringify(hackerFingerprint));
+      var publishOptions = {
+        retain: true
+      }
+      client.publish("reedleoneil/hackers/" + hackerFingerprint.fingerprint, JSON.stringify(hackerFingerprint), publishOptions);
     });
 
     client.on("message", function (topic, payload) {
