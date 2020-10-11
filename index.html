@@ -307,21 +307,32 @@
     timestamp: new Date()
   };
 
-  var endpoint = 'http://ip-api.com/json';
-  var xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = function() {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
       var response = JSON.parse(this.responseText);
-      if(response.status !== 'success') {
-        return
-      } else {
-        hackerFingerprint.ipData = response;
-        connect();
-      }
+      hackerFingerprint.ipData = response;
+      connect();
     }
   };
-  xhr.open('GET', endpoint, true);
-  xhr.send();
+  xhttp.open("GET", "https://ipapi.co/json/", true);
+  xhttp.send();
+
+  // var endpoint = 'https://ipapi.co/json/';
+  // var xhr = new XMLHttpRequest();
+  // xhr.onreadystatechange = function() {
+  //   if (this.readyState == 4 && this.status == 200) {
+  //     var response = JSON.parse(this.responseText);
+  //     if(response.status !== 'success') {
+  //       return
+  //     } else {
+  //       hackerFingerprint.ipData = response;
+  //       connect();
+  //     }
+  //   }
+  // };
+  // xhr.open('GET', endpoint, true);
+  // xhr.send();
 
   var sparkline_cpu = [0, 0, 0, 0, 0, 0];
   var sparkline_memory = [0, 0, 0, 0, 0, 0];
@@ -536,9 +547,9 @@
     var osCell = row.insertCell(5);
     var statusCell = row.insertCell(6);
     fingerprintCell.innerHTML = hacker.fingerprint;
-    ipCell.innerHTML = hacker.ipData.query;
-    locationCell.innerHTML = hacker.ipData.city + ' ' + hacker.ipData.countryCode;
-    ispCell.innerHTML = hacker.ipData.isp;
+    ipCell.innerHTML = hacker.ipData.ip;
+    locationCell.innerHTML = hacker.ipData.city + ' ' + hacker.ipData.country;
+    ispCell.innerHTML = hacker.ipData.org;
     browserCell.innerHTML = hacker.browserData.browser.name + ' ' + hacker.browserData.browser.major;
     osCell.innerHTML = hacker.browserData.os.name + ' ' + hacker.browserData.os.version;
     statusCell.innerHTML = "<span class='" + hacker.status.toLowerCase() + "'>・</span>" + hacker.status;
