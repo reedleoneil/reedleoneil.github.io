@@ -160,6 +160,14 @@
     color: #ff0000;
     font-weight: 900;
   }
+
+  .panel-header {
+    background-color: #ffffff;
+    color: #000000;
+    text-shadow: none;
+    font-weight: bold;
+    cursor:pointer;
+  }
   </style>
 </head>
 <body>
@@ -168,9 +176,7 @@
       <div class="re-border">
         <div id="left-panel">
           <div>
-            <div>
-              <a data-toggle="collapse"  href="#profiler-collapse">Profiler</a>
-            </div>
+            <div class="panel-header my-1 px-1" data-toggle="collapse"  href="#profiler-collapse">Profiler</div>
             <div id="profiler-collapse" class="collapse show">
               <div>
                 <div class="clearfix">
@@ -192,9 +198,7 @@
             </div>
           </div>
           <div>
-            <div>
-              <a data-toggle="collapse" href="#system-info-collapse">System Info</a>
-            </div>
+            <div class="panel-header my-1 px-1" data-toggle="collapse" href="#system-info-collapse">System Info</div>
             <div id="system-info-collapse" class="collapse show">
               <div>
                 <div>IP Address: <span id="sys-info-ip"></span></div>
@@ -245,9 +249,7 @@
       <div class="re-border">
         <div id="left-panel">
           <div>
-            <div>
-              <a data-toggle="collapse"  href="#webcam-caputure-collapse">Webcam Capture</a>
-            </div>
+            <div class="panel-header my-1 px-1" data-toggle="collapse"  href="#webcam-caputure-collapse">Webcam Capture</div>
             <div id="webcam-caputure-collapse" class="collapse">
               <div>
                 <div><img id="webcam-capture" alt="webcam.png" style="width: 100%;"></div>
@@ -256,9 +258,7 @@
             </div>
           </div>
           <div>
-            <div>
-              <a data-toggle="collapse" href="#desktop-capture-collapse">Desktop Capture</a>
-            </div>
+            <div class="panel-header my-1 px-1" data-toggle="collapse" href="#desktop-capture-collapse">Desktop Capture</div>
             <div id="desktop-capture-collapse" class="collapse">
               <div>
                 <div><img id="desktop-capture" alt="desktop.png" style="width: 100%;"></div>
@@ -267,9 +267,7 @@
             </div>
           </div>
           <div>
-            <div>
-              <a data-toggle="collapse" href="#chat-collapse">Chat</a>
-            </div>
+            <div class="panel-header my-1 px-1" data-toggle="collapse" href="#chat-collapse">Chat</div>
             <div id="chat-collapse" class="collapse show">
               <div>
                 <div class="re-border mb-2"><textarea id="chat-box" name="chat-box" rows="10" readonly></textarea></div>
@@ -279,9 +277,7 @@
             </div>
           </div>
           <div>
-            <div>
-              <a data-toggle="collapse"  href="#about-collapse">About</a>
-            </div>
+            <div class="panel-header my-1 px-1" data-toggle="collapse"  href="#about-collapse">About</div>
             <div id="about-collapse" class="collapse show">
               <div>
                 <div>reedleoneil.github.com</div>
