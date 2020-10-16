@@ -1,7 +1,7 @@
 require 'paho-mqtt'
 require 'json'
 
-class Client
+class Pwn
   attr_reader :internals
   def initialize()
     @internals = {
