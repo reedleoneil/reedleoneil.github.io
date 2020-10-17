@@ -162,6 +162,7 @@ Thread.new {
   loop do
     if (pwn.internals[:mqtt].connected?) then
       if webcam_eta <= Time.now then
+        pwn.publish('reedleoneil/webcam/eta', { :eta => "00:00:00" }.to_msgpack, false, 2)
         webcam()
         for i in 0..99
           p "w: #{i.to_s}"
@@ -176,7 +177,7 @@ Thread.new {
         p "w " + "00" + ":" + format('%02d', eta.min) + ":" +  format('%02d', eta.sec)
         pwn.publish('reedleoneil/webcam/eta', { :eta => "00" + ":" + format('%02d', eta.min) + ":" +  format('%02d', eta.sec) }.to_msgpack, false, 2)
         pwn.internals[:mqtt].loop_write
-        sleep 3
+        sleep 1
       end
     end
   end
@@ -187,6 +188,7 @@ Thread.new {
   loop do
     if (pwn.internals[:mqtt].connected?) then
       if desktop_eta <= Time.now then
+        pwn.publish('reedleoneil/desktop/eta', { :eta => "00:00:00" }.to_msgpack, false, 2)
         desktop()
         for i in 0..99
           p "d: #{i.to_s}"
@@ -201,7 +203,7 @@ Thread.new {
         p "d " + "00" + ":" + format('%02d', eta.min) + ":" +  format('%02d', eta.sec)
         pwn.publish('reedleoneil/desktop/eta', { :eta => "00" + ":" + format('%02d', eta.min) + ":" +  format('%02d', eta.sec) }.to_msgpack, false, 2)
         pwn.internals[:mqtt].loop_write
-        sleep 3
+        sleep 1
       end
     end
   end
