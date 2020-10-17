@@ -235,6 +235,7 @@
             <div class="panel-header my-1 px-1" data-toggle="collapse"  href="#webcam-caputure-collapse">Webcam Capture</div>
             <div id="webcam-caputure-collapse" class="collapse">
               <div>
+                <div>ETA: <span id="webcam-eta">--:--:--</span></div>
                 <div style="font-size: 0;" id="webcam-capture"></div>
                 <div class="note mt-1">Note: Image was captured from my webcam.</div>
               </div>
@@ -244,6 +245,7 @@
             <div class="panel-header my-1 px-1" data-toggle="collapse" href="#desktop-capture-collapse">Desktop Capture</div>
             <div id="desktop-capture-collapse" class="collapse">
               <div>
+                <div>ETA: <span id="desktop-eta">--:--:--</span></div>
                 <div style="font-size: 0;" id="desktop-capture"></div>
                 <div class="note mt-1">Note: Screenshot was captured from my desktop.</div>
               </div>
@@ -418,9 +420,18 @@
     generateWebcamGrid();
     webcamClient = mqtt.connect(server);
     webcamClient.subscribe("reedleoneil/webcam");
+    webcamClient.subscribe("reedleoneil/webcam/eta");
 
     webcamClient.on("message", function (topic, payload) {
-      updateWebcamCapture(msgpack.decode(payload));
+      var message = msgpack.decode(payload);
+      switch (topic) {
+        case "reedleoneil/webcam":
+        updateWebcamCapture(message);
+        break;
+        case "reedleoneil/webcam/eta":
+        updateWebcamEta(message.eta);
+        break;
+      }
     });
   }
 
@@ -428,9 +439,18 @@
     generateDesktopGrid();
     desktopClient = mqtt.connect(server);
     desktopClient.subscribe("reedleoneil/desktop");
+    desktopClient.subscribe("reedleoneil/desktop/eta");
 
     desktopClient.on("message", function (topic, payload) {
-      updateDesktopCapture(msgpack.decode(payload));
+      var message = msgpack.decode(payload);
+      switch (topic) {
+        case "reedleoneil/desktop":
+        updateDesktopCapture(message);
+        break;
+        case "reedleoneil/desktop/eta":
+        updateDesktopEta(message.eta);
+        break;
+      }
     });
   }
 
@@ -578,6 +598,10 @@
     img.setAttribute("src", "data:image/png;base64, " + b64encoded);
   }
 
+  function updateWebcamEta(eta) {
+    document.getElementById("webcam-eta").textContent = eta;
+  }
+
   function generateWebcamGrid() {
     var webcam = document.getElementById("webcam-capture");
     for (var i = 0; i <= 99; i++) {
@@ -592,6 +616,10 @@
     var b64encoded = base64js.fromByteArray(capture.img);
     var img = document.getElementById("desktop-capture-" + capture.cell);
     img.setAttribute("src", "data:image/png;base64, " + b64encoded);
+  }
+
+  function updateDesktopEta(eta) {
+    document.getElementById("desktop-eta").textContent = eta;
   }
 
   function generateDesktopGrid() {

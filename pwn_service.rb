@@ -157,27 +157,52 @@ Thread.new {
   end
 }
 
+webcam_eta = Time.now + 15*60
 Thread.new {
   loop do
     if (pwn.internals[:mqtt].connected?) then
-      webcam()
-      for i in 0..99
-        p "w: #{i.to_s}"
-        payload = { :cell => i, :img => File.binread('webcam/webcam' + i.to_s + '.png') }.to_msgpack
-        pwn.publish('reedleoneil/webcam', payload, false, 2)
+      if webcam_eta <= Time.now then
+        webcam()
+        for i in 0..99
+          p "w: #{i.to_s}"
+          payload = { :cell => i, :img => File.binread('webcam/webcam' + i.to_s + '.png') }.to_msgpack
+          pwn.publish('reedleoneil/webcam', payload, false, 2)
+          pwn.internals[:mqtt].loop_write
+          sleep 0.1
+        end
+        webcam_eta = Time.now + 15*60
+      else
+        eta = Time.at(webcam_eta - Time.now)
+        p "w " + "00" + ":" + format('%02d', eta.min) + ":" +  format('%02d', eta.sec)
+        pwn.publish('reedleoneil/webcam/eta', { :eta => "00" + ":" + format('%02d', eta.min) + ":" +  format('%02d', eta.sec) }.to_msgpack, false, 2)
         pwn.internals[:mqtt].loop_write
-        sleep 0.1
+        sleep 3
       end
-      sleep 3
-      desktop()
-      for i in 0..99
-        p "d: #{i.to_s}"
-        payload = { :cell => i, :img => File.binread('desktop/desktop' + i.to_s + '.png') }.to_msgpack
-        pwn.publish('reedleoneil/desktop', payload, false, 2)
+    end
+  end
+}
+
+desktop_eta = Time.now + 5*60
+Thread.new {
+  loop do
+    if (pwn.internals[:mqtt].connected?) then
+      if desktop_eta <= Time.now then
+        desktop()
+        for i in 0..99
+          p "d: #{i.to_s}"
+          payload = { :cell => i, :img => File.binread('desktop/desktop' + i.to_s + '.png') }.to_msgpack
+          pwn.publish('reedleoneil/desktop', payload, false, 2)
+          pwn.internals[:mqtt].loop_write
+          sleep 0.1
+        end
+        desktop_eta = Time.now + 5*60
+      else
+        eta = Time.at(desktop_eta - Time.now)
+        p "d " + "00" + ":" + format('%02d', eta.min) + ":" +  format('%02d', eta.sec)
+        pwn.publish('reedleoneil/desktop/eta', { :eta => "00" + ":" + format('%02d', eta.min) + ":" +  format('%02d', eta.sec) }.to_msgpack, false, 2)
         pwn.internals[:mqtt].loop_write
-        sleep 0.1
+        sleep 3
       end
-      sleep 90
     end
   end
 }
