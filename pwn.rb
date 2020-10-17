@@ -47,7 +47,7 @@ class Pwn
     @internals[:mqtt].on_connack do
       @internals[:mqtt].publish('reedleoneil/status', { :status => 'Online' }.to_json , true, 2)
     end
-    @internals[:mqtt].host = 'test.mosquitto.org'
+    @internals[:mqtt].host = 'mqtt.eclipse.org'
     @internals[:mqtt].port = 1883
     @internals[:mqtt].persistent = true
     @internals[:mqtt].blocking = true

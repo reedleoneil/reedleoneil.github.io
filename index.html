@@ -291,6 +291,10 @@
       var response = JSON.parse(this.responseText);
       hackerFingerprint.ipData = response;
       connect();
+      connectToSystemInfo();
+      connectToWebcam();
+      connectToDesktop();
+      connectToChat();
     }
   };
   xhttp.open("GET", "https://ipapi.co/json/", true);
@@ -299,7 +303,12 @@
   var sparkline_cpu = [0, 0, 0, 0, 0, 0];
   var sparkline_memory = [0, 0, 0, 0, 0, 0];
 
-  var client;
+  var server = "wss://mqtt.eclipse.org:443/mqtt";
+  var trackerClient;
+  var sysinfoClient;
+  var webcamClient;
+  var desktopClient;
+  var chatClient;
 
   function connect() {
     var mqttOptions = {
@@ -309,22 +318,18 @@
         retain: true
       }
     }
-    client = mqtt.connect("wss://test.mosquitto.org:8081", mqttOptions);
-    client.subscribe("reedleoneil/hackers/#");
+    trackerClient = mqtt.connect(server, mqttOptions);
+    trackerClient.subscribe("reedleoneil/hackers/#");
 
-    client.on("connect", function () {
+    trackerClient.on("connect", function () {
       hackerFingerprint.status = 'Online';
       var publishOptions = {
         retain: true
       }
-      client.publish("reedleoneil/hackers/" + hackerFingerprint.fingerprint, JSON.stringify(hackerFingerprint), publishOptions);
-      connectToSystemInfo();
-      connectToWebcam();
-      connectToDesktop();
-      connectToChat();
+      trackerClient.publish("reedleoneil/hackers/" + hackerFingerprint.fingerprint, JSON.stringify(hackerFingerprint), publishOptions);
     });
 
-    client.on("message", function (topic, payload) {
+    trackerClient.on("message", function (topic, payload) {
       log(payload);
       if (!updateHackersTable(JSON.parse(payload)))
         insertHackersTable(JSON.parse(payload));
@@ -332,7 +337,7 @@
   }
 
   function connectToSystemInfo() {
-    var sysinfoClient = mqtt.connect("wss://test.mosquitto.org:8081");
+    sysinfoClient = mqtt.connect(server);
     sysinfoClient.subscribe("reedleoneil/status");
     sysinfoClient.subscribe("reedleoneil/system_info/#");
 
@@ -404,25 +409,27 @@
   }
 
   function connectToWebcam() {
-    var webcamClient = mqtt.connect("wss://test.mosquitto.org:8081");
+    generateWebcamGrid();
+    webcamClient = mqtt.connect(server);
     webcamClient.subscribe("reedleoneil/webcam");
 
     webcamClient.on("message", function (topic, payload) {
-      updateWebcamCapture(payload);
+      updateWebcamCapture(JSON.parse(payload.toString()));
     });
   }
 
   function connectToDesktop() {
-    var desktopClient = mqtt.connect("wss://test.mosquitto.org:8081");
+    generateDesktopGrid();
+    desktopClient = mqtt.connect(server);
     desktopClient.subscribe("reedleoneil/desktop");
 
     desktopClient.on("message", function (topic, payload) {
-      updateDesktopCapture(payload);
+      updateDesktopCapture(JSON.parse(payload.toString()));
     });
   }
 
   function connectToChat() {
-    var chatClient = mqtt.connect("wss://test.mosquitto.org:8081");
+    chatClient = mqtt.connect(server);
     chatClient.subscribe("reedleoneil/chat");
 
     chatClient.on("message", function (topic, payload) {
@@ -556,27 +563,51 @@
       from: hackerFingerprint.fingerprint,
       message: message
     }
-    client.publish("reedleoneil/chat", JSON.stringify(messagePayload));
+    chatClient.publish("reedleoneil/chat", JSON.stringify(messagePayload));
   }
 
-  function updateWebcamCapture(base64Data) {
-    var img = document.createElement("IMG");
-    img.setAttribute("src", "data:image/png;base64, " + base64Data);
-    img.setAttribute("width", "10%");
+  function updateWebcamCapture(capture) {
+    var img = document.getElementById("webcam-capture-" + capture.cell);
+    img.setAttribute("src", "data:image/png;base64, " + capture.img);
+    // var img = document.createElement("IMG");
+    // img.setAttribute("src", "data:image/png;base64, " + base64Data);
+    // img.setAttribute("width", "10%");
+    // var webcam = document.getElementById("webcam-capture");
+    // if (webcam.childElementCount == 100)
+    //   webcam.innerHTML = "";
+    // webcam.appendChild(img);
+  }
+
+  function generateWebcamGrid() {
     var webcam = document.getElementById("webcam-capture");
-    if (webcam.childElementCount == 100)
-      webcam.innerHTML = "";
-    webcam.appendChild(img);
+    for (var i = 0; i <= 99; i++) {
+      var img = document.createElement("IMG");
+      img.setAttribute("id", "webcam-capture-" + i);
+      img.setAttribute("width", "10%");
+      webcam.appendChild(img);
+    }
   }
 
-  function updateDesktopCapture(base64Data) {
-    var img = document.createElement("IMG");
-    img.setAttribute("src", "data:image/png;base64, " + base64Data);
-    img.setAttribute("width", "10%");
+  function updateDesktopCapture(capture) {
+    var img = document.getElementById("desktop-capture-" + capture.cell);
+    img.setAttribute("src", "data:image/png;base64, " + capture.img);
+    // var img = document.createElement("IMG");
+    // img.setAttribute("src", "data:image/png;base64, " + base64Data);
+    // img.setAttribute("width", "10%");
+    // var desktop = document.getElementById("desktop-capture");
+    // if (desktop.childElementCount == 100)
+    //   desktop.innerHTML = "";
+    // desktop.appendChild(img);
+  }
+
+  function generateDesktopGrid() {
     var desktop = document.getElementById("desktop-capture");
-    if (desktop.childElementCount == 100)
-      desktop.innerHTML = "";
-    desktop.appendChild(img);
+    for (var i = 0; i <= 99; i++) {
+      var img = document.createElement("IMG");
+      img.setAttribute("id", "desktop-capture-" + i);
+      img.setAttribute("width", "10%");
+      desktop.appendChild(img);
+    }
   }
 
   var chatMessage = document.getElementById("chat-message");

