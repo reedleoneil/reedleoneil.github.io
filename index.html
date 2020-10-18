@@ -361,7 +361,7 @@
     sysinfoClient.subscribe("reedleoneil/system_info/#");
 
     sysinfoClient.on("message", function (topic, payload) {
-      log(payload);
+      log(JSON.stringify(msgpack.decode(payload)));
       try {
         message = msgpack.decode(payload)
         switch(topic) {
