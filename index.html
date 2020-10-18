@@ -151,6 +151,10 @@
     font-weight: bold;
     cursor:pointer;
   }
+
+  progress {
+    vertical-align: middle;;
+  }
   </style>
 </head>
 <body>
@@ -235,7 +239,10 @@
             <div class="panel-header my-1 px-1" data-toggle="collapse"  href="#webcam-caputure-collapse">Webcam Capture</div>
             <div id="webcam-caputure-collapse" class="collapse show">
               <div>
-                <div>ETA: <span id="webcam-eta">--:--:--</span></div>
+                <div>
+                  ETA: <span id="webcam-eta">--:--:--</span>
+                  <progress id="webcam-progress" value="0" max="100" hidden></progress>
+                </div>
                 <div style="font-size: 0;" id="webcam-capture"></div>
                 <div class="note mt-1">Note: Image was captured from my webcam.</div>
               </div>
@@ -245,7 +252,10 @@
             <div class="panel-header my-1 px-1" data-toggle="collapse" href="#desktop-capture-collapse">Desktop Capture</div>
             <div id="desktop-capture-collapse" class="collapse show">
               <div>
-                <div>ETA: <span id="desktop-eta">--:--:--</span></div>
+                <div>
+                  ETA: <span id="desktop-eta">--:--:--</span>
+                  <progress id="desktop-progress" value="0" max="100" hidden></progress>
+                </div>
                 <div style="font-size: 0;" id="desktop-capture"></div>
                 <div class="note mt-1">Note: Screenshot was captured from my desktop.</div>
               </div>
@@ -426,7 +436,7 @@
       var message = msgpack.decode(payload);
       switch (topic) {
         case "reedleoneil/webcam":
-        updateWebcamCapture(message);
+        updateWebcamCapture(message.cell, message.img);
         break;
         case "reedleoneil/webcam/eta":
         updateWebcamEta(message.eta);
@@ -445,7 +455,7 @@
       var message = msgpack.decode(payload);
       switch (topic) {
         case "reedleoneil/desktop":
-        updateDesktopCapture(message);
+        updateDesktopCapture(message.cell, message.img);
         break;
         case "reedleoneil/desktop/eta":
         updateDesktopEta(message.eta);
@@ -592,14 +602,51 @@
     chatClient.publish("reedleoneil/chat", msgpack.encode(messagePayload));
   }
 
-  function updateWebcamCapture(capture) {
-    var b64encoded = base64js.fromByteArray(capture.img);
-    var img = document.getElementById("webcam-capture-" + capture.cell);
+  function updateWebcamCapture(cell, binary) {
+    var b64encoded = base64js.fromByteArray(binary);
+    var img = document.getElementById("webcam-capture-" + cell);
     img.setAttribute("src", "data:image/png;base64, " + b64encoded);
+
+    updateWebcamProgress(cell + 1);
+
+    if (cell == 99) {
+      setTimeout(function() {
+           hideWebcamProgress(true);
+           hideWebcamImage(false);
+      }, 2000);
+    } else {
+        hideWebcamProgress(false);
+        if (cell == 0)
+          hideWebcamImage(true);
+    }
   }
 
   function updateWebcamEta(eta) {
     document.getElementById("webcam-eta").textContent = eta;
+  }
+
+  function updateWebcamProgress(progress) {
+    document.getElementById("webcam-progress").value = progress;
+  }
+
+  function hideWebcamProgress(hidden) {
+    var progress = document.getElementById("webcam-progress");
+    if (hidden)
+      progress.setAttribute("hidden", "");
+    else
+      progress.removeAttribute("hidden");
+  }
+
+  function hideWebcamImage(hidden) {
+    var img = document.getElementsByClassName("webcam-img");
+    if (hidden) {
+      for (var i = 0; i < img.length; i++)
+        img[i].setAttribute("hidden", "");
+    }
+    else {
+      for (var i in img)
+        img[i].removeAttribute("hidden");
+    }
   }
 
   function generateWebcamGrid() {
@@ -607,19 +654,59 @@
     for (var i = 0; i <= 99; i++) {
       var img = document.createElement("IMG");
       img.setAttribute("id", "webcam-capture-" + i);
+      img.setAttribute("class", "webcam-img");
       img.setAttribute("width", "10%");
+      img.setAttribute("hidden", true);
       webcam.appendChild(img);
     }
   }
 
-  function updateDesktopCapture(capture) {
-    var b64encoded = base64js.fromByteArray(capture.img);
-    var img = document.getElementById("desktop-capture-" + capture.cell);
+  function updateDesktopCapture(cell, binary) {
+    var b64encoded = base64js.fromByteArray(binary);
+    var img = document.getElementById("desktop-capture-" + cell);
     img.setAttribute("src", "data:image/png;base64, " + b64encoded);
+
+    updateDesktopProgress(cell + 1);
+
+    if (cell == 99) {
+      setTimeout(function() {
+           hideDesktopProgress(true);
+           hideDesktopImage(false);
+      }, 2000);
+    }
+    else {
+        hideDesktopProgress(false);
+        if (cell == 0)
+          hideDesktopImage(true);
+    }
   }
 
   function updateDesktopEta(eta) {
     document.getElementById("desktop-eta").textContent = eta;
+  }
+
+  function updateDesktopProgress(progress) {
+    document.getElementById("desktop-progress").value = progress;
+  }
+
+  function hideDesktopProgress(hidden) {
+    var progress = document.getElementById("desktop-progress");
+    if (hidden)
+      progress.setAttribute("hidden", "");
+    else
+      progress.removeAttribute("hidden");
+  }
+
+  function hideDesktopImage(hidden) {
+    var img = document.getElementsByClassName("desktop-img");
+    if (hidden) {
+      for (var i = 0; i < img.length; i++)
+        img[i].setAttribute("hidden", "");
+    }
+    else {
+      for (var i in img)
+        img[i].removeAttribute("hidden");
+    }
   }
 
   function generateDesktopGrid() {
@@ -627,7 +714,9 @@
     for (var i = 0; i <= 99; i++) {
       var img = document.createElement("IMG");
       img.setAttribute("id", "desktop-capture-" + i);
+      img.setAttribute("class", "desktop-img");
       img.setAttribute("width", "10%");
+      img.setAttribute("hidden", true);
       desktop.appendChild(img);
     }
   }
