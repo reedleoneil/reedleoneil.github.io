@@ -202,15 +202,17 @@
                 <div>Memory: <span id="sys-info-mem-usage"></span> / <span id="sys-info-mem-capacity"></span> (<span id="sys-info-mem-percentage"></span>%) <span id="sys-info-memory-sparkline"></span></div>
                 <div>Disk: <span id="sys-info-disk-free"></span> / <span id="sys-info-disk-total"></span> (<span id="sys-info-disk-percentage"></span>%)</span> <span id="sys-info-disk-sparkline"></span></div>
                 <div>Network: ▲ <span id="sys-info-net-up"></span> ▼ <span id="sys-info-net-down"></span></div>
-                <table id="processes-table">
-                  <tr>
-                    <th>Name</th>
-                    <th>PID</th>
-                    <!-- <th>User</th> -->
-                    <!-- <th>CPU</th> -->
-                    <th>MEM</th>
-                  </tr>
-                </table>
+                <div style="overflow-x:auto;">
+                  <table id="processes-table">
+                    <tr>
+                      <th>Name</th>
+                      <th>PID</th>
+                      <!-- <th>User</th> -->
+                      <!-- <th>CPU</th> -->
+                      <th>MEM</th>
+                    </tr>
+                  </table>
+                </div>
                 <div class="note">Note: These are realtime data from my machine not yours.</div>
               </div>
             </div>
