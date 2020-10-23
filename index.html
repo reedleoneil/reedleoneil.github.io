@@ -125,6 +125,19 @@
     white-space: nowrap;
   }
 
+  #hackers-table tr th:first-child,
+  #hackers-table tr td:first-child {
+    padding-left: 0.25rem;
+  }
+
+  #hackers-table th,
+  #logs-header {
+    background-color: #ffffff;
+    color: #000000;
+    text-shadow: none;
+    font-weight: bold;
+  }
+
   td, th {
     padding-right: 10px;
   }
@@ -167,7 +180,7 @@
       <div class="re-border">
         <div id="left-panel">
           <div>
-            <div class="panel-header my-1 px-1" data-toggle="collapse"  href="#profiler-collapse">Profiler</div>
+            <div class="panel-header mb-1 px-1" data-toggle="collapse"  href="#profiler-collapse">Profiler</div>
             <div id="profiler-collapse" class="collapse show">
               <div>
                 <div class="clearfix">
@@ -193,7 +206,7 @@
             </div>
           </div>
           <div>
-            <div class="panel-header my-1 px-1" data-toggle="collapse" href="#system-info-collapse">System Info</div>
+            <div class="panel-header mt-1 px-1" data-toggle="collapse" href="#system-info-collapse">System Info</div>
             <div id="system-info-collapse" class="collapse show">
               <div>
                 <div>IP Address: <span id="sys-info-ip"></span></div>
@@ -239,8 +252,30 @@
           <div class="note">Note: These are list of unique users that accessed this site including you.</div>
         </div>
         <div class="re-border mt-2">
-          logs <span>/////</span>
-          <textarea id="logs" name="logs" rows="10" readonly></textarea>
+          <div id="logs-header" class="px-1">Logs</div>
+          <textarea id="logs" name="logs" rows="21" readonly>
+            $
+      *1▒g▒#▒$▒▒1▒,Q
+     ▒▒▒▒▒▒▒▒▓▒▒▒▒▒
+    #/▒▒▒▒▓▒▒▒▓▒▒▓▒g
+    1▒▒▒▒▒‎▒▒▒▓▓▓▒▒▒▒▓\
+    /@ $@@,0▒▒1▒|7$e$,
+          4j7▒4!
+   |       #7Y*       \	reedleoneil.github.com
+   4▒    #▒4▒▓9      4	Version 6.0
+   $▒9g e@▒▒!4▒▒$-  #e	© 2020 reedleoneil
+   |▒▒▒▒▒#|   |e▓▒▒▓$e	レード・レオニール
+    Yeg▒▓\,   $9▒▒▒e÷4
+    gp@l▒▒,▒▒Y@▒▒M7 7
+    , ▒▒@1▒▒▒▓9÷▒▒4Q
+       "▓  /Q▒-▒▒7,0$
+    !     ▒▒
+    \▒\▒         ▒440
+    1▒\▒    *▒0    ▒
+     1▓9▒▒▓# ▒*▓   ÷
+       e▒▒▒▓▒▒  ▓▒▒▒
+          g
+          </textarea>
         </div>
       </div>
     </div>
@@ -248,7 +283,7 @@
       <div class="re-border">
         <div id="left-panel">
           <div>
-            <div class="panel-header my-1 px-1" data-toggle="collapse"  href="#webcam-caputure-collapse">Webcam Capture</div>
+            <div class="panel-header mb-1 px-1" data-toggle="collapse"  href="#webcam-caputure-collapse">Webcam Capture</div>
             <div id="webcam-caputure-collapse" class="collapse show">
               <div>
                 <div>
@@ -284,7 +319,7 @@
             </div>
           </div>
           <div>
-            <div class="panel-header my-1 px-1" data-toggle="collapse"  href="#about-collapse">About</div>
+            <div class="panel-header mt-1 px-1" data-toggle="collapse"  href="#about-collapse">About</div>
             <div id="about-collapse" class="collapse show">
               <div>
                 <div>reedleoneil.github.com</div>
