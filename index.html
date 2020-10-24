@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -130,8 +130,7 @@
     padding-left: 0.25rem;
   }
 
-  #hackers-table th,
-  #logs-header {
+  #hackers-table th {
     background-color: #ffffff;
     color: #000000;
     text-shadow: none;
@@ -176,7 +175,7 @@
 </head>
 <body>
   <div class="row">
-    <div class="col-sm px-1 mt-2">
+    <div class="col-sm-3 px-1 mt-2">
       <div class="re-border">
         <div id="left-panel">
           <div>
@@ -252,34 +251,42 @@
           <div class="note">Note: These are list of unique users that accessed this site including you.</div>
         </div>
         <div class="re-border mt-2">
-          <div id="logs-header" class="px-1">Logs</div>
-          <textarea id="logs" name="logs" rows="21" readonly>
-            $
-      *1▒g▒#▒$▒▒1▒,Q
-     ▒▒▒▒▒▒▒▒▓▒▒▒▒▒
-    #/▒▒▒▒▓▒▒▒▓▒▒▓▒g
-    1▒▒▒▒▒‎▒▒▒▓▓▓▒▒▒▒▓\
-    /@ $@@,0▒▒1▒|7$e$,
-          4j7▒4!
-   |       #7Y*       \
-   4▒    #▒4▒▓9      4
-   $▒9g e@▒▒!4▒▒$-  #e
-   |▒▒▒▒▒#|   |e▓▒▒▓$e
-    Yeg▒▓\,   $9▒▒▒e÷4
-    gp@l▒▒,▒▒Y@▒▒M7 7
-    , ▒▒@1▒▒▒▓9÷▒▒4Q
-       "▓  /Q▒-▒▒7,0$
-    !     ▒▒
-    \▒\▒         ▒440
-    1▒\▒    *▒0    ▒
-     1▓9▒▒▓# ▒*▓   ÷
-       e▒▒▒▓▒▒  ▓▒▒▒
-          g
-          </textarea>
+          <div id="main-panel">
+            <div>
+              <div class="panel-header px-1" data-toggle="collapse"  href="#logs-collapse">Logs</div>
+              <div id="logs-collapse" class="collapse show">
+                <div>
+                  <textarea id="logs" name="logs" rows="21" readonly>
+         $
+   *1▒g▒#▒$▒▒1▒,Q
+  ▒▒▒▒▒▒▒▒▓▒▒▒▒▒
+ #/▒▒▒▒▓▒▒▒▓▒▒▓▒g
+ 1▒▒▒▒▒‎▒▒▒▓▓▓▒▒▒▒▓\
+ /@ $@@,0▒▒1▒|7$e$,
+       4j7▒4!
+|       #7Y*       \
+4▒    #▒4▒▓9      4
+$▒9g e@▒▒!4▒▒$-  #e
+|▒▒▒▒▒#|   |e▓▒▒▓$e
+ Yeg▒▓\,   $9▒▒▒e÷4
+ gp@l▒▒,▒▒Y@▒▒M7 7
+ , ▒▒@1▒▒▒▓9÷▒▒4Q
+    "▓  /Q▒-▒▒7,0$
+ !     ▒▒
+ \▒\▒         ▒440
+ 1▒\▒    *▒0    ▒
+  1▓9▒▒▓# ▒*▓   ÷
+    e▒▒▒▓▒▒  ▓▒▒▒
+       g
+                  </textarea>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="col-sm px-1 mt-2">
+    <div class="col-sm-3 px-1 mt-2">
       <div class="re-border">
         <div id="left-panel">
           <div>
