@@ -85,7 +85,14 @@ def disk()
     end
     return drives
   else
-    `whoami`
+    root_drive = `df -h / | awk ' { print $2 $4 } '`.split('SizeAvail')[1].strip.split('G')
+    return [
+      {
+        :drive => 'root',
+        :free_space => root_drive[1].to_i * (1024 * 1024 * 1024),
+        :size => root_drive[0].to_i * (1024 * 1024 * 1024)
+      }
+    ]
   end
 end
 
