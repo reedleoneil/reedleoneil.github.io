@@ -6,7 +6,7 @@ require 'open-uri'
 require 'sys/proctable'
 include Sys
 
-p @ip = open('http://whatismyip.akamai.com').read
+@ip = URI.open('http://whatismyip.akamai.com').read
 
 def host()
   { :host => OS.windows? ? `whoami`.strip : `uname -n`.strip + '\\' + `whoami`.strip }
@@ -169,6 +169,16 @@ def desktop()
 end
 
 pwn = Pwn.new
+
+puts ip()
+puts host()
+puts os()
+puts cpu()
+puts gpu()
+puts memory()
+puts disk()
+puts network()
+puts processes()
 
 # pwn.add_topic_callback('reedleoneil/#') do |message|
 # 	if message.payload != '' then
