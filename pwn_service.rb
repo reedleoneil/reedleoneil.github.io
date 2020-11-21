@@ -164,7 +164,9 @@ def desktop()
     #`magick mogrify -resize 25% desktop.png`
     `magick convert -crop 10%x10% desktop.png desktop/desktop%d.png`
   else
-    `whoami`
+    `gnome-screenshot -f desktop.png`
+    #`magick mogrify -resize 25% desktop.png`
+    `convert -crop 10%x10% desktop.png desktop/desktop%d.png`
   end
 end
 
