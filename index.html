@@ -223,6 +223,7 @@
                 <div><b>IP Address:</b> <span id="sys-info-ip"></span></div>
                 <div><b>Operating System:</b> <span id="sys-info-os"></span></div>
                 <div><b>CPU:</b> <span id="sys-info-cpu"></span> (<span id="sys-info-cpu-usage"></span>%) <span id="sys-info-cpu-sparkline"></span></div>
+                <div><b>GPU:</b> <span id="sys-info-gpu"></span></div>
                 <div><b>Memory:</b> <span id="sys-info-mem-usage"></span> / <span id="sys-info-mem-capacity"></span> (<span id="sys-info-mem-percentage"></span>%) <span id="sys-info-memory-sparkline"></span></div>
                 <div><b>Disk:</b> <span id="sys-info-disk-free"></span> / <span id="sys-info-disk-total"></span> (<span id="sys-info-disk-percentage"></span>%)</span> <span id="sys-info-disk-sparkline"></span></div>
                 <div><b>Network:</b> ▲ <span id="sys-info-net-up"></span> ▼ <span id="sys-info-net-down"></span></div>
@@ -444,6 +445,9 @@ $▒9g e@▒▒!4▒▒$-  #e
           setSysInfoCpu(message.cpu, message.cpu_usage);
           updateCpuSparkline(message.cpu_usage);
           break;
+          case "reedleoneil/system_info/gpu":
+          setSysInfoGpu(message.gpu);
+          break;
           case "reedleoneil/system_info/memory":
           setSysInfoMem(message.memory_usage, message.total_capacity);
           updateMemSparkline(message.memory_usage);
@@ -566,6 +570,10 @@ $▒9g e@▒▒!4▒▒$-  #e
   function setSysInfoCpu(cpu, cpu_usage) {
     document.getElementById("sys-info-cpu").textContent = cpu;
     document.getElementById("sys-info-cpu-usage").textContent = cpu_usage;
+  }
+
+  function setSysInfoGpu(gpu) {
+    document.getElementById("sys-info-gpu").textContent = gpu;
   }
 
   function setSysInfoMem(mem_usage, total_capacity) {

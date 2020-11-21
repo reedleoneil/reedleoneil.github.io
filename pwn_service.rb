@@ -31,6 +31,16 @@ def cpu()
   end
 end
 
+def gpu()
+  if OS.windows? then
+    return {
+      :gpu => `wmic path win32_VideoController get name /format:value`.strip.split('=')[1]
+    }
+  else
+      `echo 'implement in linux later'`
+  end
+end
+
 def memory()
   if OS.windows? then
     mem_capacity = `wmic memorychip get capacity /format:value`.gsub(/\s/, "").split('Capacity=')
@@ -149,6 +159,7 @@ Thread.new {
 Thread.new {
   loop do
     if (pwn.internals[:mqtt].connected?) then
+      pwn.publish('reedleoneil/system_info/gpu', gpu().to_msgpack, true, 2)
       pwn.publish('reedleoneil/system_info/disk', disk().to_msgpack, true, 2)
       pwn.publish('reedleoneil/system_info/network', network().to_msgpack, true, 2)
       pwn.publish('reedleoneil/system_info/processes', processes().to_msgpack, true, 2)
