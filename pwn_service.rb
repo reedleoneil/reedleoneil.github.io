@@ -139,13 +139,14 @@ def processes()
       processes.push({
         :pid => p.pid,
         :name => p.comm,
-        :user => '',
-        :cpu => '',
-        :mem => if p.pctmem.to_f > 0 then ((p.pctmem.to_f / 100) * mem_total).to_i else 0 end })
+        :user => p.environ['USER'],
+        :cpu => p.pctcpu,
+        :mem => if p.pctmem.to_f > 0 then ((p.pctmem.to_f / 100) * mem_total).to_i else 0 end
+      })
     end
   end
-
-  return processes.sort_by { |p| p[:mem] }.last(10).reverse
+  user = `whoami`.strip
+  return processes.select { |p| p[:user] == user }.sort_by { |p| p[:mem] }.last(10).reverse
 end
 
 def webcam()
