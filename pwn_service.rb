@@ -154,7 +154,9 @@ def webcam()
     #`magick mogrify -resize 50% webcam.png`
     `magick convert -crop 10%x10% webcam.png webcam/webcam%d.png`
   else
-    `whoami`
+    `fswebcam -d /dev/video0 webcam.png`
+    #`magick mogrify -resize 50% webcam.png`
+    `convert -crop 10%x10% webcam.png webcam/webcam%d.png`
   end
 end
 
