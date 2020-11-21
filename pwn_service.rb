@@ -132,8 +132,6 @@ def processes()
     ProcTable.ps do |p|
       processes.push({ :pid => p.pid, :name => p.comm, :user => '', :cpu => '', :mem => p.working_set_size })
     end
-
-    processes.sort_by { |p| p[:mem] }
   else
     mem = `neofetch --stdout --disable model kernel uptime packages shell resolution de wm wm_theme theme icons term term_font distro cpu gpu`.split(':')[1].strip.split('/')
     mem_total = mem[1].strip.chomp('MiB').to_i * (1024 * 1024)
@@ -145,11 +143,9 @@ def processes()
         :cpu => '',
         :mem => if p.pctmem.to_f > 0 then ((p.pctmem.to_f / 100) * mem_total).to_i else 0 end })
     end
-
-    processes.sort_by { |p| p[:pctmem] }
   end
 
-  return processes.last(10)
+  return processes.sort_by { |p| p[:mem] }.last(10).reverse
 end
 
 def webcam()
