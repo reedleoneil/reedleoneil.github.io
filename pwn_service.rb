@@ -114,7 +114,17 @@ def network()
 
     return network
   else
-    `whoami`
+    network_adapters = `awk '/:/ { print($1,$2, $10) }' < /proc/net/dev`.split("\n")
+    network = []
+    (0..network_adapters.length - 1).each do |n|
+      network.push({
+        :bytes_rec_persec => network_adapters[n].split(' ')[1],
+        :bytes_sent_persec => network_adapters[n].split(' ')[2],
+        :adapter => network_adapters[n].split(':')[0]
+      })
+    end
+    
+    return network
   end
 end
 
