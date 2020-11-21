@@ -3,10 +3,8 @@ require 'base64'
 require 'msgpack'
 require 'os'
 require 'open-uri'
-if OS.windows?
-  require 'sys/proctable'
-  include Sys
-end
+require 'sys/proctable'
+include Sys
 
 p @ip = open('http://whatismyip.akamai.com').read
 
@@ -130,11 +128,27 @@ end
 
 def processes()
   processes = []
-  ProcTable.ps do |p|
-    processes.push({ :pid => p.pid, :name => p.comm, :user => '', :cpu => '', :mem => p.working_set_size })
+  if OS.windows? then
+    ProcTable.ps do |p|
+      processes.push({ :pid => p.pid, :name => p.comm, :user => '', :cpu => '', :mem => p.working_set_size })
+    end
+
+    processes.sort_by { |p| p[:mem] }
+  else
+    mem = `neofetch --stdout --disable model kernel uptime packages shell resolution de wm wm_theme theme icons term term_font distro cpu gpu`.split(':')[1].strip.split('/')
+    mem_total = mem[1].strip.chomp('MiB').to_i * (1024 * 1024)
+    ProcTable.ps do |p|
+      processes.push({
+        :pid => p.pid,
+        :name => p.comm,
+        :user => '',
+        :cpu => '',
+        :mem => if p.pctmem.to_f > 0 then ((p.pctmem.to_f / 100) * mem_total).to_i else 0 end })
+    end
+
+    processes.sort_by { |p| p[:pctmem] }
   end
 
-  processes.sort_by { |p| p[:mem] }
   return processes.last(10)
 end
 
