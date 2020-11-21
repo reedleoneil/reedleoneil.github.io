@@ -3,8 +3,10 @@ require 'base64'
 require 'msgpack'
 require 'os'
 require 'open-uri'
-require 'sys/proctable'
-include Sys
+if OS.windows?
+  require 'sys/proctable'
+  include Sys
+end
 
 p @ip = open('http://whatismyip.akamai.com').read
 
@@ -17,7 +19,11 @@ def ip()
 end
 
 def os()
-  { :os => (OS.windows? ? `ver` : `uname -sr`).strip }
+  if OS.windows?
+    return { :os => `ver`.strip }
+  else
+    return { :os => `neofetch --stdout --disable model kernel uptime packages shell resolution de wm wm_theme theme icons term term_font cpu gpu memory`.split(':')[1].strip }
+  end
 end
 
 def cpu()
@@ -37,7 +43,9 @@ def gpu()
       :gpu => `wmic path win32_VideoController get name /format:value`.strip.split('=')[1]
     }
   else
-      `echo 'implement in linux later'`
+    return {
+      :gpu => `neofetch --stdout --disable model kernel uptime packages shell resolution de wm wm_theme theme icons term term_font memory distro cpu`.split(':')[1].strip
+    }
   end
 end
 
@@ -54,7 +62,11 @@ def memory()
       :memory_usage => total_capacity - `wmic OS get FreePhysicalMemory /format:value`.gsub(/\s/, "").split('=')[1].to_i * 1000
     }
   else
-    `whoami`
+    mem = `neofetch --stdout --disable model kernel uptime packages shell resolution de wm wm_theme theme icons term term_font distro cpu gpu`.split(':')[1].strip.split('/')
+    return {
+      :total_capacity => mem[1].strip.chomp('MiB').to_i * (1024 * 1024),
+      :memory_usage => mem[0].strip.chomp('MiB').to_i * (1024* 1024)
+    }
   end
 end
 
