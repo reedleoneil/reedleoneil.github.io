@@ -33,7 +33,10 @@ def cpu()
       :cpu_usage => `wmic cpu get loadpercentage /format:value`.strip.split('=')[1]
     }
   else
-      `echo 'implement in linux later'`
+      return {
+        :cpu => `neofetch --stdout --disable model kernel uptime packages shell resolution de wm wm_theme theme icons term term_font gpu memory distro`.split(':')[1].strip,
+        :cpu_usage => `top -bn1 | grep "Cpu(s)" | sed "s/.*, *\\([0-9.]*\\)%* id.*/\\1/" | awk '{print 100 - $1}'`.to_i
+      }
   end
 end
 
