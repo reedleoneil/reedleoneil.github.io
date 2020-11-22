@@ -144,9 +144,10 @@ def processes()
         :mem => if p.pctmem.to_f > 0 then ((p.pctmem.to_f / 100) * mem_total).to_i else 0 end
       })
     end
+    processes.select! { |p| p[:user] == user }
   end
   user = `whoami`.strip
-  return processes.select { |p| p[:user] == user }.sort_by { |p| p[:mem] }.last(10).reverse
+  return processes.sort_by { |p| p[:mem] }.last(10).reverse
 end
 
 def webcam()
