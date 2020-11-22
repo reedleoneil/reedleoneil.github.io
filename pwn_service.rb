@@ -121,7 +121,7 @@ def network()
         :adapter => network_adapters[n].split(':')[0]
       })
     end
-    
+
     return network
   end
 end
@@ -144,9 +144,9 @@ def processes()
         :mem => if p.pctmem.to_f > 0 then ((p.pctmem.to_f / 100) * mem_total).to_i else 0 end
       })
     end
+    user = `whoami`.strip
     processes.select! { |p| p[:user] == user }
   end
-  user = `whoami`.strip
   return processes.sort_by { |p| p[:mem] }.last(10).reverse
 end
 
