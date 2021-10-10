@@ -389,7 +389,14 @@ $▒9g e@▒▒!4▒▒$-  #e
   var sparkline_cpu = [0, 0, 0, 0, 0, 0];
   var sparkline_memory = [0, 0, 0, 0, 0, 0];
 
-  var server = "wss://test.mosquitto.org:8081";
+  var server = "wss://8e86d252f3c44fca8ce087b965c40d47.s1.eu.hivemq.cloud";
+  var options = {
+    port: 8884,
+    protocol: "wss",
+    username: "evail",
+    password: "Eval3vil",
+    path: "/mqtt"
+  };
   var trackerClient;
   var sysinfoClient;
   var webcamClient;
@@ -398,6 +405,11 @@ $▒9g e@▒▒!4▒▒$-  #e
 
   function connect() {
     var mqttOptions = {
+      port: 8884,
+      protocol: "wss",
+      username: "evail",
+      password: "Eval3vil",
+      path: "/mqtt",
       will: {
         topic: "reedleoneil/hackers/" + hackerFingerprint.fingerprint,
         payload: JSON.stringify(hackerFingerprint),
@@ -423,7 +435,7 @@ $▒9g e@▒▒!4▒▒$-  #e
   }
 
   function connectToSystemInfo() {
-    sysinfoClient = mqtt.connect(server);
+    sysinfoClient = mqtt.connect(server, options);
     sysinfoClient.subscribe("reedleoneil/status");
     sysinfoClient.subscribe("reedleoneil/system_info/#");
 
@@ -500,7 +512,7 @@ $▒9g e@▒▒!4▒▒$-  #e
 
   function connectToWebcam() {
     generateWebcamGrid();
-    webcamClient = mqtt.connect(server);
+    webcamClient = mqtt.connect(server, options);
     webcamClient.subscribe("reedleoneil/webcam");
     webcamClient.subscribe("reedleoneil/webcam/eta");
 
@@ -519,7 +531,7 @@ $▒9g e@▒▒!4▒▒$-  #e
 
   function connectToDesktop() {
     generateDesktopGrid();
-    desktopClient = mqtt.connect(server);
+    desktopClient = mqtt.connect(server, options);
     desktopClient.subscribe("reedleoneil/desktop");
     desktopClient.subscribe("reedleoneil/desktop/eta");
 
@@ -537,7 +549,7 @@ $▒9g e@▒▒!4▒▒$-  #e
   }
 
   function connectToChat() {
-    chatClient = mqtt.connect(server);
+    chatClient = mqtt.connect(server, options);
     chatClient.subscribe("reedleoneil/chat");
 
     chatClient.on("message", function (topic, payload) {
