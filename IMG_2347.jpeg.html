@@ -1,24 +1,847 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>IMG_2347.jpeg</title>
-<style>
-    html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-    }
+  <meta charset="UTF-8">
+  <meta name="description" content="IMG_2347.jpeg">
+  <title>IMG_2347.jpeg</title>
+  <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
 
-    img {
-        padding: 0;
-        display: block;
-        margin: 0 auto;
-        max-height: 100%;
-        max-width: 100%;
-    }
-</style>
+  <!-- CSS only -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+  <!-- JS, Popper.js, and jQuery -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ClientJS/0.1.11/client.min.js" integrity="sha512-MwKUpp841sot4mmGDfVcpJxb4vcaYHnpyn17CTHT3RUm585khw5gnRM6xwDm15aJ3sfpf6d4P8FLLfQKAo3mfA==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/4.2.6/mqtt.min.js" integrity="sha512-DD/bXhp28PWFubyhBKR7vt5FUMRCbEJ8KtC4Oq/MTWniMUytsPM5pFDaUTaHDRd7zC8cHpKvv6FaUI2OP/czlw==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sparklines/2.1.2/jquery.sparkline.min.js" integrity="sha512-3PRVLmoBYuBDbCEojg5qdmd9UhkPiyoczSFYjnLhFb2KAFsWWEMlAPt0olX1Nv7zGhDfhGEVkXsu51a55nlYmw==" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/msgpack-lite/0.1.26/msgpack.min.js" integrity="sha512-harMiusNxs02ryf3eqc3iQalz2RSd0z38vzOyuFwvQyW046h2m+/47WiDmPW9soh/p71WQMRSkhSynEww3/bOA==" crossorigin="anonymous"></script>
+
+  <style>
+
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  image {
+    padding: 0;
+    display: block;
+    margin: 0 auto;
+    max-height: 100%;
+    max-width: 100%;
+  }
+    
+  .main {
+    font-family: monospace;
+    font-size: 1em;
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin-bottom: 7.5px;
+    /*background-image: linear-gradient(to right, #000000, #000000, #000000);*/
+    /*-webkit-text-stroke: 0.1px #000000;*/
+    color: #000000;
+    /*text-shadow: -0.01px -0.01px 0 #696969, 0.01px -0.01px 0 #696969, -0.01px 0.01px 0 #696969, 0.01px 0.01px 0 #696969, -0.01px -0.01px 3px #696969, 0.01px -0.01px 3px #696969, -0.01px 0.01px 3px #696969, 0.01px 0.01px 3px #696969;*/
+  }
+
+  /* a:link, a:active, a:visited {
+    -webkit-text-stroke: 0.1px #960000;
+    color: #ff6969;
+    text-shadow: -0.03px -0.03px 0 #960000, 0.03px -0.03px 0 #960000, -0.03px 0.03px 0 #960000, 0.03px 0.03px 0 #960000, -0.03px -0.03px 3px #960000, 0.03px -0.03px 3px #960000, -0.03px 0.03px 3px #960000, 0.03px 0.03px 3px #960000;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: #ff0000;
+    text-decoration: none;
+  } */
+
+  .social-media-link:link, .social-media-link:active, .social-media-link:visited {
+    /*-webkit-text-stroke: 0.1px #C0C0C0;*/
+    color: #000000;
+    text-shadow: none;
+    /*text-shadow: -0.01px -0.01px 0 #696969, 0.01px -0.01px 0 #696969, -0.01px 0.01px 0 #696969, 0.01px 0.01px 0 #696969, -0.01px -0.01px 3px #696969, 0.01px -0.01px 3px #696969, -0.01px 0.01px 3px #696969, 0.01px 0.01px 3px #696969;*/
+  }
+
+  .social-media-link:hover {
+    color: #000000;
+    /* text-decoration: none; */
+  }
+
+  .re-border {
+    box-shadow: -1px -1px 0 #696969,
+    1px -1px 0 #696969,
+    -1px 1px 0 #696969,
+    1px 1px 0 #696969,
+    -1px -1px 3px #696969,
+    1px -1px 3px #696969,
+    -1px 1px 3px #696969,
+    1px 1px 3px #696969;
+
+    padding: 5px 5px;
+  }
+
+  #profiler-image {
+    width: 30%;
+    float: left;
+  }
+
+  #profiler-info {
+    width: 70%;
+    float: left;
+    padding-left: 5px;
+  }
+
+  button {
+    color: white;
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: 2px solid #4CAF50;
+  }
+
+  select {
+    color: white;
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: 2px solid #4CAF50;
+  }
+
+  .note {
+    font-size: x-small;
+    text-align: right;
+  }
+
+  #logs, #logs:focus,
+  #chat-box, #chat-box:focus,
+  #chat-message {
+    width: 100%;
+    border: none;
+    outline: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+/*    -webkit-text-stroke: 0.1px #C0C0C0;
+    color: #C0C0C0;
+    text-shadow: -0.01px -0.01px 0 #696969, 0.01px -0.01px 0 #696969, -0.01px 0.01px 0 #696969, 0.01px 0.01px 0 #696969, -0.01px -0.01px 3px #696969, 0.01px -0.01px 3px #696969, -0.01px 0.01px 3px #696969, 0.01px 0.01px 3px #696969;
+  */}
+
+  #processes-table,
+  #hackers-table {
+    width: 100%;
+    white-space: nowrap;
+  }
+
+  #hackers-table tr th:first-child,
+  #hackers-table tr td:first-child {
+    padding-left: 0.25rem;
+  }
+
+  #hackers-table th {
+    background-color: #000000;
+    -webkit-text-stroke: 0.1px #696969;
+    color: #FFFFFF;
+    text-shadow: -0.01px -0.01px 0 #696969, 0.01px -0.01px 0 #696969, -0.01px 0.01px 0 #696969, 0.01px 0.01px 0 #696969, -0.01px -0.01px 3px #696969, 0.01px -0.01px 3px #696969, -0.01px 0.01px 3px #696969, 0.01px 0.01px 3px #696969;
+    font-weight: bold;
+  }
+
+  td, th {
+    padding-right: 10px;
+  }
+
+  tr th:last-child,
+  tr td:last-child {
+
+  }
+
+  /* .online {
+    color: #47ff47;
+    font-weight: 900;
+    -webkit-text-stroke: 0.1px #00a100;
+    text-shadow: -0.01px -0.01px 0 #00a100, 0.01px -0.01px 0 #00a100, -0.01px 0.01px 0 #00a100, 0.01px 0.01px 0 #00a100, -0.01px -0.01px 3px #00a100, 0.01px -0.01px 3px #00a100, -0.01px 0.01px 3px #00a100, 0.01px 0.01px 3px #00a100;
+  } */
+
+  .online {
+    color: #006900;
+    font-weight: 900;
+  }
+
+  /* .offline {
+    color: #ff4747;
+    font-weight: 900;
+    -webkit-text-stroke: 0.1px #a10000;
+    text-shadow: -0.01px -0.01px 0 #a10000, 0.01px -0.01px 0 #a10000, -0.01px 0.01px 0 #a10000, 0.01px 0.01px 0 #a10000, -0.01px -0.01px 3px #a10000, 0.01px -0.01px 3px #a10000, -0.01px 0.01px 3px #a10000, 0.01px 0.01px 3px #a10000;
+  } */
+
+  .offline {
+    color: #a10000;
+    font-weight: 900;
+}
+
+  .panel-header {
+    background-color: #000000;
+    -webkit-text-stroke: 0.1px #696969;
+    color: #FFFFFF;
+    text-shadow: -0.01px -0.01px 0 #696969, 0.01px -0.01px 0 #696969, -0.01px 0.01px 0 #696969, 0.01px 0.01px 0 #696969, -0.01px -0.01px 3px #696969, 0.01px -0.01px 3px #696969, -0.01px 0.01px 3px #696969, 0.01px 0.01px 3px #696969;
+    font-weight: bold;
+    cursor:pointer;
+  }
+
+  progress {
+    vertical-align: middle;;
+  }
+  </style>
 </head>
 <body>
-    <img src="IMG2347.jpeg" width="100%" height="100%">
+  <img src="IMG2347.jpeg" class="image" width="100%" height="100%">
+  <div class="main row d-none">
+    <div class="col-sm-3 px-1 mt-2">
+      <div class="re-border">
+        <div id="left-panel">
+          <div>
+            <div class="panel-header mb-1 px-1" data-toggle="collapse"  href="#profiler-collapse">Profiler</div>
+            <div id="profiler-collapse" class="collapse show">
+              <div>
+                <div class="clearfix">
+                  <div id="profiler-image"><img src="IMG_0020.PNG" alt="pon.jpg" style="width: 100%;"></div>
+                  <div id="profiler-info">
+                    <div><b>Name:</b> Reed Leoneil Pascual</div>
+                    <div><b>Nickname:</b> Pon</div>
+                    <div><b>Age:</b> <span id="span-age"></span></div>
+                    <div><b>Occupation:</b> Software Engineer</div>
+                    <div><b>Status:</b> <span id="status"></span></div>
+                  </div>
+                </div>
+                <div>Rarely uses social media accounts because he doesn't want his online activities to be tracked.</div>
+                <div><i class="fab fa-facebook"></i> <a class="social-media-link" href="https://fb.com/reedleoneil" target="_blank">fb.com/reedleoneil</a></div>
+                <div><i class="fab fa-instagram"></i> <a class="social-media-link" href="https://www.instagram.com/reedleoneil" target="_blank">instagram.com/reedleoneil</a></div>
+                <div><i class="fab fa-twitter"></i> <a class="social-media-link" href="https://twitter.com/reedleoneil" target="_blank">twitter.com/reedleoneil</a></div>
+                <div><i class="fab fa-github"></i> <a class="social-media-link" href="https://github.com/reedleoneil" target="_blank">github.com/reedleoneil</a></div>
+                <div><i class="fab fa-linkedin"></i> <a class="social-media-link" href="https://linkedin.com/in/reedleoneil" target="_blank">linkedin.com/in/reedleoneil</a></div>
+                <div><i class="fab fa-pinterest"></i> <a class="social-media-link" href="https://www.pinterest.com/reedleoneil" target="_blank">pinterest.com/reedleoneil</a></div>
+                <div><i class="fab fa-spotify"></i> <a class="social-media-link" href="https://open.spotify.com/user/12152060435" target="_blank">open.spotify.com/user/12152060435</a></div>
+                <div><i class="fas fa-id-card"></i> <a class="social-media-link" href="https://reedleoneil.github.io/symb" target="_blank">symbianize.com</a></div>
+                <div><i class="fas fa-envelope"></i> <a class="social-media-link" href="mailto:reedleoneil@gmail.com" target="_blank">reedleoneil@gmail.com</a></div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="panel-header mt-1 px-1" data-toggle="collapse" href="#system-info-collapse">System Info</div>
+            <div id="system-info-collapse" class="collapse show">
+              <div>
+                <div><b>IP Address:</b> <span id="sys-info-ip"></span></div>
+                <div><b>Operating System:</b> <span id="sys-info-os"></span></div>
+                <div><b>CPU:</b> <span id="sys-info-cpu"></span> (<span id="sys-info-cpu-usage"></span>%) <span id="sys-info-cpu-sparkline"></span></div>
+                <div><b>GPU:</b> <span id="sys-info-gpu"></span></div>
+                <div><b>Memory:</b> <span id="sys-info-mem-usage"></span> / <span id="sys-info-mem-capacity"></span> (<span id="sys-info-mem-percentage"></span>%) <span id="sys-info-memory-sparkline"></span></div>
+                <div><b>Disk:</b> <span id="sys-info-disk-free"></span> / <span id="sys-info-disk-total"></span> (<span id="sys-info-disk-percentage"></span>%)</span> <span id="sys-info-disk-sparkline"></span></div>
+                <div><b>Network:</b> ▲ <span id="sys-info-net-up"></span> ▼ <span id="sys-info-net-down"></span></div>
+                <div style="overflow-x:auto;">
+                  <table id="processes-table">
+                    <tr>
+                      <th>Name</th>
+                      <th>PID</th>
+                      <!-- <th>User</th> -->
+                      <!-- <th>CPU</th> -->
+                      <th>MEM</th>
+                    </tr>
+                  </table>
+                </div>
+                <div class="note">Note: These are realtime data from my machine not yours.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-6 px-1 mt-2">
+      <div>
+        <div class="re-border">
+          <div style="overflow-x:auto;">
+            <table id="hackers-table">
+              <tr>
+                <th>Fingerprint</th>
+                <th>IP Address</th>
+                <th>Location</th>
+                <th>Browser</th>
+                <th>Operating System</th>
+                <th>ISP</th>
+                <th>Status</th>
+              </tr>
+            </table>
+          </div>
+          <div class="note">Note: These are list of unique users that accessed this site including you.</div>
+        </div>
+        <div class="re-border mt-2">
+          <div id="main-panel">
+            <div>
+              <div class="panel-header px-1" data-toggle="collapse"  href="#logs-collapse">Logs</div>
+              <div id="logs-collapse" class="collapse show">
+                <div>
+                  <textarea id="logs" name="logs" rows="21" readonly>
+         $
+   *1▒g▒#▒$▒▒1▒,Q
+  ▒▒▒▒▒▒▒▒▓▒▒▒▒▒
+ #/▒▒▒▒▓▒▒▒▓▒▒▓▒g
+ 1▒▒▒▒▒‎▒▒▒▓▓▓▒▒▒▒▓\
+ /@ $@@,0▒▒1▒|7$e$,
+       4j7▒4!
+|       #7Y*       \
+4▒    #▒4▒▓9      4
+$▒9g e@▒▒!4▒▒$-  #e
+|▒▒▒▒▒#|   |e▓▒▒▓$e
+ Yeg▒▓\,   $9▒▒▒e÷4
+ gp@l▒▒,▒▒Y@▒▒M7 7
+ , ▒▒@1▒▒▒▓9÷▒▒4Q
+    "▓  /Q▒-▒▒7,0$
+ !     ▒▒
+ \▒\▒         ▒440
+ 1▒\▒    *▒0    ▒
+  1▓9▒▒▓# ▒*▓   ÷
+    e▒▒▒▓▒▒  ▓▒▒▒
+       g
+                  </textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm-3 px-1 mt-2">
+      <div class="re-border">
+        <div id="left-panel">
+          <div>
+            <div class="panel-header mb-1 px-1" data-toggle="collapse"  href="#webcam-caputure-collapse">Webcam Capture</div>
+            <div id="webcam-caputure-collapse" class="collapse show">
+              <div>
+                <div>
+                  ETA: <span id="webcam-eta">--:--:--</span>
+                  <progress id="webcam-progress" value="0" max="100" hidden></progress>
+                </div>
+                <div style="font-size: 0;" id="webcam-capture"></div>
+                <div class="note mt-1">Note: Image was captured from my webcam.</div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="panel-header my-1 px-1" data-toggle="collapse" href="#desktop-capture-collapse">Desktop Capture</div>
+            <div id="desktop-capture-collapse" class="collapse show">
+              <div>
+                <div>
+                  ETA: <span id="desktop-eta">--:--:--</span>
+                  <progress id="desktop-progress" value="0" max="100" hidden></progress>
+                </div>
+                <div style="font-size: 0;" id="desktop-capture"></div>
+                <div class="note mt-1">Note: Screenshot was captured from my desktop.</div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="panel-header my-1 px-1" data-toggle="collapse" href="#chat-collapse">Chat</div>
+            <div id="chat-collapse" class="collapse show">
+              <div>
+                <div class="re-border my-2"><textarea id="chat-box" name="chat-box" rows="10" readonly></textarea></div>
+                <div class="re-border mb-2"><input type="text" id="chat-message"></div>
+              </div>
+              <div class="note">Note: I rarely do social media stuff, so ping me here.</div>
+            </div>
+          </div>
+          <div>
+            <div class="panel-header mt-1 px-1" data-toggle="collapse"  href="#about-collapse">About</div>
+            <div id="about-collapse" class="collapse show">
+              <div>
+                <div>reedleoneil.github.com</div>
+                <div>Version 6.0</div>
+
+                © 2020 - 2021 reedleoneil レード・レオニール
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+  //base64js
+  (function(r){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=r()}else if(typeof define==="function"&&define.amd){define([],r)}else{var e;if(typeof window!=="undefined"){e=window}else if(typeof global!=="undefined"){e=global}else if(typeof self!=="undefined"){e=self}else{e=this}e.base64js=r()}})(function(){var r,e,n;return function(){function d(a,f,i){function u(n,r){if(!f[n]){if(!a[n]){var e="function"==typeof require&&require;if(!r&&e)return e(n,!0);if(v)return v(n,!0);var t=new Error("Cannot find module '"+n+"'");throw t.code="MODULE_NOT_FOUND",t}var o=f[n]={exports:{}};a[n][0].call(o.exports,function(r){var e=a[n][1][r];return u(e||r)},o,o.exports,d,a,f,i)}return f[n].exports}for(var v="function"==typeof require&&require,r=0;r<i.length;r++)u(i[r]);return u}return d}()({"/":[function(r,e,n){"use strict";n.byteLength=f;n.toByteArray=i;n.fromByteArray=p;var u=[];var v=[];var d=typeof Uint8Array!=="undefined"?Uint8Array:Array;var t="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";for(var o=0,a=t.length;o<a;++o){u[o]=t[o];v[t.charCodeAt(o)]=o}v["-".charCodeAt(0)]=62;v["_".charCodeAt(0)]=63;function c(r){var e=r.length;if(e%4>0){throw new Error("Invalid string. Length must be a multiple of 4")}var n=r.indexOf("=");if(n===-1)n=e;var t=n===e?0:4-n%4;return[n,t]}function f(r){var e=c(r);var n=e[0];var t=e[1];return(n+t)*3/4-t}function h(r,e,n){return(e+n)*3/4-n}function i(r){var e;var n=c(r);var t=n[0];var o=n[1];var a=new d(h(r,t,o));var f=0;var i=o>0?t-4:t;var u;for(u=0;u<i;u+=4){e=v[r.charCodeAt(u)]<<18|v[r.charCodeAt(u+1)]<<12|v[r.charCodeAt(u+2)]<<6|v[r.charCodeAt(u+3)];a[f++]=e>>16&255;a[f++]=e>>8&255;a[f++]=e&255}if(o===2){e=v[r.charCodeAt(u)]<<2|v[r.charCodeAt(u+1)]>>4;a[f++]=e&255}if(o===1){e=v[r.charCodeAt(u)]<<10|v[r.charCodeAt(u+1)]<<4|v[r.charCodeAt(u+2)]>>2;a[f++]=e>>8&255;a[f++]=e&255}return a}function s(r){return u[r>>18&63]+u[r>>12&63]+u[r>>6&63]+u[r&63]}function l(r,e,n){var t;var o=[];for(var a=e;a<n;a+=3){t=(r[a]<<16&16711680)+(r[a+1]<<8&65280)+(r[a+2]&255);o.push(s(t))}return o.join("")}function p(r){var e;var n=r.length;var t=n%3;var o=[];var a=16383;for(var f=0,i=n-t;f<i;f+=a){o.push(l(r,f,f+a>i?i:f+a))}if(t===1){e=r[n-1];o.push(u[e>>2]+u[e<<4&63]+"==")}else if(t===2){e=(r[n-2]<<8)+r[n-1];o.push(u[e>>10]+u[e>>4&63]+u[e<<2&63]+"=")}return o.join("")}},{}]},{},[])("/")});
+
+  //formatBytes
+  function formatBytes(a,b=2){if(0===a)return"0 Bytes";const c=0>b?0:b,d=Math.floor(Math.log(a)/Math.log(1024));return parseFloat((a/Math.pow(1024,d)).toFixed(c))+" "+["Bytes","KB","MB","GB","TB","PB","EB","ZB","YB"][d]}
+
+  var clientjs = new ClientJS();
+  var hackerFingerprint = {
+    fingerprint: clientjs.getFingerprint(),
+    browserData: clientjs.getBrowserData(),
+    ipData: null,
+    status: 'Offline',
+    timestamp: new Date()
+  };
+
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      var response = JSON.parse(this.responseText);
+      hackerFingerprint.ipData = response;
+      connect();
+      connectToSystemInfo();
+      connectToWebcam();
+      connectToDesktop();
+      connectToChat();
+    }
+  };
+  xhttp.open("GET", "https://ipapi.co/json/", true);
+  xhttp.send();
+
+  var sparkline_cpu = [0, 0, 0, 0, 0, 0];
+  var sparkline_memory = [0, 0, 0, 0, 0, 0];
+
+  var server = "wss://8e86d252f3c44fca8ce087b965c40d47.s1.eu.hivemq.cloud";
+  var options = {
+    port: 8884,
+    protocol: "wss",
+    username: "evail",
+    password: "Eval3vil",
+    path: "/mqtt"
+  };
+  var trackerClient;
+  var sysinfoClient;
+  var webcamClient;
+  var desktopClient;
+  var chatClient;
+
+  function connect() {
+    var mqttOptions = {
+      port: 8884,
+      protocol: "wss",
+      username: "evail",
+      password: "Eval3vil",
+      path: "/mqtt",
+      will: {
+        topic: "reedleoneil/hackers/" + hackerFingerprint.fingerprint,
+        payload: JSON.stringify(hackerFingerprint),
+        retain: true
+      }
+    }
+    trackerClient = mqtt.connect(server, mqttOptions);
+    trackerClient.subscribe("reedleoneil/hackers/#");
+
+    trackerClient.on("connect", function () {
+      hackerFingerprint.status = 'Online';
+      var publishOptions = {
+        retain: true
+      }
+      trackerClient.publish("reedleoneil/hackers/" + hackerFingerprint.fingerprint, JSON.stringify(hackerFingerprint), publishOptions);
+    });
+
+    trackerClient.on("message", function (topic, payload) {
+      log(payload);
+      if (!updateHackersTable(JSON.parse(payload)))
+        insertHackersTable(JSON.parse(payload));
+    });
+  }
+
+  function connectToSystemInfo() {
+    sysinfoClient = mqtt.connect(server, options);
+    sysinfoClient.subscribe("reedleoneil/status");
+    sysinfoClient.subscribe("reedleoneil/system_info/#");
+
+    sysinfoClient.on("message", function (topic, payload) {
+      log(JSON.stringify(msgpack.decode(payload)));
+      try {
+        message = msgpack.decode(payload)
+        switch(topic) {
+          case "reedleoneil/status":
+          message = JSON.parse(payload);
+          setStatus(message.status);
+          break;
+          case "reedleoneil/system_info/ip":
+          setSysInfoIP(message.ip);
+          break;
+          case "reedleoneil/system_info/os":
+          setSysInfoOS(message.os);
+          break;
+          case "reedleoneil/system_info/cpu":
+          setSysInfoCpu(message.cpu, message.cpu_usage);
+          updateCpuSparkline(message.cpu_usage);
+          break;
+          case "reedleoneil/system_info/gpu":
+          setSysInfoGpu(message.gpu);
+          break;
+          case "reedleoneil/system_info/memory":
+          setSysInfoMem(message.memory_usage, message.total_capacity);
+          updateMemSparkline(message.memory_usage);
+          break;
+          case "reedleoneil/system_info/disk":
+          var free = 0;
+          message.forEach(function myFunction(item, index) {
+            if (item.free_space !== null)
+            free += parseInt(item.free_space);
+          });
+
+          var total = 0;
+          message.forEach(function myFunction(item, index) {
+            if (item.size !== null)
+            total += parseInt(item.size);
+          });
+
+          setSysInfoDisk(free, total);
+          updateDiskSparkline(free, total);
+          break;
+          case "reedleoneil/system_info/network":
+          var up = 0;
+          message.forEach(function myFunction(item, index) {
+            if (item.bytes_sent_persec !== null)
+            up += parseInt(item.bytes_sent_persec);
+          });
+
+          var down = 0;
+          message.forEach(function myFunction(item, index) {
+            if (item.bytes_rec_persec !== null)
+            down += parseInt(item.bytes_rec_persec);
+          });
+
+          setSysInfoNetwork(up, down);
+          break;
+          case "reedleoneil/system_info/processes":
+          clearProcessesTable();
+          message.forEach(function myFunction(item, index) {
+            insertProcessTable(item.name, item.pid, item.user, item.cpu, item.mem);
+          });
+          break;
+        }
+      }
+      catch(err) {
+        log(err.message);
+      }
+    });
+  }
+
+  function connectToWebcam() {
+    generateWebcamGrid();
+    webcamClient = mqtt.connect(server, options);
+    webcamClient.subscribe("reedleoneil/webcam");
+    webcamClient.subscribe("reedleoneil/webcam/eta");
+
+    webcamClient.on("message", function (topic, payload) {
+      var message = msgpack.decode(payload);
+      switch (topic) {
+        case "reedleoneil/webcam":
+        updateWebcamCapture(message.cell, message.img);
+        break;
+        case "reedleoneil/webcam/eta":
+        updateWebcamEta(message.eta);
+        break;
+      }
+    });
+  }
+
+  function connectToDesktop() {
+    generateDesktopGrid();
+    desktopClient = mqtt.connect(server, options);
+    desktopClient.subscribe("reedleoneil/desktop");
+    desktopClient.subscribe("reedleoneil/desktop/eta");
+
+    desktopClient.on("message", function (topic, payload) {
+      var message = msgpack.decode(payload);
+      switch (topic) {
+        case "reedleoneil/desktop":
+        updateDesktopCapture(message.cell, message.img);
+        break;
+        case "reedleoneil/desktop/eta":
+        updateDesktopEta(message.eta);
+        break;
+      }
+    });
+  }
+
+  function connectToChat() {
+    chatClient = mqtt.connect(server, options);
+    chatClient.subscribe("reedleoneil/chat");
+
+    chatClient.on("message", function (topic, payload) {
+      updateChat(msgpack.decode(payload));
+    });
+  }
+
+  function log(data) {
+    var log = document.getElementById("logs");
+    log.value += data;
+    log.scrollTop = log.scrollHeight;
+    if (log.value.length > 12288) {
+      log.value = log.value.substr(2048);
+    }
+  }
+
+  function setStatus(status) {
+    var s = document.getElementById("status");
+    s.setAttribute("class", status.toLowerCase());
+    s.textContent = status;
+  }
+
+  function setSysInfoIP(ip) {
+    document.getElementById("sys-info-ip").textContent = ip;
+  }
+
+  function setSysInfoOS(os) {
+    document.getElementById("sys-info-os").textContent = os;
+  }
+
+  function setSysInfoCpu(cpu, cpu_usage) {
+    document.getElementById("sys-info-cpu").textContent = cpu;
+    document.getElementById("sys-info-cpu-usage").textContent = cpu_usage;
+  }
+
+  function setSysInfoGpu(gpu) {
+    document.getElementById("sys-info-gpu").textContent = gpu;
+  }
+
+  function setSysInfoMem(mem_usage, total_capacity) {
+    document.getElementById("sys-info-mem-usage").textContent = formatBytes(mem_usage);
+    document.getElementById("sys-info-mem-capacity").textContent = formatBytes(total_capacity);
+    document.getElementById("sys-info-mem-percentage").textContent = ((mem_usage * 100) / total_capacity) | 0;
+  }
+
+  function setSysInfoDisk(free, total) {
+    document.getElementById("sys-info-disk-free").textContent = formatBytes(free);
+    document.getElementById("sys-info-disk-total").textContent = formatBytes(total);
+    document.getElementById("sys-info-disk-percentage").textContent = (((total - free) * 100) / total) | 0;
+  }
+
+  function setSysInfoNetwork(up, down) {
+    document.getElementById("sys-info-net-up").textContent = formatBytes(up);
+    document.getElementById("sys-info-net-down").textContent = formatBytes(down);
+  }
+
+  function updateCpuSparkline(cpu_usage) {
+    sparkline_cpu.shift();
+    sparkline_cpu.push(cpu_usage);
+    $('#sys-info-cpu-sparkline').sparkline(sparkline_cpu, { type: 'bar' });
+  }
+
+  function updateMemSparkline(mem_usage) {
+    sparkline_memory.shift();
+    sparkline_memory.push(mem_usage);
+    $('#sys-info-memory-sparkline').sparkline(sparkline_memory, { type: 'bar' });
+  }
+
+  function updateDiskSparkline(free, total) {
+    var sparkline_disk = [free, total];
+    $('#sys-info-disk-sparkline').sparkline(sparkline_disk, { type: 'pie', sliceColors: ['#033dfc', '#03befc'] });
+  }
+
+  function clearProcessesTable() {
+    var table = document.getElementById("processes-table");
+    while(table.rows.length != 1)
+    {
+       table.deleteRow(table.rows.length - 1);
+    }
+  }
+
+  function insertProcessTable(name, pid, user, cpu, mem) {
+    var table = document.getElementById("processes-table");
+    var row = table.insertRow(-1);
+    var cellName = row.insertCell(0);
+    var cellPid = row.insertCell(1);
+    // var cellUser = row.insertCell(2);
+    //var cellCpu = row.insertCell(3);
+    var cellMem = row.insertCell(2);
+    cellName.innerHTML = name;
+    cellPid.innerHTML = pid;
+    // cellUser.innerHTML = user;
+    //cellCpu.innerHTML = cpu;
+    cellMem.innerHTML = formatBytes(mem);
+  }
+
+  function insertHackersTable(hacker) {
+    var table = document.getElementById("hackers-table");
+    var row = table.insertRow(-1);
+    var fingerprintCell = row.insertCell(0);
+    var ipCell = row.insertCell(1);
+    var locationCell = row.insertCell(2);
+    var browserCell = row.insertCell(3);
+    var osCell = row.insertCell(4);
+    var ispCell = row.insertCell(5);
+    var statusCell = row.insertCell(6);
+    fingerprintCell.innerHTML = hacker.fingerprint;
+    ipCell.innerHTML = hacker.ipData.ip;
+    locationCell.innerHTML = hacker.ipData.city + ' ' + hacker.ipData.country;
+    browserCell.innerHTML = hacker.browserData.browser.name + ' ' + hacker.browserData.browser.major;
+    osCell.innerHTML = hacker.browserData.os.name + ' ' + hacker.browserData.os.version;
+    ispCell.innerHTML = hacker.ipData.org;
+    statusCell.innerHTML = "<span class='" + hacker.status.toLowerCase() + "'>・</span>" + hacker.status;
+  }
+
+  function updateHackersTable(hacker) {
+    var table = document.getElementById("hackers-table");
+    for (var r = 1; r < table.rows.length; r++) {
+      if (table.rows[r].cells[0].innerText == hacker.fingerprint) {
+          table.rows[r].cells[6].innerHTML = "<span class='" + hacker.status.toLowerCase() + "'>・</span>" + hacker.status;
+          return 1;
+      }
+    }
+    return 0;
+  }
+
+  function updateChat(message) {
+    var chatBox = document.getElementById("chat-box");
+    if (chatBox.value)
+      chatBox.value += "\n";
+    chatBox.value += message.from + ": " + message.message;
+    chatBox.scrollTop = chatBox.scrollHeight;
+  }
+
+  function sendMessage(message) {
+    messagePayload = {
+      from: hackerFingerprint.fingerprint,
+      message: message
+    }
+    chatClient.publish("reedleoneil/chat", msgpack.encode(messagePayload));
+  }
+
+  function updateWebcamCapture(cell, binary) {
+    var b64encoded = base64js.fromByteArray(binary);
+    var img = document.getElementById("webcam-capture-" + cell);
+    img.setAttribute("src", "data:image/png;base64, " + b64encoded);
+
+    updateWebcamProgress(cell + 1);
+
+    if (cell == 99) {
+      setTimeout(function() {
+           hideWebcamProgress(true);
+           hideWebcamImage(false);
+      }, 2000);
+    } else {
+        hideWebcamProgress(false);
+        if (cell == 0)
+          hideWebcamImage(true);
+    }
+  }
+
+  function updateWebcamEta(eta) {
+    document.getElementById("webcam-eta").textContent = eta;
+  }
+
+  function updateWebcamProgress(progress) {
+    document.getElementById("webcam-progress").value = progress;
+  }
+
+  function hideWebcamProgress(hidden) {
+    var progress = document.getElementById("webcam-progress");
+    if (hidden)
+      progress.setAttribute("hidden", "");
+    else
+      progress.removeAttribute("hidden");
+  }
+
+  function hideWebcamImage(hidden) {
+    var img = document.getElementsByClassName("webcam-img");
+    if (hidden) {
+      for (var i = 0; i < img.length; i++)
+        img[i].setAttribute("hidden", "");
+    }
+    else {
+      for (var i = 0; i < img.length; i++)
+        img[i].removeAttribute("hidden");
+    }
+  }
+
+  function generateWebcamGrid() {
+    var webcam = document.getElementById("webcam-capture");
+    for (var i = 0; i <= 99; i++) {
+      var img = document.createElement("IMG");
+      img.setAttribute("id", "webcam-capture-" + i);
+      img.setAttribute("class", "webcam-img");
+      img.setAttribute("width", "10%");
+      img.setAttribute("hidden", true);
+      webcam.appendChild(img);
+    }
+  }
+
+  function updateDesktopCapture(cell, binary) {
+    var b64encoded = base64js.fromByteArray(binary);
+    var img = document.getElementById("desktop-capture-" + cell);
+    img.setAttribute("src", "data:image/png;base64, " + b64encoded);
+
+    updateDesktopProgress(cell + 1);
+
+    if (cell == 99) {
+      setTimeout(function() {
+           hideDesktopProgress(true);
+           hideDesktopImage(false);
+      }, 2000);
+    }
+    else {
+        hideDesktopProgress(false);
+        if (cell == 0)
+          hideDesktopImage(true);
+    }
+  }
+
+  function updateDesktopEta(eta) {
+    document.getElementById("desktop-eta").textContent = eta;
+  }
+
+  function updateDesktopProgress(progress) {
+    document.getElementById("desktop-progress").value = progress;
+  }
+
+  function hideDesktopProgress(hidden) {
+    var progress = document.getElementById("desktop-progress");
+    if (hidden)
+      progress.setAttribute("hidden", "");
+    else
+      progress.removeAttribute("hidden");
+  }
+
+  function hideDesktopImage(hidden) {
+    var img = document.getElementsByClassName("desktop-img");
+    if (hidden) {
+      for (var i = 0; i < img.length; i++)
+        img[i].setAttribute("hidden", "");
+    }
+    else {
+      for (var i = 0; i < img.length; i++)
+        img[i].removeAttribute("hidden");
+    }
+  }
+
+  function generateDesktopGrid() {
+    var desktop = document.getElementById("desktop-capture");
+    for (var i = 0; i <= 99; i++) {
+      var img = document.createElement("IMG");
+      img.setAttribute("id", "desktop-capture-" + i);
+      img.setAttribute("class", "desktop-img");
+      img.setAttribute("width", "10%");
+      img.setAttribute("hidden", true);
+      desktop.appendChild(img);
+    }
+  }
+
+  var chatMessage = document.getElementById("chat-message");
+  chatMessage.addEventListener("keyup", function(event) {
+    if (event.keyCode === 13) {
+     event.preventDefault();
+     sendMessage(chatMessage.value);
+     chatMessage.value = "";
+    }
+  });
+
+  function calculate_age(dob) { 
+    var diff_ms = Date.now() - dob.getTime();
+    var age_dt = new Date(diff_ms); 
+  
+    return Math.abs(age_dt.getUTCFullYear() - 1970);
+  }
+
+  window.onload = () => {
+    document.getElementById("span-age").innerHTML = calculate_age(new Date(1994,6,9));
+  };
+  </script>
 </body>
 </html>
