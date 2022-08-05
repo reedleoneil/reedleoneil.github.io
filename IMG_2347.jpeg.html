@@ -21,19 +21,18 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/msgpack-lite/0.1.26/msgpack.min.js" integrity="sha512-harMiusNxs02ryf3eqc3iQalz2RSd0z38vzOyuFwvQyW046h2m+/47WiDmPW9soh/p71WQMRSkhSynEww3/bOA==" crossorigin="anonymous"></script>
 
   <style>
-
-  html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
+  body {
+    background-color: black;
+    min-height: 100vh;
+    min-width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  image {
-    padding: 0;
-    display: block;
-    margin: 0 auto;
-    max-height: 100%;
-    max-width: 100%;
+  .image {
+    max-width: 100vw;
+    max-height: 100vh;
   }
     
   .main {
@@ -197,7 +196,7 @@
   </style>
 </head>
 <body>
-  <img src="IMG2347.jpeg" class="image" width="100%" height="100%">
+  <img src="IMG2347.jpeg" class="image">
   <div class="main row d-none">
     <div class="col-sm-3 px-1 mt-2">
       <div class="re-border">
