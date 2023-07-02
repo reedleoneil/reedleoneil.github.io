@@ -2,9 +2,9 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="reed leoneil">
-    <meta name="keywords" content="reed leoneil">
-    <meta name="author" content="reed leoneil">
+    <meta name="description" content="reedleoneil">
+    <meta name="keywords" content="reedleoneil">
+    <meta name="author" content="reedleoneil">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>reedleoneil</title>
     <link rel="icon" type="image/png" href="https://reedleoneil.github.io/IMG_0020.PNG">
@@ -20,8 +20,25 @@
             padding-right: 15px;
         }
 
+        button {
+            position: inline;
+            float: right;
+        }
+
+        body.dark-mode {
+            background-color: #000000;
+            color: #d5d5d5;
+            text-shadow: -0.01px -0.01px 0 #696969, 0.01px -0.01px 0 #696969, -0.01px 0.01px 0 #696969, 0.01px 0.01px 0 #696969, -0.01px -0.01px 3px #696969, 0.01px -0.01px 3px #696969, -0.01px 0.01px 3px #696969, 0.01px 0.01px 3px #696969;
+        }
+
         a:link, a:active, a:visited, nav a:link, nav a:active {
             color: #000000;
+            text-decoration: none;
+        }
+
+        a.dark-mode:link, a.dark-mode:active, a.dark-mode:visited {
+            color: #d5d5d5;
+            text-shadow: -0.01px -0.01px 0 #696969, 0.01px -0.01px 0 #696969, -0.01px 0.01px 0 #696969, 0.01px 0.01px 0 #696969, -0.01px -0.01px 3px #696969, 0.01px -0.01px 3px #696969, -0.01px 0.01px 3px #696969, 0.01px 0.01px 3px #696969;
             text-decoration: none;
         }
 
@@ -30,13 +47,15 @@
             text-decoration: none;
         }
 
-        nav a:hover {
-            color: #bc002d;
+        a.dark-mode:hover {
+            color: #ff4b75;
+            text-shadow: -0.03px -0.03px 0 #DC143C, 0.03px -0.03px 0 #DC143C, -0.03px 0.03px 0 #DC143C, 0.03px 0.03px 0 #DC143C, -0.03px -0.03px 3px #DC143C, 0.03px -0.03px 3px #DC143C, -0.03px 0.03px 3px #DC143C, 0.03px 0.03px 3px #DC143C;
             text-decoration: none;
         }
     </style>
 </head>
 <body>
+    <button onclick="switchTheme()"><i id="switch-theme" class="fas fa-yin-yang"></i> <span id="theme">Light</span></button>
     <header></header>
     <div></div>
     <main></main>
@@ -45,41 +64,42 @@
         const emojis = ["👹", "👺", "🍱", "🍜", "🍙", "🍥", "🌸", "🌊", "🎏", "🎋", "🎎", "🗼", "🏯", "🗻", "🏮", "🔴", "🗾", "🍣", "🍵", "🍡", "🍘", "🍢"];
         const emojiRegex = /\p{Emoji_Presentation}/u;
 
-        function glitch(str, element) {
+        function glitch(text, element) {
             element.innerHTML = "";
 
             let spanindexes = [];
             let spanlen = 0;
 
             let g = 0;
-            while (g < str.length) { 
+            while (g < text.length) { 
                     let span = document.createElement("span");
                     span.classList.add("char");
-                    let char =  !emojiRegex.test(str[g] + str[g+1]) ? String.fromCharCode(getRndInteger(32, 255)) : emojis[getRndInteger(0, emojis.length - 1)];
+                    let char =  !emojiRegex.test(text[g] + text[g+1]) ? String.fromCharCode(getRndInteger(32, 255)) : emojis[getRndInteger(0, emojis.length - 1)];
                     let node = document.createTextNode(char);
                     span.appendChild(node);
                     element.appendChild(span);
-                    g =  !emojiRegex.test(str[g] + str[g+1]) ? g+1 : g+2;
 
                     spanindexes.push(spanlen);
                     spanlen = spanlen+1;
+
+                    g =  !emojiRegex.test(text[g] + text[g+1]) ? g+1 : g+2;
             }
 
             let textindexes = [];
             let i = 0;
-            while(i < str.length) {   
+            while(i < text.length) {   
                 textindexes.push(i);
-                i = !emojiRegex.test(str[i] + str[i+1]) ? i+1 : i+2;
+                i = !emojiRegex.test(text[i] + text[i+1]) ? i+1 : i+2;
             }
 
             let interval = setInterval(function () {
                 if (textindexes.length != 0) {
                         let index = getRndInteger(0, textindexes.length - 1);
                         
-                        if (!emojiRegex.test(str[textindexes[index]] + str[textindexes[index]+1]))
-                            element.getElementsByClassName("char")[spanindexes[index]].innerHTML = str[textindexes[index]]; 
+                        if (!emojiRegex.test(text[textindexes[index]] + text[textindexes[index]+1]))
+                            element.getElementsByClassName("char")[spanindexes[index]].innerHTML = text[textindexes[index]]; 
                         else
-                            element.getElementsByClassName("char")[spanindexes[index]].innerHTML = str[textindexes[index]] + str[textindexes[index]+1]; 
+                            element.getElementsByClassName("char")[spanindexes[index]].innerHTML = text[textindexes[index]] + text[textindexes[index]+1]; 
 
                         textindexes.splice(index, 1);
                         spanindexes.splice(index, 1);
@@ -227,9 +247,10 @@
             },
         ];
 
-        let footer = "© 2018 - " + new Date().getFullYear() + " reedleoneil                         ";
+        let footer = "© 2018 - " + new Date().getFullYear() + " reedleoneil";
 
         function load_header() {
+            document.getElementsByTagName("header")[0].innerHTML = "";
             let h1 = document.createElement("h1");
             glitch(header1, h1);
             onhover(header1, header2, h1);
@@ -237,6 +258,7 @@
         }
 
         function load_social() {
+            document.getElementsByTagName("div")[0].innerHTML = "";
             let span = document.createElement("span");
             glitch("Connect with me on ", span);
             document.getElementsByTagName("div")[0].appendChild(span);
@@ -262,6 +284,7 @@
 
 
         function load_sections() {
+            document.getElementsByTagName("main")[0].innerHTML = "";
             for (let i = 0; i < sections.length; i++) {
                 let section = document.createElement("section");
                 section.setAttribute("id", sections[i].id);
@@ -275,6 +298,7 @@
         }
 
         function load_experience() {
+            document.getElementById('experience').getElementsByTagName('div')[0].innerHTML = "";
             for (let i = 0; i < experience.length; i++) {
                 let divPosition = document.createElement("div");
                 let divCompany = document.createElement("div");
@@ -311,6 +335,7 @@
         }
 
         function load_education() {
+            document.getElementById('education').getElementsByTagName('div')[0].innerHTML = "";
             for (let i = 0; i < education.length; i++) {
                 let divCourse = document.createElement("div");
                 let divInstitution = document.createElement("div");
@@ -347,6 +372,7 @@
         }
         
         function load_certifications() {
+            document.getElementById('certifications').getElementsByTagName('div')[0].innerHTML = "";
             for (let i = 0; i < certifications.length; i++) {
                 let div = document.createElement("div");
                 let divDates = document.createElement("div");
@@ -373,18 +399,21 @@
         }
 
         function load_footer() {
+            document.getElementsByTagName("footer")[0].innerHTML = "";
             let h4 = document.createElement("h4");
             glitch(footer, h4);
             document.getElementsByTagName("footer")[0].appendChild(h4);
         }
 
-        load_header();
-        load_social();
-        load_sections();
-        load_experience();
-        load_education();
-        load_certifications();
-        load_footer();
+        function load() {
+            load_header();
+            load_social();
+            load_sections();
+            load_experience();
+            load_education();
+            load_certifications();
+            load_footer();
+        }
 
         let callbackDeleteAll = function () {
             setInterval(function () {
@@ -410,7 +439,30 @@
                 callbackDeleteAll();
             }
         }
-        
+
+        function switchTheme () {
+            load();
+
+            let theme = document.getElementById("theme").innerText;
+
+            if (theme === "Light") {
+                document.getElementById("theme").innerText = "Dark";
+                document.body.classList.add("dark-mode");
+                const links = document.querySelectorAll("a");
+                links.forEach(link => {
+                    link.classList.add('dark-mode');
+                });
+            } else {
+                document.getElementById("theme").innerText = "Light";
+                document.body.classList.remove("dark-mode");
+                const links = document.querySelectorAll("a");
+                links.forEach(link => {
+                    link.classList.remove('dark-mode');
+                });
+            }
+        }
+
+        load();
     </script>
 </body>
 </html>
