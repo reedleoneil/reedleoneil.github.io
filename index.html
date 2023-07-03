@@ -55,7 +55,7 @@
     </style>
 </head>
 <body>
-    <button onclick="switchTheme()"><i id="switch-theme" class="fas fa-yin-yang"></i> <span id="theme">Light</span></button>
+    <button onclick="switchTheme()"><i id="switch-theme" class="fas fa-yin-yang"></i> <span id="theme">Dark</span></button>
     <header></header>
     <div></div>
     <main></main>
@@ -418,8 +418,8 @@
         let callbackDeleteAll = function () {
             setInterval(function () {
                 let index = getRndInteger(0, document.querySelectorAll('span,i').length - 1);
-                if (document.querySelectorAll('span,i').length != 0)
-                    document.querySelectorAll('span,i')[index].parentElement.removeChild(document.querySelectorAll('span,i')[index]);
+                if (document.querySelectorAll('span,i,button').length != 0)
+                    document.querySelectorAll('span,i,button')[index].parentElement.removeChild(document.querySelectorAll('span,i,button')[index]);
                 else {
                     document.head.innerHTML = "";
                     document.body.innerHTML = "";
@@ -445,15 +445,15 @@
 
             let theme = document.getElementById("theme").innerText;
 
-            if (theme === "Light") {
-                document.getElementById("theme").innerText = "Dark";
+            if (theme === "Dark") {
+                document.getElementById("theme").innerText = "Light";
                 document.body.classList.add("dark-mode");
                 const links = document.querySelectorAll("a");
                 links.forEach(link => {
                     link.classList.add('dark-mode');
                 });
             } else {
-                document.getElementById("theme").innerText = "Light";
+                document.getElementById("theme").innerText = "Dark";
                 document.body.classList.remove("dark-mode");
                 const links = document.querySelectorAll("a");
                 links.forEach(link => {
