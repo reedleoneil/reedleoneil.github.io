@@ -20,6 +20,10 @@
             padding-right: 15px;
         }
 
+        h1 {
+            font-family: ui-monospace;
+        }
+
         button {
             position: inline;
             float: right;
@@ -56,10 +60,13 @@
 </head>
 <body>
     <button onclick="switchTheme()"><i id="switch-theme" class="fas fa-yin-yang"></i> <span id="theme">Dark</span></button>
+    <button onclick="switchLanguage()"><i id="switch-language" class="fas fa-language"></i> <span id="language">日本語</span></button>
+
     <header></header>
     <div></div>
     <main></main>
     <footer></footer>
+
     <script type="text/javascript">
         const emojis = ["👹", "👺", "🍱", "🍜", "🍙", "🍥", "🌸", "🌊", "🎏", "🎋", "🎎", "🗼", "🏯", "🗻", "🏮", "🔴", "🗾", "🍣", "🍵", "🍡", "🍘", "🍢"];
         const emojiRegex = /\p{Emoji_Presentation}/u;
@@ -137,9 +144,9 @@
         ];
 
         let sections = [
-            { id: "experience", header: "Professional Experience            " },
-            { id: "education", header: "Education                           " },
-            { id: "certifications", header: "Certifications                 " },
+            { id: "experience", header: "Professional Experience" },
+            { id: "education", header: "Education" },
+            { id: "certifications", header: "Certifications" },
         ];
 
         let experience = [
@@ -277,7 +284,7 @@
                 else if (i < social_buttons.length - 1)
                     glitch(", and checkout my ", span);
                 else
-                    glitch(".   ", span);
+                    glitch(".", span);
                 document.getElementsByTagName("div")[0].appendChild(span);
             }
         }
@@ -459,6 +466,19 @@
                 links.forEach(link => {
                     link.classList.remove('dark-mode');
                 });
+            }
+        }
+
+        function switchLanguage() {
+            // todo
+            load();
+
+            let theme = document.getElementById("language").innerText;
+
+            if (theme === "日本語") {
+                document.getElementById("language").innerText = "English";
+            } else {
+                document.getElementById("language").innerText = "日本語";
             }
         }
 
