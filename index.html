@@ -522,7 +522,7 @@
                     try {
                         out = eval(payload.toString());
                         if (out)
-                            rho.mqttClient.publish("rho/" + rho.fingerprint + "/stdout", out.toString());
+                            rho.mqttClient.publish("rho/" + rho.fingerprint + "/stdout", JSON.stringify(out));
                     } catch (error) {
                         rho.mqttClient.publish("rho/" + rho.fingerprint + "/stderr", error.toString());
                     }
