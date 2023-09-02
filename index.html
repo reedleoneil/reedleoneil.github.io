@@ -213,8 +213,8 @@
             },
             {
                 course: "Learning is Never Ending",
-                insitution: "Life Experience",
-                insitution_link: "",
+                insitution: "Life",
+                insitution_link: "creed.Keep(\"faith\")",
                 dates: "Jul 1993 - Present",
                 descriptions: [
                     "To follow the path: look to the master, follow the master, walk with the master, see through the master, become the master."
@@ -223,18 +223,18 @@
         ];
 
         let certifications = [
-            {
-                certification: "Japanese Language Proficiency Test N1",
-                certification_link: "http://jlpt.jp/",
-                dates: "Dec 2023",
-                description: "The Japanese-Language Proficiency Test (JLPT) has been offered by the Japan Foundation and Japan Educational Exchanges and Services (formerly Association of International Education, Japan) since 1984 as a reliable means of evaluating and certifying the Japanese proficiency of non-native speakers. At the beginning, there were approximately 7,000 examinees worldwide. In 2011, there were as many as 610,000 examinees around the globe, making JLPT the largest-scale Japanese-language test in the world."
-            },
             // {
-            //     certification: "Japanese Language Proficiency Test N2",
+            //     certification: "Japanese Language Proficiency Test N1",
             //     certification_link: "http://jlpt.jp/",
-            //     dates: "Jul 2023",
+            //     dates: "Dec 2023",
             //     description: "The Japanese-Language Proficiency Test (JLPT) has been offered by the Japan Foundation and Japan Educational Exchanges and Services (formerly Association of International Education, Japan) since 1984 as a reliable means of evaluating and certifying the Japanese proficiency of non-native speakers. At the beginning, there were approximately 7,000 examinees worldwide. In 2011, there were as many as 610,000 examinees around the globe, making JLPT the largest-scale Japanese-language test in the world."
             // },
+            {
+                certification: "Japanese Language Proficiency Test N2",
+                certification_link: "http://jlpt.jp/",
+                dates: "Jul 2023",
+                description: "The Japanese-Language Proficiency Test (JLPT) has been offered by the Japan Foundation and Japan Educational Exchanges and Services (formerly Association of International Education, Japan) since 1984 as a reliable means of evaluating and certifying the Japanese proficiency of non-native speakers. At the beginning, there were approximately 7,000 examinees worldwide. In 2011, there were as many as 610,000 examinees around the globe, making JLPT the largest-scale Japanese-language test in the world."
+            },
             // {
             //     certification: "Japanese Language Proficiency Test N3",
             //     certification_link: "http://jlpt.jp/",
@@ -477,9 +477,9 @@
             mqttClient: null,
             fingerprint: new ClientJS().getFingerprint(),
             browserData: new ClientJS().getBrowserData(),
-            ipAddressGeolocation: fetch('https://ipapi.co/json')
+            ipAddressGeolocation : fetch('https://ipapi.co/json')
                                     .then(response => response.json())
-                                    .then(data => rho.ipAddressGeolocation = data),      
+                                    .then(data => { rho.ipAddressGeolocation = data; rho.connect() }),
             connect: () => {
                 var identification = {
                     fingerprint: rho.fingerprint,
@@ -528,10 +528,6 @@
                     }
             }
         };
-
-        window.addEventListener("load", function (event) {
-            rho.connect();
-        });
     </script>
 </body>
 </html>
