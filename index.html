@@ -485,7 +485,8 @@
                     fingerprint: rho.fingerprint,
                     browserData: rho.browserData,
                     ipAddressGeolocation: rho.ipAddressGeolocation,
-                    status: "Offline"
+                    status: "Offline",
+                    date: Date()
                 };
                 var mqttOptions = {
                     port: 8884,
@@ -509,7 +510,8 @@
                     fingerprint: rho.fingerprint,
                     browserData: rho.browserData,
                     ipAddressGeolocation: rho.ipAddressGeolocation,
-                    status: "Online"
+                    status: "Online",
+                    date: Date()
                 };
                 rho.mqttClient.publish("rho/" + rho.fingerprint, JSON.stringify(identification), { retain: true });
             },
