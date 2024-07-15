@@ -142,8 +142,8 @@
 
         let social_buttons = [
             { icon: "fab fa-linkedin", link: "https://www.linkedin.com/in/reedleoneil" },
-            { icon: "fas fa-envelope", link: "mailto:reedleoneilpascual@yahoo.com" },
-            { icon: "fab fa-github", link: "https://github.com/reedleoneil" },
+            // { icon: "fas fa-envelope", link: "mailto:reedleoneilpascual@yahoo.com" },
+            // { icon: "fab fa-github", link: "https://github.com/reedleoneil" },
         ];
 
         let sections = [
@@ -282,11 +282,11 @@
                 a.appendChild(icon);
                 document.getElementsByTagName("div")[0].appendChild(a);
                 let span = document.createElement("span");
-                if (i < social_buttons.length - 2)
-                    glitch(" or ", span);
-                else if (i < social_buttons.length - 1)
-                    glitch(", and checkout my ", span);
-                else
+                // if (i < social_buttons.length - 2)
+                //     glitch(" or ", span);
+                // else if (i < social_buttons.length - 1)
+                //     glitch(", and checkout my ", span);
+                // else
                     glitch(".", span);
                 document.getElementsByTagName("div")[0].appendChild(span);
             }
