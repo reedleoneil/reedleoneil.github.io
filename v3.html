@@ -7,14 +7,14 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Roboto Mono', ui-monospace, monospace;
-        }
-
         @media (orientation: landscape) {
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: 'Roboto Mono', ui-monospace, monospace;
+            }
+
             body {
                 height: 100vh;
                 background-image: linear-gradient(to right, #333333, #333333, #333333);
@@ -92,6 +92,13 @@
         }
 
         @media (orientation: portrait) {
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: 'Roboto Mono', ui-monospace, monospace;
+            }
+
             body {
                 height: 100vh;
                 background-image: linear-gradient(to right, #333333, #333333, #333333);
@@ -103,12 +110,38 @@
                 display: flex;
                 flex-direction: column;
             }
+            
+            #iam {
+                font-weight: bolder;
+                text-align: center;
+                font-size: 5vw;
+            }
+
+            #whoami {
+                text-align: center;
+                font-size: 2.5vw;
+            }
 
             .navbar {
                 padding: 2vh 3vw;
                 position: static;
                 text-align: center;
                 font-size: 3vw;
+            }
+
+            .footer {
+                padding: 2vh 0;
+                position: static;
+                text-align: center;
+                font-size: 3vw;
+            }
+
+            .main {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                flex-grow: 1;
             }
 
             .social {
@@ -139,34 +172,7 @@
                 justify-content: center;
                 display: flex;
                 font-size: 8vw;
-            }
-
-            #iam {
-                font-weight: bolder;
-                text-align: center;
-                font-size: 5vw;
-            }
-
-            #whoami {
-                text-align: center;
-                font-size: 2.5vw;
-            }
-
-            .main {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                flex-grow: 1;
-            }
-
-            .footer {
-                position: static;
-                text-align: center;
-                padding: 2vh 0;
-                font-size: 3vw;
-            }
-            
+            }  
         }
 
         .content {
@@ -211,13 +217,13 @@
 </head>
 <body>
     <div class="navbar">
-        <a id="nav-about" class="nav-item" href="#"><span id="tttest">〇</span> About</a>
+        <a id="nav-about" class="nav-item" href="#"><span>○</span> About</a>
             <span class="nav-separator"></span>
-        <a id="nav-experience" class="nav-item" href="#"><span>〇</span> Experience</a>
+        <a id="nav-experience" class="nav-item" href="#"><span>○</span> Experience</a>
             <span class="nav-separator"></span>
-        <a id="nav-works" class="nav-item" href="#"><span>〇</span> Works</a>
+        <a id="nav-works" class="nav-item" href="#"><span>○</span> Works</a>
             <span class="nav-separator"></span>
-        <a id="nav-contact" class="nav-item" href="#"><span>〇</span> Contact</a>
+        <a id="nav-contact" class="nav-item" href="https://docs.google.com/forms/d/e/1FAIpQLSeRhnKp-W5Y8A6ZORqD-jqGZ_UO6rYZfIKTZDaSF52pWpbOZQ/viewform?usp=dialog" target="_blank"><span>○</span> Contact</a>
     </div>
     <div class="social">
         <div class="social-label">お気軽にフォローしてください！</div>
@@ -233,11 +239,11 @@
             <div id="iam">
                 <ruby>Reed<rt>リード</rt></ruby> <ruby>Leoneil<rt>レオニル</rt></ruby> <ruby>Pineda<rt>ピネダ</rt></ruby> <ruby>Pascual<rt>パスクアル</rt></ruby>
             </div>
-            <div id="whoami">I am a <span id="profession" class="red">Software Engineer</span> specializing in <span id="specialization">Enterprise Application Development</span> based in Tokyo <span id="country">Japan</span></div>
+            <div id="whoami">I am a <span id="profession" class="red">Software Engineer</span> specializing in <span id="specialization">Enterprise Software Development</span> based in Tokyo <span id="country">Japan</span></div>
         </div>
     </div>
     <div class="footer">
-        Designed with <span>❤︎</span> by Princess
+        Designed with <span>𓂀</span> by Princess
     </div>
     <script type="text/javascript">
         const emojis = ["👹", "👺", "🍱", "🍜", "🍙", "🍥", "🌸", "🌊", "🎏", "🎋", "🎎", "🗼", "🏯", "🗻", "🏮", "🔴", "🗾", "🍣", "🍵", "🍡", "🍘", "🍢"];
@@ -310,12 +316,12 @@
         }
     </script>
     <script type="text/javascript">
-        function loadMain() {
+        function about() {
             glitch(null, document.getElementById("profession"))
             onhover("Software Engineer", "Bug Bounty Hunter", document.getElementById("profession"))
         }
 
-        loadMain();
+        about();
     </script>
 </body>
 </html>
